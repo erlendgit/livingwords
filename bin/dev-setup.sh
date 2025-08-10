@@ -12,4 +12,10 @@ fi
 
 set +e
 
+if [[ -f ".env" ]]; then
+  set -o allexport
+  source .env
+  set +o allexport
+fi
+
 source venv/bin/activate
