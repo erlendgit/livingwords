@@ -57,3 +57,6 @@ class Verse(SharedBaseModel):
     @property
     def url(self):
         return f"https://www.debijbel.nl/bijbel//JHN.{self.chapter}.{self.verse}"
+
+    def __str__(self):
+        return f"{self.book.name} {self.chapter}:{self.verse}"

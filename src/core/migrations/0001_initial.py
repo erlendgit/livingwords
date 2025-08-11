@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
                         serialize=False,
                     ),
                 ),
-                ("create_at", models.DateTimeField(auto_now_add=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
                 ("name", models.CharField(max_length=100, unique=True)),
                 ("description", models.TextField(blank=True, null=True)),
             ],
@@ -45,7 +45,7 @@ class Migration(migrations.Migration):
                         serialize=False,
                     ),
                 ),
-                ("create_at", models.DateTimeField(auto_now_add=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
                 ("content", models.TextField()),
                 ("context", models.TextField(blank=True, null=True)),
                 (
@@ -77,7 +77,7 @@ class Migration(migrations.Migration):
                         serialize=False,
                     ),
                 ),
-                ("create_at", models.DateTimeField(auto_now_add=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
                 ("content", models.TextField(blank=True, null=True)),
                 (
                     "givens",

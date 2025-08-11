@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
                         serialize=False,
                     ),
                 ),
-                ("create_at", models.DateTimeField(auto_now_add=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
                 (
                     "name",
                     models.CharField(
@@ -63,7 +63,7 @@ class Migration(migrations.Migration):
                         serialize=False,
                     ),
                 ),
-                ("create_at", models.DateTimeField(auto_now_add=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
                 ("name", models.CharField(max_length=100, unique=True)),
                 ("order", models.PositiveIntegerField()),
                 (
@@ -91,7 +91,7 @@ class Migration(migrations.Migration):
                         serialize=False,
                     ),
                 ),
-                ("create_at", models.DateTimeField(auto_now_add=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
                 ("chapter", models.PositiveIntegerField()),
                 ("verse", models.PositiveIntegerField()),
                 (
@@ -111,5 +111,5 @@ class Migration(migrations.Migration):
         migrations.RunPython(
             add_testaments,
             reverse_code=migrations.RunPython.noop,
-        )
+        ),
     ]
