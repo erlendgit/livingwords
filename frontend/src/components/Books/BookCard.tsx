@@ -5,7 +5,7 @@ export function BookCard({book}: { book: Book }) {
     return (
         <>
             <strong>{book.title}</strong>
-            <Link to={`/book/${book.id}`}>
+            <Link to={`/book/${book.id}`} role={"button"} className="primary">
                 View details
             </Link>
         </>

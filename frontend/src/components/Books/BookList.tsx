@@ -8,9 +8,9 @@ export function BookList() {
     if (isError) return <p>Error: {(error as Error).message}</p>;
 
     return (
-        <ul>
+        <ul className={"list-page"}>
             {data!.nodes!.map((b) => (
-                <li key={b.id}>
+                <li key={b.id} className={"list-item"}>
                     <BookCard book={b}/>
                 </li>
             ))}
