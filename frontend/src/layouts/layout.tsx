@@ -12,7 +12,7 @@ export function Layout() {
             <Outlet/>
 
             <footer>
-                <small>© 2025</small>
+                PICO.css | <small>© 2025</small>
             </footer>
         </main>
     );

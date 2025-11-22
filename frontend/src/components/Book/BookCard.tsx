@@ -1,6 +1,5 @@
-import type {Book} from "../../api/types";
 import {Link} from "react-router-dom";
-import {useBook} from "../../api/books.tsx";
+import {type Book, useBook} from "../../api/books.tsx";
 
 interface BookDisplayProps {
     withLink?: boolean
@@ -18,7 +17,7 @@ interface BookCardViewProps {
 
 export function BookCard({bookId, display}: BookCardProps) {
     const {data, isLoading, isError, error} = useBook(bookId);
-    const book = data!.node
+    const book = data?.node
 
     if (isLoading) return <p>Loading…</p>;
     if (isError) return <p>Error: {(error as Error).message}</p>;

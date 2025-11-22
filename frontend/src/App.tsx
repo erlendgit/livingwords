@@ -1,6 +1,6 @@
 import {Routes, Route} from "react-router-dom";
-import {BookList} from "./components/Books/BookList.tsx";
-import {BookDetail} from "./components/Books/BookDetail.tsx";
+import {BookList} from "./components/Book/BookList.tsx";
+import {BookDetail} from "./components/Book/BookDetail.tsx";
 import {Layout} from "./layouts/layout.tsx";
 import {ContentEditor} from "./components/Editor/ContentEditor.tsx";
 

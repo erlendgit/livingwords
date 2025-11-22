@@ -12,7 +12,7 @@ import {AddListener} from "./AddListener.tsx";
 import {AddBystander} from "./AddBystander.tsx";
 import {AddQuestion} from "./AddQuestion.tsx";
 import {AddTruth} from "./AddTruth.tsx";
-import {BookCard} from "../Books/BookCard.tsx";
+import {BookCard} from "../Book/BookCard.tsx";
 
 export function ContentEditor() {
     const {id: bookId} = useParams<{ id: string }>();

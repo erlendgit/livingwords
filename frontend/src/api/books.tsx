@@ -1,6 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import { apiGet } from "./api";
-import type {BookItemResponse, BookListResponse} from "./types";
+
+export type BookListResponse = {
+    nodes?: Book[];
+    detail?: string;
+}
+
+export type BookItemResponse = {
+    node?: Book;
+    detail?: string;
+}
+
+export type Book = {
+    id: string;
+    title: string;
+};
 
 export function useBookList() {
   return useQuery({
