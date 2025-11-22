@@ -1,12 +1,12 @@
 interface AddNarratorProps {
-  narratorId: string | null;
-  onChange: (value: string) => void;
+    narratorId: string | null;
+    onChange: (value: string | null) => void;
 }
 
-export function AddNarrator({ narratorId, onChange }: AddNarratorProps) {
-  return (
-      <div>
-        Dit is de verteller
-      </div>
-  );
+export function AddNarrator({narratorId, onChange}: AddNarratorProps) {
+    return (
+        <div onChange={() => onChange(narratorId)}>
+            Dit is de verteller
+        </div>
+    );
 }
