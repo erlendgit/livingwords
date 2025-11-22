@@ -1,14 +1,15 @@
 interface ContentEditorProps {
     content: string;
+    title: string;
     onChange: (newContent: string) => void;
 }
 
-export function EditContent({content, onChange}: ContentEditorProps) {
+export function EditContent({content, title, onChange}: ContentEditorProps) {
     return (
         <textarea
             value={content}
             onChange={(e) => onChange(e.target.value)}
-            placeholder="Write your content here..."
+            placeholder={title}
             rows={2}
             cols={50}/>
     );

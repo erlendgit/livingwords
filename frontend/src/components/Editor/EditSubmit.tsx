@@ -5,10 +5,10 @@ interface SubmitProps {
 export function EditSubmit({onSubmit}: SubmitProps) {
     return (
         <>
-            <fieldset>
+            <fieldset style={{position: "relative"}}>
                 <button type="button"
                         onClick={onSubmit}
-                        style={{position: "absolute", bottom: "0", right: "0", marginBottom: ".5rem"}}>
+                        style={{position: "absolute", bottom: "1rem", right: "0", marginBottom: ".5rem"}}>
                     Submit
                 </button>
             </fieldset>

@@ -1,5 +1,5 @@
 import {useBookList} from "../../api/books.tsx";
-import {BookCard} from "./BookCard.tsx";
+import {BookCardView} from "./BookCard.tsx";
 
 export function BookList() {
     const {data, isLoading, isError, error} = useBookList();
@@ -11,7 +11,7 @@ export function BookList() {
         <ul className={"list-page"}>
             {data!.nodes!.map((b) => (
                 <li key={b.id} className={"list-item"}>
-                    <BookCard book={b}/>
+                    <BookCardView book={b}/>
                 </li>
             ))}
         </ul>

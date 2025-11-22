@@ -1,13 +1,43 @@
 import type {Book} from "../../api/types";
 import {Link} from "react-router-dom";
+import {useBook} from "../../api/books.tsx";
 
-export function BookCard({book}: { book: Book }) {
+interface BookDisplayProps {
+    withLink?: boolean
+}
+
+interface BookCardProps {
+    bookId: string,
+    display?: BookDisplayProps,
+}
+
+interface BookCardViewProps {
+    book: Book,
+    display?: BookDisplayProps,
+}
+
+export function BookCard({bookId, display}: BookCardProps) {
+    const {data, isLoading, isError, error} = useBook(bookId);
+    const book = data!.node
+
+    if (isLoading) return <p>Loading…</p>;
+    if (isError) return <p>Error: {(error as Error).message}</p>;
+    if (!book) return <p>Book not found</p>;
+
+    return <BookCardView book={book} display={display}/>
+}
+
+export function BookCardView({book, display}: BookCardViewProps) {
+    const {withLink = true} = display || {};
+
     return (
-        <>
+        <div>
             <strong>{book.title}</strong>
-            <Link to={`/book/${book.id}`} role={"button"} className="primary">
-                View details
-            </Link>
-        </>
+            {withLink && (
+                <Link to={`/book/${book.id}`} role={"button"} className="primary">
+                    View details
+                </Link>
+            )}
+        </div>
     );
 }
