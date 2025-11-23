@@ -3,3 +3,12 @@ a[role=button], button {
     padding:  0.15em .75em;
     margin-left: .25em;
 }
+
+.flex-space-between {
+    display: flex;
+    justify-content: space-between;
+}
+.flex-start {
+    display: flex;
+    justify-content: flex-start;
+}

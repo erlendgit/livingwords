@@ -21,7 +21,7 @@ class Word(SharedBaseModel):
 
 class Story(SharedBaseModel):
     title = models.CharField(max_length=255)
-    summmary = models.TextField(blank=True, null=True)
+    summary = models.TextField(blank=True, null=True)
     words = models.ManyToManyField(
         'core.Word',
         related_name='stories'
@@ -54,7 +54,6 @@ class Actor(SharedBaseModel):
 
 class Context(SharedBaseModel):
     description = models.TextField()
-    information = models.TextField(blank=True, null=True)
     words = models.ManyToManyField(
         'core.Word',
         related_name='contexts'

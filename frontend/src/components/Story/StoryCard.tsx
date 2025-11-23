@@ -12,9 +12,9 @@ export function StoryCard({storyId}: StoryCardProps) {
     const {data, isLoading, isError, error} = useStory(storyId);
     const story = data?.node
 
-    if (isLoading) return <p>Loading…</p>;
+    if (isLoading) return <p>Loading {storyId}...</p>;
     if (isError) return <p>Error: {(error as Error).message}</p>;
-    if (!story) return <p>Story not found</p>;
+    if (!story) return <p>Story {storyId} not found</p>;
 
     return <StoryCardView story={story}/>
 }
