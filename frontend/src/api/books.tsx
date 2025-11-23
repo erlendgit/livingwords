@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-import { apiGet } from "./api";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import {apiGet, apiPost} from "./api";
 
 export type BookListResponse = {
     nodes?: Book[];
@@ -9,6 +9,10 @@ export type BookListResponse = {
 export type BookItemResponse = {
     node?: Book;
     detail?: string;
+}
+
+export type AddBookPayload = {
+    title: string,
 }
 
 export type Book = {
@@ -30,4 +34,15 @@ export function useBook(id: string) {
     queryFn: () => apiGet<BookItemResponse>(`book/${id}/`),
     staleTime: 1000 * 60,
   });
+}
+
+export function useAddBook() {
+    const queryClient = useQueryClient();
+
+    return useMutation<BookItemResponse, Error, AddBookPayload>({
+        mutationFn: (payload) => apiPost<AddBookPayload, BookItemResponse>("book/", payload),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ["books"]});
+        },
+    });
 }

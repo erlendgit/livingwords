@@ -1,24 +1,52 @@
 import uuid
+from typing import Union, List
 
-from ninja import Router
+from core.models import Book
+from ninja import Router, Schema
 
 router = Router()
 
 
+class BookIn(Schema):
+    title: str
+
+
+class BookOut(Schema):
+    id: uuid.UUID
+    title: str
+
+
+class BookResponse(Schema):
+    node: Union[BookOut, None]
+
+
+class BookErrorResponse(Schema):
+    details: str
+
+
+class BookListResponse(Schema):
+    nodes: List[BookOut]
+
+
 @router.get("/")
 def list_books(request):
-    return {"nodes": [
-        {"id": str(uuid.uuid4()), "title": "Book 1"},
-        {"id": str(uuid.uuid4()), "title": "Book 2"},
-        {"id": str(uuid.uuid4()), "title": "Book 3"}
-    ]}
+    return BookListResponse(
+        nodes=Book.objects.all()
+    )
 
 
-@router.get("/{book_id}/")
-def get_book(request, book_id: str):
-    return {
-        "node": {
-            "id": book_id,
-            "title": f"Book {book_id[:8]}",
-        }
-    }
+@router.get("/{id}/")
+def get_book(request, id: str):
+    return BookResponse(
+        node=Book.objects.get(id=id)
+    )
+
+
+@router.post("/")
+def add_book(request, payload: BookIn):
+    return BookResponse(
+        node=Book.objects.create(
+            title=payload.title,
+            sort_order=Book.objects.count() + 1
+        )
+    )

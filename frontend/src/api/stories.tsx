@@ -23,9 +23,9 @@ export type AddStoryPayload = {
 };
 
 export type UpdateStoryPayload = {
-  id: string;
-  title: string;
-  summary: string;
+    id: string;
+    title: string;
+    summary: string;
 };
 
 export function useStoryList() {
@@ -56,14 +56,14 @@ export function useAddStory() {
 }
 
 export function useUpdateStory() {
-  const queryClient = useQueryClient();
+    const queryClient = useQueryClient();
 
-  return useMutation<StoryItemResponse, Error, UpdateStoryPayload>({
-    mutationFn: (payload) =>
-      apiPost<UpdateStoryPayload, StoryItemResponse>(`story/${payload.id}/`, payload),
-    onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["stories"] });
-      queryClient.invalidateQueries({ queryKey: ["stories", variables.id] });
-    },
-  });
+    return useMutation<StoryItemResponse, Error, UpdateStoryPayload>({
+        mutationFn: (payload) =>
+            apiPost<UpdateStoryPayload, StoryItemResponse>(`story/${payload.id}/`, payload),
+        onSuccess: (_, variables) => {
+            queryClient.invalidateQueries({queryKey: ["stories"]});
+            queryClient.invalidateQueries({queryKey: ["stories", variables.id]});
+        },
+    });
 }
