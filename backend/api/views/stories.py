@@ -6,8 +6,7 @@ from uuid import UUID
 from ninja import Router, Schema
 
 from django.core.exceptions import ValidationError
-
-from core.models import Story
+from story.models import Story
 
 router = Router()
 logger = logging.getLogger(__name__)

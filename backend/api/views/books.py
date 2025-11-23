@@ -1,7 +1,7 @@
 import uuid
 from typing import Union, List
 
-from core.models import Book
+from book.models import Book
 from ninja import Router, Schema
 
 router = Router()

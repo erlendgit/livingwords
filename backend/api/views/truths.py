@@ -2,7 +2,7 @@ import uuid
 from typing import Union, List
 
 from ninja import Router, Schema
-from core.models import Truth
+from truth.models import Truth
 
 router = Router()
 
@@ -57,7 +57,7 @@ def add_truth(request, payload: TruthIn):
     return 201, TruthResponse(node=truth)
 
 
-@router.put("/{id}/", response={200: TruthResponse, 400: TruthErrorResponse, 404: TruthErrorResponse})
+@router.post("/{id}/", response={200: TruthResponse, 400: TruthErrorResponse, 404: TruthErrorResponse})
 def update_truth(request, id: str, payload: TruthIn):
     if not payload.statement or payload.statement.strip() == "":
         return 400, TruthErrorResponse(details="Statement cannot be empty")

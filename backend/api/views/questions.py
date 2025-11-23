@@ -2,7 +2,7 @@ import uuid
 from typing import Union, List
 
 from ninja import Router, Schema
-from core.models import Question
+from question.models import Question
 
 router = Router()
 
@@ -60,7 +60,7 @@ def add_question(request, payload: QuestionIn):
     return 201, QuestionResponse(node=question)
 
 
-@router.put("/{id}/", response={200: QuestionResponse, 400: QuestionErrorResponse, 404: QuestionErrorResponse})
+@router.post("/{id}/", response={200: QuestionResponse, 400: QuestionErrorResponse, 404: QuestionErrorResponse})
 def update_question(request, id: str, payload: QuestionIn):
     if not payload.question or payload.question.strip() == "":
         return 400, QuestionErrorResponse(details="Question cannot be empty")
