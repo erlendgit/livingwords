@@ -1,6 +1,6 @@
 a[role=button], button {
     font-size: 1em;
-    padding:  0.15em .75em;
+    padding: 0.15em .75em;
     margin-left: .25em;
 }
 
@@ -8,6 +8,7 @@ a[role=button], button {
     display: flex;
     justify-content: space-between;
 }
+
 .flex-start {
     display: flex;
     justify-content: flex-start;

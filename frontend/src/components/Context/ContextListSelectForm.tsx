@@ -26,11 +26,12 @@ export function ContextListSelectForm({storyId, onChange, onClose, onClickAdd}: 
                 <table>
                     {contexts?.map((context) => (
                         <tr>
-                            <td style={{width:"100%"}}>
+                            <td style={{width: "100%"}}>
                                 <ContextCardView context={context}/>
                             </td>
                             <td>
-                                {context.id !== storyId && (<button onClick={() => onChange(context.id)}>Select</button>)}
+                                {context.id !== storyId && (
+                                    <button onClick={() => onChange(context.id)}>Select</button>)}
                             </td>
                         </tr>
                     ))}

@@ -10,7 +10,7 @@ function App() {
             <Route element={<PageLayout/>}>
                 <Route path="/" element={<BookList/>}/>
                 <Route path="/book/:id" element={<BookDetail/>}/>
-                <Route path="/book/:id/edit" element={<ContentEditor />}/>
+                <Route path="/book/:id/edit" element={<ContentEditor/>}/>
             </Route>
         </Routes>
     )

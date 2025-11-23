@@ -26,7 +26,7 @@ export function StoryListSelectForm({storyId, onChange, onClose, onClickAdd}: St
                 <table>
                     {stories?.map((story) => (
                         <tr>
-                            <td style={{width:"100%"}}>
+                            <td style={{width: "100%"}}>
                                 <StoryCardView story={story}/>
                             </td>
                             <td>
