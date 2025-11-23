@@ -4,7 +4,7 @@ from django.db import models
 
 class Book(SharedBaseModel):
     title = models.CharField(max_length=255)
-    authors = models.ManyToManyField("agency.Person", related_name='books')
+    authors = models.ManyToManyField("agency.Agency", related_name='books')
     sort_order = models.IntegerField()
 
     def __str__(self):
