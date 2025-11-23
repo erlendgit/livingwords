@@ -4,6 +4,7 @@ interface AddTruthProps {
 }
 
 export function AddTruth({truthId, onChange}: AddTruthProps) {
+    // Hier gaat het om 1 of meer 'waarheden'
     return (
         <div onChange={() => onChange(truthId)}>
             Deze waarheid wordt benadrukt

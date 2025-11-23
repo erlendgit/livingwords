@@ -54,12 +54,12 @@ export function ContentEditor() {
             <div>
                 <AddStory storyId={storyId} onChange={setStoryId}/>
                 <AddContext contextId={contextId} onChange={setContextId}/>
+                <AddTruth truthId={truthId} onChange={setTruthId}/>
+                <AddQuestion questionId={questionId} onChange={setQuestionId}/>
                 <AddNarrator narratorId={narratorId} onChange={setNarratorId}/>
                 <AddSpeaker speakerId={speakerId} onChange={setSpeakerId}/>
                 <AddListener listenerId={listenerId} onChange={setListenerId}/>
                 <AddBystander bystanderId={bystanderId} onChange={setBystanderId}/>
-                <AddQuestion questionId={questionId} onChange={setQuestionId}/>
-                <AddTruth truthId={truthId} onChange={setTruthId}/>
             </div>
         </div>
     );
