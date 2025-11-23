@@ -2,13 +2,13 @@ import {useState} from "react";
 import {StoryListSelectForm} from "./StoryListSelectForm.tsx";
 import {StoryAddSelectForm} from "./StoryAddSelectForm.tsx";
 
-interface StorySelectModalProps {
+interface StorySelectProps {
     storyId: string | null,
     onChange: (value: string) => void,
     onClose: () => void
 }
 
-export function StorySelectorWizard({storyId, onChange, onClose}: StorySelectModalProps) {
+export function StorySelector({storyId, onChange, onClose}: StorySelectProps) {
     const [step, setStep] = useState<string>("list");
 
     const selectListView = () => setStep("list")

@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {StoryCard} from "../Story/StoryCard.tsx";
-import {StorySelectorWizard} from "../Story/StorySelectorWizard.tsx";
+import {StorySelector} from "../Story/StorySelector.tsx";
 import {ModalDialog} from "../../layouts/ModalDialog.tsx";
 
 interface AddStoryProps {
@@ -25,7 +25,7 @@ export function AddStory({storyId, onChange}: AddStoryProps) {
 
             {edit && (
                 <ModalDialog title={"Select a story"} onCancel={onCloseModal}>
-                    <StorySelectorWizard storyId={storyId} onChange={onChange} onClose={onCloseModal}/>
+                    <StorySelector storyId={storyId} onChange={onChange} onClose={onCloseModal}/>
                 </ModalDialog>
             )}
         </div>

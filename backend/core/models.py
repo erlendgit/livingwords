@@ -52,11 +52,11 @@ class Actor(SharedBaseModel):
     )
 
 
-class Context(SharedBaseModel):
+class StoryContext(SharedBaseModel):
     description = models.TextField()
     words = models.ManyToManyField(
         'core.Word',
-        related_name='contexts'
+        related_name='story_contexts'
     )
 
 

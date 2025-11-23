@@ -7,7 +7,7 @@ from ninja import Router, Schema
 
 from django.core.exceptions import ValidationError
 
-from core.models import Story, Context
+from core.models import StoryContext
 
 router = Router()
 logger = logging.getLogger(__name__)
@@ -28,10 +28,10 @@ class ContextResponse(Schema):
 
 
 @router.post("/", response={200: ContextResponse, 400: ContextResponse})
-def add_story(request, payload: ContextIn):
+def add_context(request, payload: ContextIn):
     try:
         return ContextResponse(
-            node=Context.objects.create(
+            node=StoryContext.objects.create(
                 description=payload.description,
             ),
             details=None
@@ -44,25 +44,25 @@ def add_story(request, payload: ContextIn):
         )
 
 
-class StoryListResponse(Schema):
+class ContextListResponse(Schema):
     nodes: List[ContextOut]
 
 
 @router.get("/")
 def list_context(request):
-    return StoryListResponse(
-        nodes=Story.objects.all()
+    return ContextListResponse(
+        nodes=StoryContext.objects.all()
     )
 
 
-@router.get("/{id}/")
+@router.get("/{id}/", response={200: ContextResponse, 404: ContextResponse})
 def get_context(request, id):
     try:
         return ContextResponse(
-            node=Context.objects.get(id=id),
+            node=StoryContext.objects.get(id=id),
             details=None,
         )
-    except (Story.DoesNotExist, ValueError, ValidationError):
+    except (StoryContext.DoesNotExist, ValueError, ValidationError):
         return 404, ContextResponse(
             node=None,
             details="Not found"

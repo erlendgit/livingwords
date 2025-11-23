@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Word, Story, Actor, Context, Question, Truth, Person, Book
+from .models import Word, Story, Actor, StoryContext, Question, Truth, Person, Book
 
 
 @admin.register(Word)
@@ -24,7 +24,7 @@ class ActorAdmin(admin.ModelAdmin):
     ordering = ("-created_at",)
 
 
-@admin.register(Context)
+@admin.register(StoryContext)
 class ContextAdmin(admin.ModelAdmin):
     list_display = ("description",)
     search_fields = ("description",)
