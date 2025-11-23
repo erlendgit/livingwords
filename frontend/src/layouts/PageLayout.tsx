@@ -1,11 +1,11 @@
 import {Link, Outlet} from "react-router-dom";
 
-export function Layout() {
+export function PageLayout() {
     return (
         <main className="container">
             <header>
                 <Link to="/">
-                    <h1>My Books App</h1>
+                    <h1 style={{fontSize: "1.5em"}}>My Books App</h1>
                 </Link>
             </header>
 

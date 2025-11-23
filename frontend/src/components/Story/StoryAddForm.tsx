@@ -6,7 +6,9 @@ interface StoryAddFormProps {
 export function StoryAddForm({onSave, onClose}: StoryAddFormProps) {
     return <>
         Add form.
-        <button onClick={() => onSave("id")}>Save</button>
-        <button onClick={onClose}>Cancel</button>
+        <div className={"grid"}>
+            <button onClick={() => onSave("id")}>Save</button>
+            <button onClick={onClose}>Cancel</button>
+        </div>
     </>
 }
