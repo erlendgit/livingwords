@@ -1,3 +1,5 @@
+import {AgencySelect} from "../Agency/AgencySelect.tsx";
+
 interface AddListenerProps {
     listenerId: string | null;
     onChange: (value: string | null) => void;
@@ -5,8 +7,11 @@ interface AddListenerProps {
 
 export function AddListener({listenerId, onChange}: AddListenerProps) {
     return (
-        <div onChange={() => onChange(listenerId)}>
-            Deze luistert
-        </div>
+        <AgencySelect agencyType={"listener"}
+                      formTitle={"Luisteraar toevoegen"}
+                      description={"Dit is de luisteraar"}
+                      buttonLabel={"Luisteraar kiezen"}
+                      agencyId={listenerId}
+                      setAgencyId={onChange}/>
     );
 }

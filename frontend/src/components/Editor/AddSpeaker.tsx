@@ -1,3 +1,5 @@
+import {AgencySelect} from "../Agency/AgencySelect.tsx";
+
 interface AddSpeakerProps {
     speakerId: string | null;
     onChange: (value: string | null) => void;
@@ -5,8 +7,11 @@ interface AddSpeakerProps {
 
 export function AddSpeaker({speakerId, onChange}: AddSpeakerProps) {
     return (
-        <div onChange={() => onChange(speakerId)}>
-            Dit is de spreker
-        </div>
+        <AgencySelect agencyType={"speaker"}
+                      formTitle={"Spreker toevoegen"}
+                      description={"Dit is de spreker"}
+                      buttonLabel={"Spreker kiezen"}
+                      agencyId={speakerId}
+                      setAgencyId={onChange}/>
     );
 }

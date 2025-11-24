@@ -1,3 +1,5 @@
+import {AgencySelect} from "../Agency/AgencySelect.tsx";
+
 interface AddNarratorProps {
     narratorId: string | null;
     onChange: (value: string | null) => void;
@@ -5,8 +7,11 @@ interface AddNarratorProps {
 
 export function AddNarrator({narratorId, onChange}: AddNarratorProps) {
     return (
-        <div onChange={() => onChange(narratorId)}>
-            Dit is de verteller
-        </div>
+        <AgencySelect agencyType={"narrator"}
+                      formTitle={"Verteller toevoegen"}
+                      description={"Dit is de verteller"}
+                      buttonLabel={"Verteller kiezen"}
+                      agencyId={narratorId}
+                      setAgencyId={onChange}/>
     );
 }

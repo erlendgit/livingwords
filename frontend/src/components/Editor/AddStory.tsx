@@ -18,7 +18,7 @@ export function AddStory({storyId, onChange}: AddStoryProps) {
     return (
         <div className={"add-story"}>
             {storyId && <StoryCard storyId={storyId}/>}
-            <div role={"group"}>
+            <div className={"grid"}>
                 <button onClick={() => setEdit(true)}>Select story</button>
                 {storyId && <button onClick={() => onChange(null)}>Clear story</button>}
             </div>
