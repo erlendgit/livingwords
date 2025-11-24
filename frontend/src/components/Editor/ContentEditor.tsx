@@ -52,10 +52,14 @@ export function ContentEditor() {
                 <EditContent title={"Write your notes here"} content={notes} onChange={setNotes}/>
             </div>
             <div>
-                <AddStory storyId={storyId} onChange={setStoryId}/>
-                <AddContext contextId={contextId} onChange={setContextId}/>
-                <AddTruth truthIds={truthIds} onChange={setTruthIds}/>
-                <AddQuestion questionIds={questionIds} onChange={setQuestionIds}/>
+                <div className={"grid"}>
+                    <AddStory storyId={storyId} onChange={setStoryId}/>
+                    <AddContext contextId={contextId} onChange={setContextId}/>
+                </div>
+                <div className={"grid"}>
+                    <AddTruth truthIds={truthIds} onChange={setTruthIds}/>
+                    <AddQuestion questionIds={questionIds} onChange={setQuestionIds}/>
+                </div>
                 <AddNarrator narratorId={narratorId} onChange={setNarratorId}/>
                 <AddSpeaker speakerId={speakerId} onChange={setSpeakerId}/>
                 <AddListener listenerId={listenerId} onChange={setListenerId}/>

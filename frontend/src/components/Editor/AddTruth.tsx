@@ -29,7 +29,7 @@ export function AddTruth({truthIds, onChange}: AddTruthProps) {
     }
 
     return (
-        <>
+        <div>
             {hasTruths && (
                 <ul>
                     {truthIds.map((id) => (
@@ -46,6 +46,6 @@ export function AddTruth({truthIds, onChange}: AddTruthProps) {
                     <TruthSelector truthIds={truthIds} onAdd={handleAdd} onRemove={handleRemove} onCancel={stopEdit}/>
                 </ModalDialog>
             )}
-        </>
+        </div>
     );
 }

@@ -19,7 +19,7 @@ export function AddContext({contextId, onChange}: AddContextProps) {
         <div className={"add-context"}>
             {contextId && <ContextCard contextId={contextId}/>}
             <div role={"group"}>
-                <button onClick={() => setEdit(true)}>Describe the context</button>
+                <button onClick={() => setEdit(true)}>Add context</button>
                 {contextId && <button onClick={() => onChange(null)}>Clear context</button>}
             </div>
             {edit && (

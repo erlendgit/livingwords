@@ -29,7 +29,7 @@ export function AddQuestion({questionIds, onChange}: AddQuestionProps) {
     }
 
     return (
-        <>
+        <div>
             {hasQuestions && (
                 <ul>
                     {questionIds.map((id) => (<li key={id}>
@@ -44,6 +44,6 @@ export function AddQuestion({questionIds, onChange}: AddQuestionProps) {
                     <QuestionSelector questionIds={questionIds} onAdd={handleAdd} onRemove={handleRemove} onCancel={stopEdit}/>
                 </ModalDialog>
             )}
-        </>
+        </div>
     );
 }
