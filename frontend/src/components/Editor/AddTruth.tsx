@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {TruthCardMultiple} from "../Truth/TruthCard.tsx";
+import {TruthCard} from "../Truth/TruthCard.tsx";
 import {ModalDialog} from "../../layouts/ModalDialog.tsx";
 import {TruthSelector} from "../Truth/TruthSelector.tsx";
 
@@ -14,16 +14,36 @@ export function AddTruth({truthIds, onChange}: AddTruthProps) {
     const stopEdit = () => setEdit(false);
     const hasTruths = truthIds && truthIds.length > 0;
 
+    function handleAdd(id: string) {
+        if (truthIds.includes(id)) {
+            return;
+        }
+        onChange([...truthIds, id]);
+    }
+
+    function handleRemove(id: string) {
+        if (!truthIds.includes(id)) {
+            return;
+        }
+        onChange(truthIds.filter(sid => sid !== id));
+    }
+
     return (
         <>
-            {hasTruths && <TruthCardMultiple truthIds={truthIds}/>}
-            <div role={"group"}>
-                <button onClick={startEdit}>Select truth</button>
-                {hasTruths && <button onClick={() => onChange([])}>Wis waarheid</button>}
-            </div>
+            {hasTruths && (
+                <ul>
+                    {truthIds.map((id) => (
+                        <li key={id}>
+                            <TruthCard truthId={id}/>
+                            <button onClick={() => handleRemove(id)}>Remove</button>
+                        </li>
+                    ))}
+                </ul>
+            )}
+            <button onClick={startEdit}>Select truth</button>
             {edit && (
                 <ModalDialog title={"Select truth"} onCancel={stopEdit}>
-                    <TruthSelector truthIds={truthIds} onChange={onChange} onCancel={stopEdit}/>
+                    <TruthSelector truthIds={truthIds} onAdd={handleAdd} onRemove={handleRemove} onCancel={stopEdit}/>
                 </ModalDialog>
             )}
         </>

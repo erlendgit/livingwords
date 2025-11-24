@@ -1,36 +1,11 @@
 import {type Truth, useTruth} from "../../api/truths.tsx";
 
-interface TruthCardMultipleProps {
-    truthIds: string[] | null
-}
-
 interface TruthCardProps {
     truthId: string
 }
 
 interface TruthCardViewProps {
     truth: Truth,
-}
-
-
-export function TruthCardMultiple({truthIds}: TruthCardMultipleProps) {
-    if (!truthIds || truthIds.length === 0) {
-        return null;
-    }
-
-    if (truthIds.length === 1) {
-        return <TruthCard truthId={truthIds[0]}/>;
-    }
-
-    return (
-        <ul>
-            {truthIds.map((id) => (
-                <li key={id}>
-                    <TruthCard truthId={id}/>
-                </li>
-            ))}
-        </ul>
-    );
 }
 
 export function TruthCard({truthId}: TruthCardProps) {

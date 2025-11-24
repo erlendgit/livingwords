@@ -4,31 +4,18 @@ import {QuestionAddSelect} from "./QuestionAddSelect.tsx";
 
 interface QuestionSelectorProps {
     questionIds: string[],
-    onChange: (value: string[]) => void,
+    onAdd: (id: string) => void,
+    onRemove: (id: string) => void,
     onCancel: () => void,
 }
 
-export function QuestionSelector({questionIds, onChange, onCancel}: QuestionSelectorProps) {
+export function QuestionSelector({questionIds, onAdd, onRemove, onCancel}: QuestionSelectorProps) {
     const [viewMode, setViewMode] = useState<string>("list");
     const startListView = () => setViewMode("list");
     const startAddView = () => setViewMode("add");
 
-    function handleAdd(id: string) {
-        if (questionIds.includes(id)) {
-            return;
-        }
-        onChange([...questionIds, id]);
-    }
-
-    function handleRemove(id: string) {
-        if (!questionIds.includes(id)) {
-            return;
-        }
-        onChange(questionIds.filter(sid => sid !== id));
-    }
-
     function handleAddNew(id: string) {
-        handleAdd(id);
+        onAdd(id);
         startListView()
     }
 
@@ -37,8 +24,8 @@ export function QuestionSelector({questionIds, onChange, onCancel}: QuestionSele
             {viewMode === "list" && (
                 <QuestionListSelect
                     questionIds={questionIds}
-                    onAdd={handleAdd}
-                    onRemove={handleRemove}
+                    onAdd={onAdd}
+                    onRemove={onRemove}
                     onAddNew={startAddView}
                     onDone={onCancel}/>
             )}
