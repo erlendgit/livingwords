@@ -11,13 +11,8 @@ class Agency(SharedBaseModel):
         bystander = 'bystander', 'Bystander'
 
     description = models.TextField(blank=True, null=True)
-    persons = models.ManyToManyField(
-        'agency.Person',
-        related_name='acting_as'
-    )
-    role = models.TextField(
-        choices=RoleChoices.choices,
-    )
+    persons = models.ManyToManyField('agency.Person', related_name='acting_as')
+    role = models.TextField(choices=RoleChoices.choices)
     words = models.ManyToManyField(
         'core.Word',
         related_name='actors'

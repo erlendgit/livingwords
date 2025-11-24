@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     "question",
     "story",
     "truth",
-    "api",
     "core",
 ]
 
