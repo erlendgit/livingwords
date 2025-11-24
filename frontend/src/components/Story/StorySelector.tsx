@@ -1,6 +1,6 @@
 import {useState} from "react";
-import {StoryListSelectForm} from "./StoryListSelectForm.tsx";
-import {StoryAddSelectForm} from "./StoryAddSelectForm.tsx";
+import {StoryListSelect} from "./StoryListSelect.tsx";
+import {StoryAddSelect} from "./StoryAddSelect.tsx";
 
 interface StorySelectProps {
     storyId: string | null,
@@ -20,12 +20,12 @@ export function StorySelector({storyId, onChange, onClose}: StorySelectProps) {
 
     return (
         <>
-            {step === 'list' && <StoryListSelectForm storyId={storyId}
-                                                     onClickAdd={selectAddView}
-                                                     onChange={selectStory}
-                                                     onClose={onClose}/>}
-            {step === 'add' && <StoryAddSelectForm onClose={selectListView}
-                                                   selectStory={selectStory}/>}
+            {step === 'list' && <StoryListSelect storyId={storyId}
+                                                 onClickAdd={selectAddView}
+                                                 onChange={selectStory}
+                                                 onClose={onClose}/>}
+            {step === 'add' && <StoryAddSelect onClose={selectListView}
+                                               selectStory={selectStory}/>}
         </>
     );
 }

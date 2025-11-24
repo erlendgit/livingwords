@@ -1,18 +1,18 @@
 import {useEffect, useState} from "react";
 import {type Story, useAddStory} from "../../api/stories.tsx";
 
-interface StoryAddFormProps {
+interface StoryAddProps {
     selectStory: (value: string) => void,
     onClose: () => void,
 }
 
-export function StoryAddSelectForm({selectStory, onClose}: StoryAddFormProps) {
+export function StoryAddSelect({selectStory, onClose}: StoryAddProps) {
     const {mutate: addStory, data, isPending, isError} = useAddStory()
     const [title, setTitle] = useState<string>("");
     const [summary, setSummary] = useState<string>("");
     const story: Story | undefined = data?.node
 
-    function onSave() {
+    function handleSave() {
         addStory({title, summary})
     }
 
@@ -33,7 +33,7 @@ export function StoryAddSelectForm({selectStory, onClose}: StoryAddFormProps) {
         {isPending && <p>Storing the story...</p>}
         {isError && <p>Story could not be stored.</p>}
         <div className={"grid"}>
-            <button onClick={onSave}>Save</button>
+            <button onClick={handleSave}>Save</button>
             <button onClick={onClose}>Cancel</button>
         </div>
     </>

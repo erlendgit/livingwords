@@ -1,14 +1,14 @@
 import {type Story, useStoryList} from "../../api/stories.tsx";
 import {StoryCardView} from "./StoryCard.tsx";
 
-interface StorySelectListProps {
+interface StoryListSelectProps {
     storyId: string | null,
     onChange: (value: string) => void,
     onClickAdd: () => void,
     onClose: () => void,
 }
 
-export function StoryListSelectForm({storyId, onChange, onClose, onClickAdd}: StorySelectListProps) {
+export function StoryListSelect({storyId, onChange, onClose, onClickAdd}: StoryListSelectProps) {
     const {data, isLoading, isError} = useStoryList();
     const stories: Story[] | undefined = data?.nodes
     const hasStories: boolean = !!(stories && stories.length > 0)

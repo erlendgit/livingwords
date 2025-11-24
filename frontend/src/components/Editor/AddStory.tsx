@@ -11,7 +11,7 @@ interface AddStoryProps {
 export function AddStory({storyId, onChange}: AddStoryProps) {
     const [edit, setEdit] = useState<boolean>(false)
 
-    function onCloseModal() {
+    function handleClose() {
         setEdit(false)
     }
 
@@ -24,8 +24,8 @@ export function AddStory({storyId, onChange}: AddStoryProps) {
             </div>
 
             {edit && (
-                <ModalDialog title={"Select a story"} onCancel={onCloseModal}>
-                    <StorySelector storyId={storyId} onChange={onChange} onClose={onCloseModal}/>
+                <ModalDialog title={"Select a story"} onCancel={handleClose}>
+                    <StorySelector storyId={storyId} onChange={onChange} onClose={handleClose}/>
                 </ModalDialog>
             )}
         </div>

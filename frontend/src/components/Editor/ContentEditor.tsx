@@ -27,7 +27,7 @@ export function ContentEditor() {
     const [listenerId, setListenerId] = useState<string | null>(null);
     const [bystanderId, setBystanderId] = useState<string | null>(null);
     const [questionId, setQuestionId] = useState<string | null>(null);
-    const [truthId, setTruthId] = useState<string | null>(null);
+    const [truthIds, setTruthIds] = useState<string[] | null>(null);
 
     if (!bookId) {
         return <p>No book selected</p>;
@@ -54,7 +54,7 @@ export function ContentEditor() {
             <div>
                 <AddStory storyId={storyId} onChange={setStoryId}/>
                 <AddContext contextId={contextId} onChange={setContextId}/>
-                <AddTruth truthId={truthId} onChange={setTruthId}/>
+                <AddTruth truthIds={truthIds} onChange={setTruthIds}/>
                 <AddQuestion questionId={questionId} onChange={setQuestionId}/>
                 <AddNarrator narratorId={narratorId} onChange={setNarratorId}/>
                 <AddSpeaker speakerId={speakerId} onChange={setSpeakerId}/>
