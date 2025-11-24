@@ -4,7 +4,7 @@ import {ModalDialog} from "../../layouts/ModalDialog.tsx";
 import {TruthSelector} from "../Truth/TruthSelector.tsx";
 
 interface AddTruthProps {
-    truthIds: string[] | null;
+    truthIds: string[];
     onChange: (value: string[]) => void;
 }
 
@@ -23,7 +23,7 @@ export function AddTruth({truthIds, onChange}: AddTruthProps) {
             </div>
             {edit && (
                 <ModalDialog title={"Select truth"} onCancel={stopEdit}>
-                    <TruthSelector truthIds={truthIds || []} onChange={onChange} onCancel={stopEdit}/>
+                    <TruthSelector truthIds={truthIds} onChange={onChange} onCancel={stopEdit}/>
                 </ModalDialog>
             )}
         </>

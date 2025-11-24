@@ -20,7 +20,7 @@ export function StoryAddSelect({selectStory, onClose}: StoryAddProps) {
         if (story && !isPending && !isError) {
             selectStory(story.id)
         }
-    }, [story, isPending, isError])
+    }, [selectStory, story, isPending, isError])
 
     return <>
         <fieldset>

@@ -7,7 +7,7 @@ interface TruthAddSelectProps {
 }
 
 export function TruthAddSelect({onAdd, onCancel}: TruthAddSelectProps) {
-    const {mutate: addTruth, data, isPending, isError} = useAddTruth()
+    const {mutate: addTruth, data, isPending, isError} = useAddTruth();
     const [statement, setStatement] = useState<string>("");
 
     function handleSave() {
@@ -18,7 +18,7 @@ export function TruthAddSelect({onAdd, onCancel}: TruthAddSelectProps) {
         if (data?.node && !isPending && !isError) {
             onAdd(data?.node.id);
         }
-    }, [data, isPending, isError]);
+    }, [onAdd, data, isPending, isError]);
 
     return (
         <>

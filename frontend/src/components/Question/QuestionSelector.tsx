@@ -1,30 +1,30 @@
 import {useState} from "react";
-import {TruthListSelect} from "./TruthListSelect.tsx";
-import {TruthAddSelect} from "./TruthAddSelect.tsx";
+import {QuestionListSelect} from "./QuestionListSelect.tsx";
+import {QuestionAddSelect} from "./QuestionAddSelect.tsx";
 
-interface TruthSelectorProps {
-    truthIds: string[],
+interface QuestionSelectorProps {
+    questionIds: string[],
     onChange: (value: string[]) => void,
     onCancel: () => void,
 }
 
-export function TruthSelector({truthIds, onChange, onCancel}: TruthSelectorProps) {
+export function QuestionSelector({questionIds, onChange, onCancel}: QuestionSelectorProps) {
     const [viewMode, setViewMode] = useState<string>("list");
     const startListView = () => setViewMode("list");
     const startAddView = () => setViewMode("add");
 
     function handleAdd(id: string) {
-        if (truthIds.includes(id)) {
+        if (questionIds.includes(id)) {
             return;
         }
-        onChange([...truthIds, id]);
+        onChange([...questionIds, id]);
     }
 
     function handleRemove(id: string) {
-        if (!truthIds.includes(id)) {
+        if (!questionIds.includes(id)) {
             return;
         }
-        onChange(truthIds.filter(sid => sid !== id));
+        onChange(questionIds.filter(sid => sid !== id));
     }
 
     function handleAddNew(id: string) {
@@ -35,15 +35,15 @@ export function TruthSelector({truthIds, onChange, onCancel}: TruthSelectorProps
     return (
         <div>
             {viewMode === "list" && (
-                <TruthListSelect
-                    truthIds={truthIds}
+                <QuestionListSelect
+                    questionIds={questionIds}
                     onAdd={handleAdd}
                     onRemove={handleRemove}
                     onAddNew={startAddView}
                     onDone={onCancel}/>
             )}
             {viewMode === "add" && (
-                <TruthAddSelect
+                <QuestionAddSelect
                     onAdd={handleAddNew}
                     onCancel={startListView}/>
             )}

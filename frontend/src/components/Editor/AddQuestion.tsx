@@ -1,13 +1,31 @@
+import {useState} from "react";
+import {ModalDialog} from "../../layouts/ModalDialog.tsx";
+import {QuestionCardMultiple} from "../Question/QuestionCard.tsx";
+import {QuestionSelector} from "../Question/QuestionSelector.tsx";
+
 interface AddQuestionProps {
-    questionId: string | null;
-    onChange: (value: string | null) => void;
+    questionIds: string[];
+    onChange: (value: string[]) => void;
 }
 
-export function AddQuestion({questionId, onChange}: AddQuestionProps) {
-    // Hier gaat het om 1 of meer 'vragen'
+export function AddQuestion({questionIds, onChange}: AddQuestionProps) {
+    const [edit, setEdit] = useState<boolean>(false);
+    const startEdit = () => setEdit(true);
+    const stopEdit = () => setEdit(false);
+    const hasQuestions = questionIds && questionIds.length > 0;
+
     return (
-        <div onChange={() => onChange(questionId)}>
-            Deze vraag wordt beantwoord
-        </div>
+        <>
+            {hasQuestions && <QuestionCardMultiple questionIds={questionIds}/>}
+            <div role={"group"}>
+                <button onClick={startEdit}>Select question</button>
+                {hasQuestions && <button onClick={() => onChange([])}>Wis vragen</button>}
+            </div>
+            {edit && (
+                <ModalDialog title={"Select question"} onCancel={stopEdit}>
+                    <QuestionSelector questionIds={questionIds} onChange={onChange} onCancel={stopEdit}/>
+                </ModalDialog>
+            )}
+        </>
     );
 }
