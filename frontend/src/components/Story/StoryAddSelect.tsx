@@ -1,5 +1,7 @@
 import {useEffect, useState} from "react";
 import {type Story, useAddStory} from "../../plugins/api/stories.tsx";
+import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
+import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
 
 interface StoryAddProps {
     selectStory: (value: string) => void,
@@ -32,9 +34,9 @@ export function StoryAddSelect({selectStory, onClose}: StoryAddProps) {
         </fieldset>
         {isPending && <p>Storing the story...</p>}
         {isError && <p>Story could not be stored.</p>}
-        <div className={"grid"}>
-            <button onClick={handleSave}>Save</button>
-            <button onClick={onClose}>Cancel</button>
-        </div>
+        <DialogActionsWidget>
+            <SmallButtonWidget onClick={handleSave}>Save</SmallButtonWidget>
+            <SmallButtonWidget onClick={onClose}>Cancel</SmallButtonWidget>
+        </DialogActionsWidget>
     </>
 }

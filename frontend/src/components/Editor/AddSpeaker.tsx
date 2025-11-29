@@ -1,4 +1,5 @@
 import {AgencySelect} from "../Agency/AgencySelect.tsx";
+import SpaceWidget from "../../widgets/layout/SpaceWidget.tsx";
 
 interface AddSpeakerProps {
     speakerId: string | null;
@@ -7,11 +8,13 @@ interface AddSpeakerProps {
 
 export function AddSpeaker({speakerId, onChange}: AddSpeakerProps) {
     return (
-        <AgencySelect agencyType={"speaker"}
-                      formTitle={"Spreker toevoegen"}
-                      description={"Dit is de spreker"}
-                      buttonLabel={"Spreker kiezen"}
-                      agencyId={speakerId}
-                      setAgencyId={onChange}/>
+        <SpaceWidget>
+            <AgencySelect agencyType={"speaker"}
+                          formTitle={"Spreker toevoegen"}
+                          description={"Dit is de spreker"}
+                          buttonLabel={"Spreker kiezen"}
+                          agencyId={speakerId}
+                          setAgencyId={onChange}/>
+        </SpaceWidget>
     );
 }

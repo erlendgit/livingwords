@@ -1,5 +1,7 @@
 import {type Story, useStoryList} from "../../plugins/api/stories.tsx";
 import {StoryCardView} from "./StoryCard.tsx";
+import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
+import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
 
 interface StoryListSelectProps {
     storyId: string | null,
@@ -30,17 +32,18 @@ export function StoryListSelect({storyId, onChange, onClose, onClickAdd}: StoryL
                                 <StoryCardView story={story}/>
                             </td>
                             <td>
-                                {story.id !== storyId && (<button onClick={() => onChange(story.id)}>Select</button>)}
+                                {story.id !== storyId && (
+                                    <SmallButtonWidget onClick={() => onChange(story.id)}>Select</SmallButtonWidget>)}
                             </td>
                         </tr>
                     ))}
                 </table>
             }
             {!hasStories && <p>No stories found yet.</p>}
-            <div className={"grid"}>
-                <button onClick={onClickAdd}>Add story</button>
-                <button onClick={onClose}>Cancel</button>
-            </div>
+            <DialogActionsWidget>
+                <SmallButtonWidget onClick={onClickAdd}>Add story</SmallButtonWidget>
+                <SmallButtonWidget onClick={onClose}>Cancel</SmallButtonWidget>
+            </DialogActionsWidget>
         </>
     );
 }

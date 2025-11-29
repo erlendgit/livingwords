@@ -1,5 +1,7 @@
 import {useEffect, useState} from "react";
 import {useAddTruth} from "../../plugins/api/truths.tsx";
+import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
+import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
 
 interface TruthAddSelectProps {
     onAdd: (value: string) => void;
@@ -30,10 +32,10 @@ export function TruthAddSelect({onAdd, onCancel}: TruthAddSelectProps) {
             </fieldset>
             {isPending && <p>Storing the truth...</p>}
             {isError && <p>Truth could not be stored.</p>}
-            <div className={"grid"}>
-                <button onClick={handleSave}>Add new truth</button>
-                <button onClick={onCancel}>Cancel</button>
-            </div>
+            <DialogActionsWidget>
+                <SmallButtonWidget onClick={handleSave}>Add new truth</SmallButtonWidget>
+                <SmallButtonWidget onClick={onCancel}>Cancel</SmallButtonWidget>
+            </DialogActionsWidget>
         </>
     );
 }

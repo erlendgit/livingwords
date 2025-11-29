@@ -1,4 +1,5 @@
 import {AgencySelect} from "../Agency/AgencySelect.tsx";
+import SpaceWidget from "../../widgets/layout/SpaceWidget.tsx";
 
 interface AddListenerProps {
     listenerId: string | null;
@@ -7,11 +8,13 @@ interface AddListenerProps {
 
 export function AddListener({listenerId, onChange}: AddListenerProps) {
     return (
-        <AgencySelect agencyType={"listener"}
-                      formTitle={"Luisteraar toevoegen"}
-                      description={"Dit is de luisteraar"}
-                      buttonLabel={"Luisteraar kiezen"}
-                      agencyId={listenerId}
-                      setAgencyId={onChange}/>
+        <SpaceWidget>
+            <AgencySelect agencyType={"listener"}
+                          formTitle={"Luisteraar toevoegen"}
+                          description={"Dit is de luisteraar"}
+                          buttonLabel={"Luisteraar kiezen"}
+                          agencyId={listenerId}
+                          setAgencyId={onChange}/>
+        </SpaceWidget>
     );
 }

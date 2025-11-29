@@ -3,6 +3,8 @@ import {useState} from "react";
 import ModalDialogWidget from "../../widgets/containers/ModalDialogWidget.tsx";
 import {AgencyListSelect} from "./AgencyListSelect.tsx";
 import {AgencyCreateSelect} from "./AgencyCreateSelect.tsx";
+import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
+import {FlexWidget} from "../../widgets/layout/FlexWidget.tsx";
 
 interface AgencySelectProps {
     agencyType: string
@@ -42,8 +44,10 @@ export function AgencySelect({
                     <AgencyCard agencyId={agencyId}/>
                 </>
             )}
-            <button onClick={handleOpenForm}>{buttonLabel}</button>
-            {agencyId && <button onClick={() => setAgencyId(null)}>Verwijderen</button>}
+            <FlexWidget>
+                <SmallButtonWidget onClick={handleOpenForm}>{buttonLabel}</SmallButtonWidget>
+                {agencyId && <SmallButtonWidget onClick={() => setAgencyId(null)}>Verwijderen</SmallButtonWidget>}
+            </FlexWidget>
 
             {showForm && (
                 <ModalDialogWidget title={formTitle} onCancel={handleCloseForm}>

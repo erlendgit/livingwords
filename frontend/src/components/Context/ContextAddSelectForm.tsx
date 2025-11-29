@@ -1,5 +1,7 @@
 import {useEffect, useState} from "react";
 import {type Context, useAddContext} from "../../plugins/api/contexts.tsx";
+import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
+import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
 
 interface ContextAddFormProps {
     selectContext: (value: string) => void,
@@ -28,9 +30,9 @@ export function ContextAddSelectForm({selectContext, onClose}: ContextAddFormPro
         </fieldset>
         {isPending && <p>Storing the context...</p>}
         {isError && <p>Context could not be stored.</p>}
-        <div className={"grid"}>
-            <button onClick={onSave}>Save</button>
-            <button onClick={onClose}>Cancel</button>
-        </div>
+        <DialogActionsWidget>
+            <SmallButtonWidget onClick={onSave}>Save</SmallButtonWidget>
+            <SmallButtonWidget onClick={onClose}>Cancel</SmallButtonWidget>
+        </DialogActionsWidget>
     </>
 }

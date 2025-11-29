@@ -2,6 +2,8 @@ import {useState} from "react";
 import ModalDialogWidget from "../../widgets/containers/ModalDialogWidget.tsx";
 import {QuestionCard} from "../Question/QuestionCard.tsx";
 import {QuestionSelector} from "../Question/QuestionSelector.tsx";
+import SpaceWidget from "../../widgets/layout/SpaceWidget.tsx";
+import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 
 interface AddQuestionProps {
     questionIds: string[];
@@ -29,21 +31,21 @@ export function AddQuestion({questionIds, onChange}: AddQuestionProps) {
     }
 
     return (
-        <div>
+        <SpaceWidget>
             {hasQuestions && (
                 <ul>
                     {questionIds.map((id) => (<li key={id}>
                         <QuestionCard questionId={id} />
-                        <button onClick={() => handleRemove(id)}>Remove</button>
+                        <SmallButtonWidget onClick={() => handleRemove(id)}>Remove</SmallButtonWidget>
                     </li>))}
                 </ul>
             )}
-            <button onClick={startEdit}>Add question</button>
+            <SmallButtonWidget onClick={startEdit}>Add question</SmallButtonWidget>
             {edit && (
                 <ModalDialogWidget title={"Select question"} onCancel={stopEdit}>
                     <QuestionSelector questionIds={questionIds} onAdd={handleAdd} onRemove={handleRemove} onCancel={stopEdit}/>
                 </ModalDialogWidget>
             )}
-        </div>
+        </SpaceWidget>
     );
 }

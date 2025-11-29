@@ -2,6 +2,9 @@ import {useState} from "react";
 import {StoryCard} from "../Story/StoryCard.tsx";
 import {StorySelector} from "../Story/StorySelector.tsx";
 import ModalDialogWidget from "../../widgets/containers/ModalDialogWidget.tsx";
+import SpaceWidget from "../../widgets/layout/SpaceWidget.tsx";
+import {FlexWidget} from "../../widgets/layout/FlexWidget.tsx";
+import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 
 interface AddStoryProps {
     storyId: string | null;
@@ -16,18 +19,17 @@ export function AddStory({storyId, onChange}: AddStoryProps) {
     }
 
     return (
-        <div className={"add-story"}>
+        <SpaceWidget>
             {storyId && <StoryCard storyId={storyId}/>}
-            <div className={"grid"}>
-                <button onClick={() => setEdit(true)}>Select story</button>
-                {storyId && <button onClick={() => onChange(null)}>Clear story</button>}
-            </div>
-
+            <FlexWidget>
+                <SmallButtonWidget size={"small"} onClick={() => setEdit(true)}>Select story</SmallButtonWidget>
+                {storyId && <SmallButtonWidget onClick={() => onChange(null)}>Clear story</SmallButtonWidget>}
+            </FlexWidget>
             {edit && (
                 <ModalDialogWidget title={"Select a story"} onCancel={handleClose}>
                     <StorySelector storyId={storyId} onChange={onChange} onClose={handleClose}/>
                 </ModalDialogWidget>
             )}
-        </div>
+        </SpaceWidget>
     );
 }

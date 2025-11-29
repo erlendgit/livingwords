@@ -1,4 +1,5 @@
 import {AgencySelect} from "../Agency/AgencySelect.tsx";
+import SpaceWidget from "../../widgets/layout/SpaceWidget.tsx";
 
 interface AddNarratorProps {
     narratorId: string | null;
@@ -7,11 +8,13 @@ interface AddNarratorProps {
 
 export function AddNarrator({narratorId, onChange}: AddNarratorProps) {
     return (
-        <AgencySelect agencyType={"narrator"}
-                      formTitle={"Verteller toevoegen"}
-                      description={"Dit is de verteller"}
-                      buttonLabel={"Verteller kiezen"}
-                      agencyId={narratorId}
-                      setAgencyId={onChange}/>
+        <SpaceWidget>
+            <AgencySelect agencyType={"narrator"}
+                          formTitle={"Verteller toevoegen"}
+                          description={"Dit is de verteller"}
+                          buttonLabel={"Verteller kiezen"}
+                          agencyId={narratorId}
+                          setAgencyId={onChange}/>
+        </SpaceWidget>
     );
 }

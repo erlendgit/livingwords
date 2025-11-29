@@ -1,5 +1,7 @@
 import {useAgencyList} from "../../plugins/api/agencies.tsx";
 import {AgencyCardView} from "./AgencyCard.tsx";
+import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
+import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
 
 interface AgencyListSelectProps {
     agencyId: string | null;
@@ -21,8 +23,8 @@ export function AgencyListSelect({agencyId, onSelect, onCreate, onCancel}: Agenc
                         {agencies.map((agency) => (
                             <li>
                                 <AgencyCardView agency={agency}/>
-                                {agencyId !== agency.id && <button onClick={() => onSelect(agency.id)}>Select</button>}
-                                {agencyId === agency.id && <button onClick={() => onSelect(null)}>Deselect</button>}
+                                {agencyId !== agency.id && <SmallButtonWidget onClick={() => onSelect(agency.id)}>Select</SmallButtonWidget>}
+                                {agencyId === agency.id && <SmallButtonWidget onClick={() => onSelect(null)}>Deselect</SmallButtonWidget>}
                             </li>
                         ))}
                     </ul>
@@ -31,10 +33,10 @@ export function AgencyListSelect({agencyId, onSelect, onCreate, onCancel}: Agenc
                 {isLoading && <p>Loading...</p>}
                 {isError && <p>Error: {(error as Error).message}</p>}
             </div>
-            <div className={"grid"}>
-                <button onClick={onCreate}>Create new agency</button>
-                <button onClick={onCancel}>Cancel</button>
-            </div>
+            <DialogActionsWidget>
+                <SmallButtonWidget onClick={onCreate}>Create new agency</SmallButtonWidget>
+                <SmallButtonWidget onClick={onCancel}>Cancel</SmallButtonWidget>
+            </DialogActionsWidget>
         </>
     );
 }

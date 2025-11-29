@@ -1,5 +1,7 @@
 import {QuestionCard, QuestionCardView} from "./QuestionCard.tsx";
 import {useQuestionList} from "../../plugins/api/questions.tsx";
+import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
+import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
 
 interface QuestionListSelectProps {
     questionIds: string[];
@@ -21,12 +23,11 @@ export function QuestionListSelect({questionIds, onAdd, onRemove, onAddNew, onDo
                     {questionIds.map((id) => (
                         <li key={id}>
                             <QuestionCard questionId={id}/>
-                            <button onClick={() => onRemove(id)}>Remove</button>
+                            <SmallButtonWidget onClick={() => onRemove(id)}>Remove</SmallButtonWidget>
                         </li>
                     ))}
                 </ul>
             )}
-            <hr/>
             {isLoading && <p>Loading questions...</p>}
             {isError && <p>Error while loading questions!</p>}
             {questions && (
@@ -34,15 +35,15 @@ export function QuestionListSelect({questionIds, onAdd, onRemove, onAddNew, onDo
                     {questions.map((question) => (
                         <li key={question.id}>
                             <QuestionCardView question={question}/>
-                            <button onClick={() => onAdd(question.id)}>Add</button>
+                            <SmallButtonWidget onClick={() => onAdd(question.id)}>Add</SmallButtonWidget>
                         </li>
                     ))}
                 </ul>
             )}
-            <div className={"grid"}>
-                <button onClick={onAddNew}>Create new</button>
-                <button onClick={onDone}>Done</button>
-            </div>
+            <DialogActionsWidget>
+                <SmallButtonWidget onClick={onAddNew}>Create new</SmallButtonWidget>
+                <SmallButtonWidget onClick={onDone}>Done</SmallButtonWidget>
+            </DialogActionsWidget>
         </>
     );
 }

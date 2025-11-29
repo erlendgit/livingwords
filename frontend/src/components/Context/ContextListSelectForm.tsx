@@ -1,5 +1,7 @@
 import {type Context, useContextList} from "../../plugins/api/contexts.tsx";
 import {ContextCardView} from "./ContextCard.tsx";
+import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
+import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
 
 interface ContextSelectListProps {
     storyId: string | null,
@@ -31,17 +33,17 @@ export function ContextListSelectForm({storyId, onChange, onClose, onClickAdd}: 
                             </td>
                             <td>
                                 {context.id !== storyId && (
-                                    <button onClick={() => onChange(context.id)}>Select</button>)}
+                                    <SmallButtonWidget onClick={() => onChange(context.id)}>Select</SmallButtonWidget>)}
                             </td>
                         </tr>
                     ))}
                 </table>
             }
             {!hasStories && <p>No context found yet.</p>}
-            <div className={"grid"}>
-                <button onClick={onClickAdd}>Add context</button>
-                <button onClick={onClose}>Cancel</button>
-            </div>
+            <DialogActionsWidget>
+                <SmallButtonWidget onClick={onClickAdd}>Add context</SmallButtonWidget>
+                <SmallButtonWidget onClick={onClose}>Cancel</SmallButtonWidget>
+            </DialogActionsWidget>
         </>
     );
 }

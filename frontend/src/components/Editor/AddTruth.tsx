@@ -2,6 +2,8 @@ import {useState} from "react";
 import {TruthCard} from "../Truth/TruthCard.tsx";
 import ModalDialogWidget from "../../widgets/containers/ModalDialogWidget.tsx";
 import {TruthSelector} from "../Truth/TruthSelector.tsx";
+import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
+import SpaceWidget from "../../widgets/layout/SpaceWidget.tsx";
 
 interface AddTruthProps {
     truthIds: string[];
@@ -29,23 +31,23 @@ export function AddTruth({truthIds, onChange}: AddTruthProps) {
     }
 
     return (
-        <div>
+        <SpaceWidget>
             {hasTruths && (
                 <ul>
                     {truthIds.map((id) => (
                         <li key={id}>
                             <TruthCard truthId={id}/>
-                            <button onClick={() => handleRemove(id)}>Remove</button>
+                            <SmallButtonWidget onClick={() => handleRemove(id)}>Remove</SmallButtonWidget>
                         </li>
                     ))}
                 </ul>
             )}
-            <button onClick={startEdit}>Select truth</button>
+            <SmallButtonWidget onClick={startEdit}>Select truth</SmallButtonWidget>
             {edit && (
                 <ModalDialogWidget title={"Select truth"} onCancel={stopEdit}>
                     <TruthSelector truthIds={truthIds} onAdd={handleAdd} onRemove={handleRemove} onCancel={stopEdit}/>
                 </ModalDialogWidget>
             )}
-        </div>
+        </SpaceWidget>
     );
 }

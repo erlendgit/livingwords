@@ -1,5 +1,7 @@
 import {useEffect, useState} from "react";
 import {useAddAgency} from "../../plugins/api/agencies.tsx";
+import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
+import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
 
 interface AgencyCreateSelectProps {
     role: string;
@@ -32,10 +34,10 @@ export function AgencyCreateSelect({role, onSelect, onCancel}: AgencyCreateSelec
                            placeholder={"Description"}/>
                 </fieldset>
             </div>
-            <div className={"grid"}>
-                <button onClick={handleSave}>Save</button>
-                <button onClick={onCancel}>Cancel</button>
-            </div>
+            <DialogActionsWidget>
+                <SmallButtonWidget onClick={handleSave}>Save</SmallButtonWidget>
+                <SmallButtonWidget onClick={onCancel}>Cancel</SmallButtonWidget>
+            </DialogActionsWidget>
         </>
     );
 }

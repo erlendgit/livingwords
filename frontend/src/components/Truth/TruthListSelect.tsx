@@ -1,5 +1,7 @@
 import {TruthCard, TruthCardView} from "./TruthCard.tsx";
 import {useTruthList} from "../../plugins/api/truths.tsx";
+import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
+import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
 
 interface TruthListSelectProps {
     truthIds: string[];
@@ -21,12 +23,11 @@ export function TruthListSelect({truthIds, onAdd, onRemove, onAddNew, onDone}: T
                     {truthIds.map((id) => (
                         <li key={id}>
                             <TruthCard truthId={id}/>
-                            <button onClick={() => onRemove(id)}>Remove</button>
+                            <SmallButtonWidget onClick={() => onRemove(id)}>Remove</SmallButtonWidget>
                         </li>
                     ))}
                 </ul>
             )}
-            <hr/>
             {isLoading && <p>Loading truths...</p>}
             {isError && <p>Error while loading truths!</p>}
             {truths && (
@@ -34,15 +35,15 @@ export function TruthListSelect({truthIds, onAdd, onRemove, onAddNew, onDone}: T
                     {truths.map((truth) => (
                         <li key={truth.id}>
                             <TruthCardView truth={truth}/>
-                            <button onClick={() => onAdd(truth.id)}>Add</button>
+                            <SmallButtonWidget onClick={() => onAdd(truth.id)}>Add</SmallButtonWidget>
                         </li>
                     ))}
                 </ul>
             )}
-            <div className={"grid"}>
-                <button onClick={onAddNew}>Create new</button>
-                <button onClick={onDone}>Done</button>
-            </div>
+            <DialogActionsWidget>
+                <SmallButtonWidget onClick={onAddNew}>Create new</SmallButtonWidget>
+                <SmallButtonWidget onClick={onDone}>Done</SmallButtonWidget>
+            </DialogActionsWidget>
         </>
     );
 }

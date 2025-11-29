@@ -1,5 +1,7 @@
 import {useEffect, useState} from "react";
 import {useAddQuestion} from "../../plugins/api/questions.tsx";
+import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
+import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
 
 interface QuestionAddSelectProps {
     onAdd: (value: string) => void;
@@ -35,10 +37,10 @@ export function QuestionAddSelect({onAdd, onCancel}: QuestionAddSelectProps) {
             </fieldset>
             {isPending && <p>Storing the question...</p>}
             {isError && <p>Question could not be stored.</p>}
-            <div className={"grid"}>
-                <button onClick={handleSave}>Add new question</button>
-                <button onClick={onCancel}>Cancel</button>
-            </div>
+            <DialogActionsWidget>
+                <SmallButtonWidget onClick={handleSave}>Add new question</SmallButtonWidget>
+                <SmallButtonWidget onClick={onCancel}>Cancel</SmallButtonWidget>
+            </DialogActionsWidget>
         </>
     );
 }

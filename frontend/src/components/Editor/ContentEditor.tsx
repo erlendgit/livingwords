@@ -13,7 +13,8 @@ import {AddBystander} from "./AddBystander.tsx";
 import {AddQuestion} from "./AddQuestion.tsx";
 import {AddTruth} from "./AddTruth.tsx";
 import {BookCard} from "../Book/BookCard.tsx";
-import {GridContainerWidget, GridItemWidget} from "../../widgets/layout/GridWidget.tsx";
+import {FlexWidget} from "../../widgets/layout/FlexWidget.tsx";
+import SpaceWidget from "../../widgets/layout/SpaceWidget.tsx";
 
 export function ContentEditor() {
     const {id: bookId} = useParams<{ id: string }>();
@@ -39,33 +40,33 @@ export function ContentEditor() {
     }
 
     return (
-        <GridContainerWidget>
-            <GridItemWidget size={6}>
+        <FlexWidget>
+            <SpaceWidget>
                 <BookCard bookId={bookId} display={{withLink: false}}/>
                 Previous content will go here.
                 <EditContent title={"Write your content here"} content={content} onChange={setContent}/>
                 Next content will go here.
-                <div className={"grid"}>
+                <FlexWidget>
                     <EditChapter chapter={chapter} onChange={setChapter}/>
                     <EditVerse verse={verse} onChange={setVerse}/>
                     <EditSubmit onSubmit={onSubmit}/>
-                </div>
+                </FlexWidget>
                 <EditContent title={"Write your notes here"} content={notes} onChange={setNotes}/>
-            </GridItemWidget>
-            <GridItemWidget size={6}>
-                <div className={"grid"}>
+            </SpaceWidget>
+            <SpaceWidget>
+                <FlexWidget>
                     <AddStory storyId={storyId} onChange={setStoryId}/>
                     <AddContext contextId={contextId} onChange={setContextId}/>
-                </div>
-                <div className={"grid"}>
+                </FlexWidget>
+                <FlexWidget>
                     <AddTruth truthIds={truthIds} onChange={setTruthIds}/>
                     <AddQuestion questionIds={questionIds} onChange={setQuestionIds}/>
-                </div>
+                </FlexWidget>
                 <AddNarrator narratorId={narratorId} onChange={setNarratorId}/>
                 <AddSpeaker speakerId={speakerId} onChange={setSpeakerId}/>
                 <AddListener listenerId={listenerId} onChange={setListenerId}/>
                 <AddBystander bystanderId={bystanderId} onChange={setBystanderId}/>
-            </GridItemWidget>
-        </GridContainerWidget>
+            </SpaceWidget>
+        </FlexWidget>
     );
 }
