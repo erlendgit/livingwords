@@ -1,4 +1,4 @@
-import {useAgencyList} from "../../api/agencies.tsx";
+import {useAgencyList} from "../../plugins/api/agencies.tsx";
 import {AgencyCardView} from "./AgencyCard.tsx";
 
 interface AgencyListSelectProps {

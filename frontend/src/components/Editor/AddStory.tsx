@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {StoryCard} from "../Story/StoryCard.tsx";
 import {StorySelector} from "../Story/StorySelector.tsx";
-import ModalDialogWidget from "../../widgets/ModalDialogWidget.tsx";
+import ModalDialogWidget from "../../widgets/containers/ModalDialogWidget.tsx";
 
 interface AddStoryProps {
     storyId: string | null;

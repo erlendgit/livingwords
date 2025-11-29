@@ -1,6 +1,6 @@
 import {Link, Outlet} from "react-router-dom";
-import MainWidget from "../widgets/MainWidget.tsx";
-import HeaderWidget from "../widgets/HeaderWidget.tsx";
+import MainWidget from "../widgets/containers/MainWidget.tsx";
+import HeaderWidget from "../widgets/layout/HeaderWidget.tsx";
 
 export function PageLayout() {
     return (

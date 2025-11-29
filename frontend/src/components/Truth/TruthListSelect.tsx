@@ -1,5 +1,5 @@
 import {TruthCard, TruthCardView} from "./TruthCard.tsx";
-import {useTruthList} from "../../api/truths.tsx";
+import {useTruthList} from "../../plugins/api/truths.tsx";
 
 interface TruthListSelectProps {
     truthIds: string[];

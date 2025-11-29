@@ -13,7 +13,7 @@ import {AddBystander} from "./AddBystander.tsx";
 import {AddQuestion} from "./AddQuestion.tsx";
 import {AddTruth} from "./AddTruth.tsx";
 import {BookCard} from "../Book/BookCard.tsx";
-import {GridContainerWidget, GridItemWidget} from "../../widgets/GridWidget.tsx";
+import {GridContainerWidget, GridItemWidget} from "../../widgets/layout/GridWidget.tsx";
 
 export function ContentEditor() {
     const {id: bookId} = useParams<{ id: string }>();

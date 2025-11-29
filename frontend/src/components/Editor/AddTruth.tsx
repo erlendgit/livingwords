@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {TruthCard} from "../Truth/TruthCard.tsx";
-import ModalDialogWidget from "../../widgets/ModalDialogWidget.tsx";
+import ModalDialogWidget from "../../widgets/containers/ModalDialogWidget.tsx";
 import {TruthSelector} from "../Truth/TruthSelector.tsx";
 
 interface AddTruthProps {

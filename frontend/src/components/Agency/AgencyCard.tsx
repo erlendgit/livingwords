@@ -1,4 +1,4 @@
-import {type Agency, useAgency} from "../../api/agencies.tsx";
+import {type Agency, useAgency} from "../../plugins/api/agencies.tsx";
 
 interface AgencyCardProps {
     agencyId: string;

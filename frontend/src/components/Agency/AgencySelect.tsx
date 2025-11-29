@@ -1,6 +1,6 @@
 import {AgencyCard} from "./AgencyCard.tsx";
 import {useState} from "react";
-import ModalDialogWidget from "../../widgets/ModalDialogWidget.tsx";
+import ModalDialogWidget from "../../widgets/containers/ModalDialogWidget.tsx";
 import {AgencyListSelect} from "./AgencyListSelect.tsx";
 import {AgencyCreateSelect} from "./AgencyCreateSelect.tsx";
 

@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {useAddBook} from "../../api/books.tsx";
+import {useAddBook} from "../../plugins/api/books.tsx";
 
 interface BookAddFormProps {
     onSave: () => void,

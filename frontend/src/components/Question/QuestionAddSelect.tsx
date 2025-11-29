@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {useAddQuestion} from "../../api/questions.tsx";
+import {useAddQuestion} from "../../plugins/api/questions.tsx";
 
 interface QuestionAddSelectProps {
     onAdd: (value: string) => void;

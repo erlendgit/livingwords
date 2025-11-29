@@ -1,5 +1,5 @@
 import {Link, useParams} from "react-router-dom"
-import {useBook} from "../../api/books.tsx";
+import {useBook} from "../../plugins/api/books.tsx";
 
 export function BookDetail() {
     const {id} = useParams<{ id: string }>();

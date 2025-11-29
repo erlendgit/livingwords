@@ -1,4 +1,4 @@
-import {type Context, useContextList} from "../../api/contexts.tsx";
+import {type Context, useContextList} from "../../plugins/api/contexts.tsx";
 import {ContextCardView} from "./ContextCard.tsx";
 
 interface ContextSelectListProps {

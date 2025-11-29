@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {useAddAgency} from "../../api/agencies.tsx";
+import {useAddAgency} from "../../plugins/api/agencies.tsx";
 
 interface AgencyCreateSelectProps {
     role: string;

@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {useAddTruth} from "../../api/truths.tsx";
+import {useAddTruth} from "../../plugins/api/truths.tsx";
 
 interface TruthAddSelectProps {
     onAdd: (value: string) => void;

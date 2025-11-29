@@ -1,4 +1,4 @@
-import {type Question, useQuestion} from "../../api/questions.tsx";
+import {type Question, useQuestion} from "../../plugins/api/questions.tsx";
 
 interface QuestionCardProps {
     questionId: string

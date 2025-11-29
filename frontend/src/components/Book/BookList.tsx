@@ -1,7 +1,7 @@
-import {useBookList} from "../../api/books.tsx";
+import {useBookList} from "../../plugins/api/books.tsx";
 import {BookCardView} from "./BookCard.tsx";
 import {useState} from "react";
-import ModalDialogWidget from "../../widgets/ModalDialogWidget.tsx";
+import ModalDialogWidget from "../../widgets/containers/ModalDialogWidget.tsx";
 import {BookAddForm} from "./BookAddForm.tsx";
 
 export function BookList() {

@@ -1,4 +1,4 @@
-import {type Story, useStoryList} from "../../api/stories.tsx";
+import {type Story, useStoryList} from "../../plugins/api/stories.tsx";
 import {StoryCardView} from "./StoryCard.tsx";
 
 interface StoryListSelectProps {

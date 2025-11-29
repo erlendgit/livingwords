@@ -1,4 +1,4 @@
-import {type Context, useContext} from "../../api/contexts.tsx";
+import {type Context, useContext} from "../../plugins/api/contexts.tsx";
 
 interface ContextCardProps {
     contextId: string

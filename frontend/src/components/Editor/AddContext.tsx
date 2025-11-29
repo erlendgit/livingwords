@@ -1,5 +1,5 @@
 import {ContextCard} from "../Context/ContextCard.tsx";
-import ModalDialogWidget from "../../widgets/ModalDialogWidget.tsx";
+import ModalDialogWidget from "../../widgets/containers/ModalDialogWidget.tsx";
 import {useState} from "react";
 import {ContextSelector} from "../Context/ContextSelector.tsx";
 

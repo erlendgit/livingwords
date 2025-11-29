@@ -1,5 +1,5 @@
 import {useState} from "react";
-import ModalDialogWidget from "../../widgets/ModalDialogWidget.tsx";
+import ModalDialogWidget from "../../widgets/containers/ModalDialogWidget.tsx";
 import {QuestionCard} from "../Question/QuestionCard.tsx";
 import {QuestionSelector} from "../Question/QuestionSelector.tsx";
 

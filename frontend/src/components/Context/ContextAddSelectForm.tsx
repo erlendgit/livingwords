@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {type Context, useAddContext} from "../../api/contexts.tsx";
+import {type Context, useAddContext} from "../../plugins/api/contexts.tsx";
 
 interface ContextAddFormProps {
     selectContext: (value: string) => void,

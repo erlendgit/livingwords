@@ -1,4 +1,4 @@
-import {type Story, useStory} from "../../api/stories.tsx";
+import {type Story, useStory} from "../../plugins/api/stories.tsx";
 
 interface StoryCardProps {
     storyId: string

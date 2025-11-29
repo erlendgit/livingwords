@@ -1,5 +1,5 @@
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import {apiGet, apiPost} from "./api";
+import {apiGet, apiPost} from "./api.tsx";
 
 export type BookListResponse = {
     nodes?: Book[];

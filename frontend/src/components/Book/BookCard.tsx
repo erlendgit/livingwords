@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom";
-import {type Book, useBook} from "../../api/books.tsx";
+import {type Book, useBook} from "../../plugins/api/books.tsx";
 
 interface BookDisplayProps {
     withLink?: boolean

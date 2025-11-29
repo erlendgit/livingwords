@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {type Story, useAddStory} from "../../api/stories.tsx";
+import {type Story, useAddStory} from "../../plugins/api/stories.tsx";
 
 interface StoryAddProps {
     selectStory: (value: string) => void,

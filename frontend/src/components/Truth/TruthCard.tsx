@@ -1,4 +1,4 @@
-import {type Truth, useTruth} from "../../api/truths.tsx";
+import {type Truth, useTruth} from "../../plugins/api/truths.tsx";
 
 interface TruthCardProps {
     truthId: string

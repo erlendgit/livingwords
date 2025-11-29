@@ -1,5 +1,5 @@
 import {QuestionCard, QuestionCardView} from "./QuestionCard.tsx";
-import {useQuestionList} from "../../api/questions.tsx";
+import {useQuestionList} from "../../plugins/api/questions.tsx";
 
 interface QuestionListSelectProps {
     questionIds: string[];
