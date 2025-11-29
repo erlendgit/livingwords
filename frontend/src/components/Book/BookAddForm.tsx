@@ -3,6 +3,9 @@ import {useAddBook} from "../../plugins/api/books.tsx";
 import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 import {FlexWidget} from "../../widgets/layout/FlexWidget.tsx";
 import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
+import FormWidget from "../../widgets/forms/FormWidget.tsx";
+import FieldsetWidget from "../../widgets/forms/FieldsetWidget.tsx";
+import {TextFieldWidget} from "../../widgets/forms/TextFieldWidget.tsx";
 
 interface BookAddFormProps {
     onSave: () => void,
@@ -24,19 +27,19 @@ export function BookAddForm({onSave, onCancel}: BookAddFormProps) {
     }, [data, isPending, isError]);
 
     return (
-        <>
-            <fieldset>
-                <input type={"text"}
-                       placeholder={"Book title..."}
-                       value={title}
-                       onChange={(e) => setTitle(e.target.value)}/>
-            </fieldset>
+        <FormWidget>
+            <FieldsetWidget>
+                <TextFieldWidget
+                    label={"Title"}
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}/>
+            </FieldsetWidget>
             {isPending && <p>Is storing book info...</p>}
             {isError && <p>An error occured! Try again later.</p>}
             <DialogActionsWidget>
                 <SmallButtonWidget onClick={() => onSaveForm()}>Save</SmallButtonWidget>
                 <SmallButtonWidget onClick={() => onCancel()}>Cancel</SmallButtonWidget>
             </DialogActionsWidget>
-        </>
+        </FormWidget>
     )
 }

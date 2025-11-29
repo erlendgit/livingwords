@@ -2,6 +2,9 @@ import {useEffect, useState} from "react";
 import {useAddQuestion} from "../../plugins/api/questions.tsx";
 import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
+import FormWidget from "../../widgets/forms/FormWidget.tsx";
+import FieldsetWidget from "../../widgets/forms/FieldsetWidget.tsx";
+import {MultilineTextFieldWidget} from "../../widgets/forms/TextFieldWidget.tsx";
 
 interface QuestionAddSelectProps {
     onAdd: (value: string) => void;
@@ -24,23 +27,25 @@ export function QuestionAddSelect({onAdd, onCancel}: QuestionAddSelectProps) {
     }, [onAdd, data, isPending, isError]);
 
     return (
-        <>
-            <fieldset>
-                <input type="text"
-                       placeholder="Question..."
-                       value={question}
-                       onChange={(e) => setQuestion(e.target.value)}/>
-                <input type="text"
-                       placeholder="Answer..."
-                       value={answer}
-                       onChange={(e) => setAnswer(e.target.value)}/>
-            </fieldset>
+        <FormWidget>
+            <FieldsetWidget>
+                <MultilineTextFieldWidget
+                    label="Question"
+                    rows={2}
+                    value={question}
+                    onChange={(e) => setQuestion(e.target.value)}/>
+                <MultilineTextFieldWidget
+                    label="Answer"
+                    rows={2}
+                    value={answer}
+                    onChange={(e) => setAnswer(e.target.value)}/>
+            </FieldsetWidget>
             {isPending && <p>Storing the question...</p>}
             {isError && <p>Question could not be stored.</p>}
             <DialogActionsWidget>
                 <SmallButtonWidget onClick={handleSave}>Add new question</SmallButtonWidget>
                 <SmallButtonWidget onClick={onCancel}>Cancel</SmallButtonWidget>
             </DialogActionsWidget>
-        </>
+        </FormWidget>
     );
 }

@@ -2,6 +2,9 @@ import {useEffect, useState} from "react";
 import {useAddAgency} from "../../plugins/api/agencies.tsx";
 import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
+import FormWidget from "../../widgets/forms/FormWidget.tsx";
+import FieldsetWidget from "../../widgets/forms/FieldsetWidget.tsx";
+import {MultilineTextFieldWidget} from "../../widgets/forms/TextFieldWidget.tsx";
 
 interface AgencyCreateSelectProps {
     role: string;
@@ -11,7 +14,7 @@ interface AgencyCreateSelectProps {
 
 export function AgencyCreateSelect({role, onSelect, onCancel}: AgencyCreateSelectProps) {
     const [description, setDescription] = useState<string>("");
-    const {mutate: addAgency, data,  isPending, isError} = useAddAgency()
+    const {mutate: addAgency, data, isPending, isError} = useAddAgency()
 
     function handleSave() {
         addAgency({role, description})
@@ -25,19 +28,20 @@ export function AgencyCreateSelect({role, onSelect, onCancel}: AgencyCreateSelec
     }, [data, isPending, isError, onSelect, onCancel]);
 
     return (
-        <>
-            <div>
-                <fieldset>
-                    <input type={"text"}
-                           value={description}
-                           onChange={(e) => setDescription(e.target.value)}
-                           placeholder={"Description"}/>
-                </fieldset>
-            </div>
+        <FormWidget>
+            <FieldsetWidget>
+                <MultilineTextFieldWidget
+                    label={"Description"}
+                    value={description}
+                    rows={3}
+                    onChange={(e) => setDescription(e.target.value)}/>
+            </FieldsetWidget>
+            {isPending && <p>Is storing...</p>}
+            {isError && <p>An error occured! Try again later.</p>}
             <DialogActionsWidget>
                 <SmallButtonWidget onClick={handleSave}>Save</SmallButtonWidget>
                 <SmallButtonWidget onClick={onCancel}>Cancel</SmallButtonWidget>
             </DialogActionsWidget>
-        </>
+        </FormWidget>
     );
 }

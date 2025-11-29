@@ -31,6 +31,9 @@ class StoryResponse(Schema):
 @router.post("/", response={200: StoryResponse, 400: StoryResponse})
 def add_story(request, payload: StoryIn):
     try:
+        if not payload.title:
+            raise ValidationError("Title is required.")
+
         return StoryResponse(
             node=Story.objects.create(
                 title=payload.title,

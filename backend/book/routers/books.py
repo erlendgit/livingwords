@@ -1,14 +1,17 @@
 import uuid
 from typing import Union, List
 
-from book.models import Book
+from django.core.exceptions import ValidationError
 from ninja import Router, Schema
+
+from book.models import Book
 
 router = Router()
 
 
 class BookIn(Schema):
     title: str
+    summary: Union[str, None] = None
 
 
 class BookOut(Schema):
@@ -44,9 +47,15 @@ def get_book(request, id: str):
 
 @router.post("/")
 def add_book(request, payload: BookIn):
-    return BookResponse(
-        node=Book.objects.create(
-            title=payload.title,
-            sort_order=Book.objects.count() + 1
+    try:
+        if not payload.title:
+            raise ValidationError("Title is required.")
+        return BookResponse(
+            node=Book.objects.create(
+                title=payload.title,
+                summary=payload.summary,
+                sort_order=Book.objects.count() + 1
+            )
         )
-    )
+    except ValidationError as e:
+        return 400, BookErrorResponse(details=str(e))

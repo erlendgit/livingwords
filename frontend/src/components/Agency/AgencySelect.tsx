@@ -37,7 +37,7 @@ export function AgencySelect({
     }
 
     return (
-        <div>
+        <>
             {agencyId && (
                 <>
                     {description}
@@ -56,6 +56,6 @@ export function AgencySelect({
                 </ModalDialogWidget>
             )}
 
-        </div>
+        </>
     );
 }

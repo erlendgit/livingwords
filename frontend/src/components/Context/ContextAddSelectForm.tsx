@@ -2,6 +2,9 @@ import {useEffect, useState} from "react";
 import {type Context, useAddContext} from "../../plugins/api/contexts.tsx";
 import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
+import FieldsetWidget from "../../widgets/forms/FieldsetWidget.tsx";
+import {MultilineTextFieldWidget} from "../../widgets/forms/TextFieldWidget.tsx";
+import FormWidget from "../../widgets/forms/FormWidget.tsx";
 
 interface ContextAddFormProps {
     selectContext: (value: string) => void,
@@ -23,16 +26,21 @@ export function ContextAddSelectForm({selectContext, onClose}: ContextAddFormPro
         }
     }, [context, isPending, isError])
 
-    return <>
-        <fieldset>
-            <textarea placeholder={"Describe the context..."} value={description}
-                      onChange={(e) => setDescription(e.target.value)}></textarea>
-        </fieldset>
-        {isPending && <p>Storing the context...</p>}
-        {isError && <p>Context could not be stored.</p>}
-        <DialogActionsWidget>
-            <SmallButtonWidget onClick={onSave}>Save</SmallButtonWidget>
-            <SmallButtonWidget onClick={onClose}>Cancel</SmallButtonWidget>
-        </DialogActionsWidget>
-    </>
+    return (
+        <FormWidget>
+            <FieldsetWidget>
+                <MultilineTextFieldWidget
+                    label={"Context description"}
+                    value={description}
+                    rows={3}
+                    onChange={(e) => setDescription(e.target.value)}/>
+            </FieldsetWidget>
+            {isPending && <p>Storing the context...</p>}
+            {isError && <p>Context could not be stored.</p>}
+            <DialogActionsWidget>
+                <SmallButtonWidget onClick={onSave}>Save</SmallButtonWidget>
+                <SmallButtonWidget onClick={onClose}>Cancel</SmallButtonWidget>
+            </DialogActionsWidget>
+        </FormWidget>
+    )
 }

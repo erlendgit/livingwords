@@ -1,4 +1,5 @@
-import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
+import {ButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
+import FieldsetWidget from "../../widgets/forms/FieldsetWidget.tsx";
 
 interface SubmitProps {
     onSubmit: () => void;
@@ -6,14 +7,10 @@ interface SubmitProps {
 
 export function EditSubmit({onSubmit}: SubmitProps) {
     return (
-        <>
-            <fieldset style={{position: "relative"}}>
-                <SmallButtonWidget type="button"
-                                   onClick={onSubmit}
-                                   style={{position: "absolute", bottom: "1rem", right: "0", marginBottom: ".5rem"}}>
-                    Submit
-                </SmallButtonWidget>
-            </fieldset>
-        </>
+        <FieldsetWidget>
+            <ButtonWidget onClick={onSubmit}>
+                Submit
+            </ButtonWidget>
+        </FieldsetWidget>
     );
 }

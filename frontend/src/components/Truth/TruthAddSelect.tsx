@@ -2,6 +2,9 @@ import {useEffect, useState} from "react";
 import {useAddTruth} from "../../plugins/api/truths.tsx";
 import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
+import FieldsetWidget from "../../widgets/forms/FieldsetWidget.tsx";
+import {MultilineTextFieldWidget} from "../../widgets/forms/TextFieldWidget.tsx";
+import FormWidget from "../../widgets/forms/FormWidget.tsx";
 
 interface TruthAddSelectProps {
     onAdd: (value: string) => void;
@@ -23,19 +26,20 @@ export function TruthAddSelect({onAdd, onCancel}: TruthAddSelectProps) {
     }, [onAdd, data, isPending, isError]);
 
     return (
-        <>
-            <fieldset>
-                <input type="text"
-                       placeholder="Statement..."
-                       value={statement}
-                       onChange={(e) => setStatement(e.target.value)}/>
-            </fieldset>
+        <FormWidget>
+            <FieldsetWidget>
+                <MultilineTextFieldWidget
+                    label="Truth statement"
+                    rows={3}
+                    value={statement}
+                    onChange={(e) => setStatement(e.target.value)}/>
+            </FieldsetWidget>
             {isPending && <p>Storing the truth...</p>}
             {isError && <p>Truth could not be stored.</p>}
             <DialogActionsWidget>
                 <SmallButtonWidget onClick={handleSave}>Add new truth</SmallButtonWidget>
                 <SmallButtonWidget onClick={onCancel}>Cancel</SmallButtonWidget>
             </DialogActionsWidget>
-        </>
+        </FormWidget>
     );
 }

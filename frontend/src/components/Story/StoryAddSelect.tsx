@@ -2,6 +2,9 @@ import {useEffect, useState} from "react";
 import {type Story, useAddStory} from "../../plugins/api/stories.tsx";
 import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
+import FieldsetWidget from "../../widgets/forms/FieldsetWidget.tsx";
+import {MultilineTextFieldWidget, TextFieldWidget} from "../../widgets/forms/TextFieldWidget.tsx";
+import FormWidget from "../../widgets/forms/FormWidget.tsx";
 
 interface StoryAddProps {
     selectStory: (value: string) => void,
@@ -24,19 +27,25 @@ export function StoryAddSelect({selectStory, onClose}: StoryAddProps) {
         }
     }, [selectStory, story, isPending, isError])
 
-    return <>
-        <fieldset>
-            <input type={"text"}
-                   placeholder={"Enter title..."} value={title}
-                   onChange={(e) => setTitle(e.target.value || "")}/>
-            <textarea placeholder={"Enter summary..."} value={summary}
-                      onChange={(e) => setSummary(e.target.value)}></textarea>
-        </fieldset>
-        {isPending && <p>Storing the story...</p>}
-        {isError && <p>Story could not be stored.</p>}
-        <DialogActionsWidget>
-            <SmallButtonWidget onClick={handleSave}>Save</SmallButtonWidget>
-            <SmallButtonWidget onClick={onClose}>Cancel</SmallButtonWidget>
-        </DialogActionsWidget>
-    </>
+    return (
+        <FormWidget>
+            <FieldsetWidget>
+                <TextFieldWidget
+                    label={"Title"}
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value || "")}/>
+                <MultilineTextFieldWidget
+                    label={"Summary"}
+                    value={summary}
+                    rows={4}
+                    onChange={(e) => setSummary(e.target.value)}/>
+            </FieldsetWidget>
+            {isPending && <p>Storing the story...</p>}
+            {isError && <p>Story could not be stored.</p>}
+            <DialogActionsWidget>
+                <SmallButtonWidget onClick={handleSave}>Save</SmallButtonWidget>
+                <SmallButtonWidget onClick={onClose}>Cancel</SmallButtonWidget>
+            </DialogActionsWidget>
+        </FormWidget>
+    )
 }
