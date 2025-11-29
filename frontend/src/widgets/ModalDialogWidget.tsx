@@ -4,7 +4,7 @@ interface ModalDialogProps {
     children: React.ReactNode,
 }
 
-export function ModalDialog({title, onCancel, children}: ModalDialogProps) {
+function ModalDialogWidget({title, onCancel, children}: ModalDialogProps) {
     return (
         <dialog id="modal" open>
             <article>
@@ -17,3 +17,5 @@ export function ModalDialog({title, onCancel, children}: ModalDialogProps) {
         </dialog>
     );
 }
+
+export default ModalDialogWidget;

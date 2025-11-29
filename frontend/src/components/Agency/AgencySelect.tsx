@@ -1,6 +1,6 @@
 import {AgencyCard} from "./AgencyCard.tsx";
 import {useState} from "react";
-import {ModalDialog} from "../../layouts/ModalDialog.tsx";
+import ModalDialogWidget from "../../widgets/ModalDialogWidget.tsx";
 import {AgencyListSelect} from "./AgencyListSelect.tsx";
 import {AgencyCreateSelect} from "./AgencyCreateSelect.tsx";
 
@@ -46,10 +46,10 @@ export function AgencySelect({
             {agencyId && <button onClick={() => setAgencyId(null)}>Verwijderen</button>}
 
             {showForm && (
-                <ModalDialog title={formTitle} onCancel={handleCloseForm}>
+                <ModalDialogWidget title={formTitle} onCancel={handleCloseForm}>
                     {viewMode === 'list' && <AgencyListSelect agencyId={agencyId} onSelect={handleSelect} onCreate={handleSwitchToAdd} onCancel={handleCloseForm}/>}
                     {viewMode === 'add' && <AgencyCreateSelect role={agencyType} onSelect={handleSelect} onCancel={handleSwitchToList}/>}
-                </ModalDialog>
+                </ModalDialogWidget>
             )}
 
         </div>

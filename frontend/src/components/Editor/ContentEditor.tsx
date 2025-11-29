@@ -13,6 +13,7 @@ import {AddBystander} from "./AddBystander.tsx";
 import {AddQuestion} from "./AddQuestion.tsx";
 import {AddTruth} from "./AddTruth.tsx";
 import {BookCard} from "../Book/BookCard.tsx";
+import {GridContainerWidget, GridItemWidget} from "../../widgets/GridWidget.tsx";
 
 export function ContentEditor() {
     const {id: bookId} = useParams<{ id: string }>();
@@ -38,8 +39,8 @@ export function ContentEditor() {
     }
 
     return (
-        <div className={"grid"}>
-            <div>
+        <GridContainerWidget>
+            <GridItemWidget size={6}>
                 <BookCard bookId={bookId} display={{withLink: false}}/>
                 Previous content will go here.
                 <EditContent title={"Write your content here"} content={content} onChange={setContent}/>
@@ -50,8 +51,8 @@ export function ContentEditor() {
                     <EditSubmit onSubmit={onSubmit}/>
                 </div>
                 <EditContent title={"Write your notes here"} content={notes} onChange={setNotes}/>
-            </div>
-            <div>
+            </GridItemWidget>
+            <GridItemWidget size={6}>
                 <div className={"grid"}>
                     <AddStory storyId={storyId} onChange={setStoryId}/>
                     <AddContext contextId={contextId} onChange={setContextId}/>
@@ -64,7 +65,7 @@ export function ContentEditor() {
                 <AddSpeaker speakerId={speakerId} onChange={setSpeakerId}/>
                 <AddListener listenerId={listenerId} onChange={setListenerId}/>
                 <AddBystander bystanderId={bystanderId} onChange={setBystanderId}/>
-            </div>
-        </div>
+            </GridItemWidget>
+        </GridContainerWidget>
     );
 }

@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {TruthCard} from "../Truth/TruthCard.tsx";
-import {ModalDialog} from "../../layouts/ModalDialog.tsx";
+import ModalDialogWidget from "../../widgets/ModalDialogWidget.tsx";
 import {TruthSelector} from "../Truth/TruthSelector.tsx";
 
 interface AddTruthProps {
@@ -42,9 +42,9 @@ export function AddTruth({truthIds, onChange}: AddTruthProps) {
             )}
             <button onClick={startEdit}>Select truth</button>
             {edit && (
-                <ModalDialog title={"Select truth"} onCancel={stopEdit}>
+                <ModalDialogWidget title={"Select truth"} onCancel={stopEdit}>
                     <TruthSelector truthIds={truthIds} onAdd={handleAdd} onRemove={handleRemove} onCancel={stopEdit}/>
-                </ModalDialog>
+                </ModalDialogWidget>
             )}
         </div>
     );

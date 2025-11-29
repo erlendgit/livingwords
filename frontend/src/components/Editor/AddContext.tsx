@@ -1,5 +1,5 @@
 import {ContextCard} from "../Context/ContextCard.tsx";
-import {ModalDialog} from "../../layouts/ModalDialog.tsx";
+import ModalDialogWidget from "../../widgets/ModalDialogWidget.tsx";
 import {useState} from "react";
 import {ContextSelector} from "../Context/ContextSelector.tsx";
 
@@ -23,9 +23,9 @@ export function AddContext({contextId, onChange}: AddContextProps) {
                 {contextId && <button onClick={() => onChange(null)}>Clear context</button>}
             </div>
             {edit && (
-                <ModalDialog title={"Describe the context"} onCancel={onCloseModal}>
+                <ModalDialogWidget title={"Describe the context"} onCancel={onCloseModal}>
                     <ContextSelector contextId={contextId} onChange={onChange} onClose={onCloseModal}/>
-                </ModalDialog>
+                </ModalDialogWidget>
             )}
         </div>
     );

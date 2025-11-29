@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {ModalDialog} from "../../layouts/ModalDialog.tsx";
+import ModalDialogWidget from "../../widgets/ModalDialogWidget.tsx";
 import {QuestionCard} from "../Question/QuestionCard.tsx";
 import {QuestionSelector} from "../Question/QuestionSelector.tsx";
 
@@ -40,9 +40,9 @@ export function AddQuestion({questionIds, onChange}: AddQuestionProps) {
             )}
             <button onClick={startEdit}>Add question</button>
             {edit && (
-                <ModalDialog title={"Select question"} onCancel={stopEdit}>
+                <ModalDialogWidget title={"Select question"} onCancel={stopEdit}>
                     <QuestionSelector questionIds={questionIds} onAdd={handleAdd} onRemove={handleRemove} onCancel={stopEdit}/>
-                </ModalDialog>
+                </ModalDialogWidget>
             )}
         </div>
     );

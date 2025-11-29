@@ -1,19 +1,16 @@
 import {Link, Outlet} from "react-router-dom";
+import MainWidget from "../widgets/MainWidget.tsx";
+import HeaderWidget from "../widgets/HeaderWidget.tsx";
 
 export function PageLayout() {
     return (
-        <main className="container">
-            <header>
+        <MainWidget>
+            <HeaderWidget>
                 <Link to="/">
                     <h1 style={{fontSize: "1.5em"}}>My Books App</h1>
                 </Link>
-            </header>
-
+            </HeaderWidget>
             <Outlet/>
-
-            <footer>
-                PICO.css | <small>© 2025</small>
-            </footer>
-        </main>
+        </MainWidget>
     );
 }

@@ -1,7 +1,7 @@
 import {useBookList} from "../../api/books.tsx";
 import {BookCardView} from "./BookCard.tsx";
 import {useState} from "react";
-import {ModalDialog} from "../../layouts/ModalDialog.tsx";
+import ModalDialogWidget from "../../widgets/ModalDialogWidget.tsx";
 import {BookAddForm} from "./BookAddForm.tsx";
 
 export function BookList() {
@@ -23,9 +23,9 @@ export function BookList() {
                 ))}
             </ul>
             {showAddForm && (
-                <ModalDialog title={"Add a new book"} onCancel={stopShowAddBookForm}>
+                <ModalDialogWidget title={"Add a new book"} onCancel={stopShowAddBookForm}>
                     <BookAddForm onSave={stopShowAddBookForm} onCancel={stopShowAddBookForm}/>
-                </ModalDialog>
+                </ModalDialogWidget>
             )}
             {!showAddForm && <button onClick={startShowAddBookForm}>Add book</button>}
         </>
