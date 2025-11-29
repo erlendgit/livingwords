@@ -1,9 +1,4 @@
-# Getting started
-
-TODO: fill in this section.
-
 # Frontend Philosophy
-
 
 ## frontend/src/components/*
 
