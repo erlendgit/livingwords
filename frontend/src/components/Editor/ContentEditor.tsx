@@ -80,7 +80,7 @@ function ContentEditorView({word, book, chapter, onUpdateChapter, verse, onUpdat
     const [bystanderId, setBystanderId] = useState<string | null>(word.bystander_id);
 
 
-    function onSubmit() {
+    function handleSubmit() {
         console.log("Submit pressed!")
     }
 
@@ -94,7 +94,7 @@ function ContentEditorView({word, book, chapter, onUpdateChapter, verse, onUpdat
                 <FlexWidget>
                     <EditChapter chapter={chapter} onChange={onUpdateChapter}/>
                     <EditVerse verse={verse} onChange={onUpdateVerse}/>
-                    <EditSubmit onSubmit={onSubmit}/>
+                    <EditSubmit onSubmit={handleSubmit}/>
                 </FlexWidget>
                 <EditContent title={"Write your notes here"} content={notes} onChange={setNotes}/>
             </SpaceWidget>
