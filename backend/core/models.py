@@ -5,10 +5,10 @@ from shared.models import SharedBaseModel
 
 class Word(SharedBaseModel):
     content = models.TextField()
+    notes = models.TextField(blank=True, null=True)
 
     verse = models.IntegerField()
     chapter = models.IntegerField()
-    notes = models.TextField(blank=True, null=True)
     book = models.ForeignKey(
         "book.Book",
         on_delete=models.CASCADE,
@@ -16,7 +16,7 @@ class Word(SharedBaseModel):
     )
 
     def __str__(self):
-        return self.content
+        return f"{self.book} {self.chapter}:{self.verse}; {self.content}"
 
 
 class StoryContext(SharedBaseModel):
@@ -25,5 +25,3 @@ class StoryContext(SharedBaseModel):
         'core.Word',
         related_name='story_contexts'
     )
-
-

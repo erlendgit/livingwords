@@ -8,3 +8,4 @@ api.add_router("/question/", "question.routers.questions.router", tags=["Questio
 api.add_router("/truth/", "truth.routers.truths.router", tags=["Truth"])
 api.add_router("/agency/", "agency.routers.agencies.router", tags=["Agency"])
 api.add_router("/person/", "agency.routers.persons.router", tags=["Person"])
+api.add_router("/word/", "core.routers.words.router", tags=["Living Words"])

@@ -11,14 +11,12 @@ router = Router()
 
 class AgencyIn(Schema):
     description: str
-    role: str
     person_ids: Optional[List[uuid.UUID]] = None
 
 
 class AgencyOut(Schema):
     id: uuid.UUID
     description: str
-    role: str
     persons: List[PersonOut]
 
 
@@ -51,12 +49,9 @@ def get_agency(request, id: str):
 def add_agency(request, payload: AgencyIn):
     if not payload.description or payload.description.strip() == "":
         return 400, AgencyErrorResponse(details="Description cannot be empty")
-    if not payload.role or payload.role.strip() == "":
-        return 400, AgencyErrorResponse(details="Role cannot be empty")
 
     agency = Agency.objects.create(
         description=payload.description,
-        role=payload.role,
     )
 
     if payload.person_ids is not None:
@@ -70,8 +65,6 @@ def add_agency(request, payload: AgencyIn):
 def update_agency(request, id: str, payload: AgencyIn):
     if not payload.description or payload.description.strip() == "":
         return 400, AgencyErrorResponse(details="Description cannot be empty")
-    if not payload.role or payload.role.strip() == "":
-        return 400, AgencyErrorResponse(details="Role cannot be empty")
 
     try:
         agency = Agency.objects.get(id=id)
@@ -79,7 +72,6 @@ def update_agency(request, id: str, payload: AgencyIn):
         return 404, AgencyErrorResponse(details="Not found")
 
     agency.description = payload.description
-    agency.role = payload.role
     agency.save()
 
     # Alleen aanpassen als expliciet meegestuurd

@@ -4,8 +4,8 @@ from django.contrib import admin
 
 @admin.register(Agency)
 class AgencyAdmin(admin.ModelAdmin):
-    list_display = ("description", "role")
-    search_fields = ("word__content", "person__name", "role")
+    list_display = ("description",)
+    search_fields = ("word__content", "person__name")
     ordering = ("-created_at",)
 
 
