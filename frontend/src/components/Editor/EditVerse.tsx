@@ -1,4 +1,5 @@
 import FieldsetWidget from "../../widgets/forms/FieldsetWidget.tsx";
+import {IntegerInputWidget} from "../../widgets/forms/TextInputWidget.tsx";
 
 interface VerseEditorProps {
     verse: number;
@@ -8,12 +9,10 @@ interface VerseEditorProps {
 export function EditVerse({verse, onChange}: VerseEditorProps) {
     return (
         <FieldsetWidget>
-            <label htmlFor={"chapter-input"}>
-                Verse
-                <input type={"number"}
-                       value={verse}
-                       onChange={(e) => onChange(Number(e.target.value))}/>
-            </label>
+            <IntegerInputWidget
+                label={"Verse"}
+                value={verse}
+                onChange={onChange}/>
         </FieldsetWidget>
     );
 }

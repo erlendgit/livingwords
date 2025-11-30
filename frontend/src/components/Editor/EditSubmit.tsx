@@ -8,7 +8,7 @@ interface SubmitProps {
 export function EditSubmit({onSubmit}: SubmitProps) {
     return (
         <FieldsetWidget>
-            <ButtonWidget onClick={onSubmit}>
+            <ButtonWidget onClick={onSubmit} sx={{height:"100%", width: '100%'}}>
                 Submit
             </ButtonWidget>
         </FieldsetWidget>
