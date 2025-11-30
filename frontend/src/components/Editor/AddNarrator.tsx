@@ -9,8 +9,7 @@ interface AddNarratorProps {
 export function AddNarrator({narratorId, onChange}: AddNarratorProps) {
     return (
         <SpaceWidget>
-            <AgencySelect agencyType={"narrator"}
-                          formTitle={"Verteller toevoegen"}
+            <AgencySelect formTitle={"Verteller toevoegen"}
                           description={"Dit is de verteller"}
                           buttonLabel={"Verteller kiezen"}
                           agencyId={narratorId}

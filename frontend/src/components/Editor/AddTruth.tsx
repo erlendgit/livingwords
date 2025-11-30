@@ -4,48 +4,40 @@ import ModalDialogWidget from "../../widgets/containers/ModalDialogWidget.tsx";
 import {TruthSelector} from "../Truth/TruthSelector.tsx";
 import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 import SpaceWidget from "../../widgets/layout/SpaceWidget.tsx";
+import {FlexWidget} from "../../widgets/layout/FlexWidget.tsx";
 
 interface AddTruthProps {
-    truthIds: string[];
-    onChange: (value: string[]) => void;
+    ids: string[];
+    onAdd: (value: string) => void;
+    onRemove: (value: string) => void;
+    onClear: () => void;
 }
 
-export function AddTruth({truthIds, onChange}: AddTruthProps) {
+export function AddTruth({ids, onAdd, onRemove, onClear}: AddTruthProps) {
     const [edit, setEdit] = useState<boolean>(false);
     const startEdit = () => setEdit(true);
     const stopEdit = () => setEdit(false);
-    const hasTruths = truthIds && truthIds.length > 0;
-
-    function handleAdd(id: string) {
-        if (truthIds.includes(id)) {
-            return;
-        }
-        onChange([...truthIds, id]);
-    }
-
-    function handleRemove(id: string) {
-        if (!truthIds.includes(id)) {
-            return;
-        }
-        onChange(truthIds.filter(sid => sid !== id));
-    }
+    const hasTruths = ids && ids.length > 0;
 
     return (
         <SpaceWidget>
             {hasTruths && (
                 <ul>
-                    {truthIds.map((id) => (
+                    {ids.map((id) => (
                         <li key={id}>
                             <TruthCard truthId={id}/>
-                            <SmallButtonWidget onClick={() => handleRemove(id)}>Remove</SmallButtonWidget>
+                            <SmallButtonWidget onClick={() => onRemove(id)}>Remove</SmallButtonWidget>
                         </li>
                     ))}
                 </ul>
             )}
-            <SmallButtonWidget onClick={startEdit}>Select truth</SmallButtonWidget>
+            <FlexWidget>
+                <SmallButtonWidget onClick={startEdit}>Select truth</SmallButtonWidget>
+                {hasTruths && <SmallButtonWidget onClick={onClear}>Clear all truths</SmallButtonWidget>}
+            </FlexWidget>
             {edit && (
                 <ModalDialogWidget title={"Select truth"} onCancel={stopEdit}>
-                    <TruthSelector truthIds={truthIds} onAdd={handleAdd} onRemove={handleRemove} onCancel={stopEdit}/>
+                    <TruthSelector ids={ids} onAdd={onAdd} onRemove={onRemove} onCancel={stopEdit}/>
                 </ModalDialogWidget>
             )}
         </SpaceWidget>

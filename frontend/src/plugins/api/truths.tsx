@@ -1,4 +1,3 @@
-// truths.tsx
 import {useQuery, useMutation, useQueryClient} from "@tanstack/react-query";
 import {apiGet, apiPost} from "./api.tsx";
 

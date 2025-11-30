@@ -7,11 +7,11 @@ import {MultilineTextInputWidget, TextInputWidget} from "../../widgets/forms/Tex
 import FormWidget from "../../widgets/forms/FormWidget.tsx";
 
 interface StoryAddProps {
-    selectStory: (value: string) => void,
+    onSave: (value: string) => void,
     onClose: () => void,
 }
 
-export function StoryAddSelect({selectStory, onClose}: StoryAddProps) {
+export function StoryAddSelect({onSave, onClose}: StoryAddProps) {
     const {mutate: addStory, data, isPending, isError} = useAddStory()
     const [title, setTitle] = useState<string>("");
     const [summary, setSummary] = useState<string>("");
@@ -23,9 +23,9 @@ export function StoryAddSelect({selectStory, onClose}: StoryAddProps) {
 
     useEffect(() => {
         if (story && !isPending && !isError) {
-            selectStory(story.id)
+            onSave(story.id)
         }
-    }, [selectStory, story, isPending, isError])
+    }, [onSave, story, isPending, isError])
 
     return (
         <FormWidget>

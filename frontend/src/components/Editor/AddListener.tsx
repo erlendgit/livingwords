@@ -9,8 +9,7 @@ interface AddListenerProps {
 export function AddListener({listenerId, onChange}: AddListenerProps) {
     return (
         <SpaceWidget>
-            <AgencySelect agencyType={"listener"}
-                          formTitle={"Luisteraar toevoegen"}
+            <AgencySelect formTitle={"Luisteraar toevoegen"}
                           description={"Dit is de luisteraar"}
                           buttonLabel={"Luisteraar kiezen"}
                           agencyId={listenerId}

@@ -7,22 +7,22 @@ import {MultilineTextInputWidget} from "../../widgets/forms/TextInputWidget.tsx"
 import FormWidget from "../../widgets/forms/FormWidget.tsx";
 
 interface ContextAddFormProps {
-    selectContext: (value: string) => void,
+    onSave: (value: string) => void,
     onClose: () => void,
 }
 
-export function ContextAddSelectForm({selectContext, onClose}: ContextAddFormProps) {
+export function ContextAddSelectForm({onSave, onClose}: ContextAddFormProps) {
     const {mutate: addContext, data, isPending, isError} = useAddContext()
     const [description, setDescription] = useState<string>("");
     const context: Context | undefined = data?.node
 
-    function onSave() {
+    function handleSave() {
         addContext({description})
     }
 
     useEffect(() => {
         if (context && !isPending && !isError) {
-            selectContext(context.id)
+            onSave(context.id)
         }
     }, [context, isPending, isError])
 
@@ -38,7 +38,7 @@ export function ContextAddSelectForm({selectContext, onClose}: ContextAddFormPro
             {isPending && <p>Storing the context...</p>}
             {isError && <p>Context could not be stored.</p>}
             <DialogActionsWidget>
-                <SmallButtonWidget onClick={onSave}>Save</SmallButtonWidget>
+                <SmallButtonWidget onClick={handleSave}>Save</SmallButtonWidget>
                 <SmallButtonWidget onClick={onClose}>Cancel</SmallButtonWidget>
             </DialogActionsWidget>
         </FormWidget>

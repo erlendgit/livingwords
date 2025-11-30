@@ -1,11 +1,12 @@
 from agency.models import AgencyWord, RoleChoices
 from core.models import Word
-from core.schemas import LivingWordPayload
 from django.db import transaction
+
+from core.schemas import LivingWord
 
 
 @transaction.atomic
-def store_living_word_data(payload: LivingWordPayload):
+def store_living_word_data(payload: LivingWord):
     word, _created = Word.objects.get_or_create(
         book_id=payload.book_id,
         chapter=payload.chapter,

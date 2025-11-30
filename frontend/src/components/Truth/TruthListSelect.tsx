@@ -4,23 +4,24 @@ import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
 
 interface TruthListSelectProps {
-    truthIds: string[];
+    ids: string[];
     onAdd: (id: string) => void;
     onRemove: (id: string) => void;
     onAddNew: () => void;
     onDone: () => void;
 }
 
-export function TruthListSelect({truthIds, onAdd, onRemove, onAddNew, onDone}: TruthListSelectProps) {
+export function TruthListSelect({ids, onAdd, onRemove, onAddNew, onDone}: TruthListSelectProps) {
     const {data, isLoading, isError} = useTruthList();
-    const truths = (data?.nodes || []).filter(truth => !truthIds.includes(truth.id));
-    const hasTruths = truthIds && truthIds.length > 0;
+    const truths = (data?.nodes || []).filter(truth => !ids.includes(truth.id));
+    // TODO: ook bij stories en context voor zo'n mechanisme zorgen.
+    const hasTruths = ids && ids.length > 0;
 
     return (
         <>
             {hasTruths && (
                 <ul>
-                    {truthIds.map((id) => (
+                    {ids.map((id) => (
                         <li key={id}>
                             <TruthCard truthId={id}/>
                             <SmallButtonWidget onClick={() => onRemove(id)}>Remove</SmallButtonWidget>

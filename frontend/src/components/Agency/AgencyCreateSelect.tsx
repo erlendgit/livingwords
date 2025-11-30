@@ -7,17 +7,16 @@ import FieldsetWidget from "../../widgets/forms/FieldsetWidget.tsx";
 import {MultilineTextInputWidget} from "../../widgets/forms/TextInputWidget.tsx";
 
 interface AgencyCreateSelectProps {
-    role: string;
     onSelect: (value: string) => void;
     onCancel: () => void;
 }
 
-export function AgencyCreateSelect({role, onSelect, onCancel}: AgencyCreateSelectProps) {
+export function AgencyCreateSelect({onSelect, onCancel}: AgencyCreateSelectProps) {
     const [description, setDescription] = useState<string>("");
     const {mutate: addAgency, data, isPending, isError} = useAddAgency()
 
     function handleSave() {
-        addAgency({role, description})
+        addAgency({description})
     }
 
     useEffect(() => {

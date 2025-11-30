@@ -3,13 +3,13 @@ import {QuestionListSelect} from "./QuestionListSelect.tsx";
 import {QuestionAddSelect} from "./QuestionAddSelect.tsx";
 
 interface QuestionSelectorProps {
-    questionIds: string[],
+    ids: string[],
     onAdd: (id: string) => void,
     onRemove: (id: string) => void,
     onCancel: () => void,
 }
 
-export function QuestionSelector({questionIds, onAdd, onRemove, onCancel}: QuestionSelectorProps) {
+export function QuestionSelector({ids, onAdd, onRemove, onCancel}: QuestionSelectorProps) {
     const [viewMode, setViewMode] = useState<string>("list");
     const startListView = () => setViewMode("list");
     const startAddView = () => setViewMode("add");
@@ -23,15 +23,15 @@ export function QuestionSelector({questionIds, onAdd, onRemove, onCancel}: Quest
         <div>
             {viewMode === "list" && (
                 <QuestionListSelect
-                    questionIds={questionIds}
+                    ids={ids}
                     onAdd={onAdd}
                     onRemove={onRemove}
                     onAddNew={startAddView}
-                    onDone={onCancel}/>
+                    onCancel={onCancel}/>
             )}
             {viewMode === "add" && (
                 <QuestionAddSelect
-                    onAdd={handleAddNew}
+                    onSave={handleAddNew}
                     onCancel={startListView}/>
             )}
         </div>

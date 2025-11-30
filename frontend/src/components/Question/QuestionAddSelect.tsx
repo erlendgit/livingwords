@@ -7,11 +7,11 @@ import FieldsetWidget from "../../widgets/forms/FieldsetWidget.tsx";
 import {MultilineTextInputWidget} from "../../widgets/forms/TextInputWidget.tsx";
 
 interface QuestionAddSelectProps {
-    onAdd: (value: string) => void;
+    onSave: (value: string) => void;
     onCancel: () => void;
 }
 
-export function QuestionAddSelect({onAdd, onCancel}: QuestionAddSelectProps) {
+export function QuestionAddSelect({onSave, onCancel}: QuestionAddSelectProps) {
     const {mutate: addQuestion, data, isPending, isError} = useAddQuestion();
     const [question, setQuestion] = useState<string>("");
     const [answer, setAnswer] = useState<string>("");
@@ -22,9 +22,9 @@ export function QuestionAddSelect({onAdd, onCancel}: QuestionAddSelectProps) {
 
     useEffect(() => {
         if (data?.node && !isPending && !isError) {
-            onAdd(data?.node.id);
+            onSave(data?.node.id);
         }
-    }, [onAdd, data, isPending, isError]);
+    }, [onSave, data, isPending, isError]);
 
     return (
         <FormWidget>

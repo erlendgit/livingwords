@@ -15,7 +15,7 @@ export function BookDetail() {
 
     if (isLoading) return <p>Loading…</p>;
     if (isError) return <p>Error: {(error as Error).message}</p>;
-    if (!book) return <p>Not found</p>;
+    if (!book) return <p>Book not found</p>;
 
     return (
         <div>

@@ -7,27 +7,33 @@ import {FlexWidget} from "../../widgets/layout/FlexWidget.tsx";
 import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 
 interface AddStoryProps {
-    storyId: string | null;
-    onChange: (value: string | null) => void;
+    ids: string[];
+    onAdd: (value: string) => void;
+    onRemove: (value: string) => void;
+    onClear: () => void;
 }
 
-export function AddStory({storyId, onChange}: AddStoryProps) {
+export function AddStory({ids, onAdd, onRemove, onClear}: AddStoryProps) {
     const [edit, setEdit] = useState<boolean>(false)
-
-    function handleClose() {
-        setEdit(false)
-    }
+    const handleOpen = () => setEdit(true);
+    const handleClose = () => setEdit(false);
 
     return (
         <SpaceWidget>
-            {storyId && <StoryCard storyId={storyId}/>}
+            {ids && (
+                <ul>
+                    {ids.map((storyId) => (
+                        <StoryCard storyId={storyId}/>
+                    ))}
+                </ul>
+            )}
             <FlexWidget>
-                <SmallButtonWidget size={"small"} onClick={() => setEdit(true)}>Select story</SmallButtonWidget>
-                {storyId && <SmallButtonWidget onClick={() => onChange(null)}>Clear story</SmallButtonWidget>}
+                <SmallButtonWidget size={"small"} onClick={handleOpen}>Select story</SmallButtonWidget>
+                {ids && <SmallButtonWidget onClick={() => onClear()}>Clear value</SmallButtonWidget>}
             </FlexWidget>
             {edit && (
                 <ModalDialogWidget title={"Select a story"} onCancel={handleClose}>
-                    <StorySelector storyId={storyId} onChange={onChange} onClose={handleClose}/>
+                    <StorySelector ids={ids} onAdd={onAdd} onRemove={onRemove} onClose={handleClose}/>
                 </ModalDialogWidget>
             )}
         </SpaceWidget>

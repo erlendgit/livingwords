@@ -3,29 +3,27 @@ import {StoryListSelect} from "./StoryListSelect.tsx";
 import {StoryAddSelect} from "./StoryAddSelect.tsx";
 
 interface StorySelectProps {
-    storyId: string | null,
-    onChange: (value: string) => void,
+    ids: string[];
+    onAdd: (value: string) => void;
+    onRemove: (value: string) => void;
     onClose: () => void
 }
 
-export function StorySelector({storyId, onChange, onClose}: StorySelectProps) {
+export function StorySelector({ids, onAdd, onRemove, onClose}: StorySelectProps) {
     const [step, setStep] = useState<string>("list");
 
     const selectListView = () => setStep("list")
     const selectAddView = () => setStep("add")
-    const selectStory = (id: string) => {
-        onChange(id)
-        onClose()
-    }
 
     return (
         <>
-            {step === 'list' && <StoryListSelect storyId={storyId}
+            {step === 'list' && <StoryListSelect ids={ids}
                                                  onClickAdd={selectAddView}
-                                                 onChange={selectStory}
+                                                 onAdd={onAdd}
+                                                 onRemove={onRemove}
                                                  onClose={onClose}/>}
             {step === 'add' && <StoryAddSelect onClose={selectListView}
-                                               selectStory={selectStory}/>}
+                                               onSave={onAdd}/>}
         </>
     );
 }

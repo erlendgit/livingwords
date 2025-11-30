@@ -4,23 +4,24 @@ import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
 
 interface QuestionListSelectProps {
-    questionIds: string[];
+    ids: string[];
     onAdd: (id: string) => void;
     onRemove: (id: string) => void;
     onAddNew: () => void;
-    onDone: () => void;
+    onCancel: () => void;
 }
 
-export function QuestionListSelect({questionIds, onAdd, onRemove, onAddNew, onDone}: QuestionListSelectProps) {
+export function QuestionListSelect({ids, onAdd, onRemove, onAddNew, onCancel}: QuestionListSelectProps) {
     const {data, isLoading, isError} = useQuestionList();
-    const questions = (data?.nodes || []).filter(question => !questionIds.includes(question.id));
-    const hasQuestions = questionIds && questionIds.length > 0;
+    const questions = (data?.nodes || []).filter(question => !ids.includes(question.id));
+    const hasQuestions = ids && ids.length > 0;
 
+    // TODO: moet eigenlijk een table worden.
     return (
         <>
             {hasQuestions && (
                 <ul>
-                    {questionIds.map((id) => (
+                    {ids.map((id) => (
                         <li key={id}>
                             <QuestionCard questionId={id}/>
                             <SmallButtonWidget onClick={() => onRemove(id)}>Remove</SmallButtonWidget>
@@ -42,7 +43,7 @@ export function QuestionListSelect({questionIds, onAdd, onRemove, onAddNew, onDo
             )}
             <DialogActionsWidget>
                 <SmallButtonWidget onClick={onAddNew}>Create new</SmallButtonWidget>
-                <SmallButtonWidget onClick={onDone}>Done</SmallButtonWidget>
+                <SmallButtonWidget onClick={onCancel}>Done</SmallButtonWidget>
             </DialogActionsWidget>
         </>
     );

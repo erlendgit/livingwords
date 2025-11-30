@@ -7,23 +7,24 @@ import {MultilineTextInputWidget} from "../../widgets/forms/TextInputWidget.tsx"
 import FormWidget from "../../widgets/forms/FormWidget.tsx";
 
 interface TruthAddSelectProps {
-    onAdd: (value: string) => void;
+    onSave: (value: string) => void;
     onCancel: () => void;
 }
 
-export function TruthAddSelect({onAdd, onCancel}: TruthAddSelectProps) {
+export function TruthAddSelect({onSave, onCancel}: TruthAddSelectProps) {
     const {mutate: addTruth, data, isPending, isError} = useAddTruth();
     const [statement, setStatement] = useState<string>("");
+    const truth = data?.node;
 
     function handleSave() {
         addTruth({statement});
     }
 
     useEffect(() => {
-        if (data?.node && !isPending && !isError) {
-            onAdd(data?.node.id);
+        if (truth && !isPending && !isError) {
+            onSave(truth.id);
         }
-    }, [onAdd, data, isPending, isError]);
+    }, [onSave, data, isPending, isError]);
 
     return (
         <FormWidget>

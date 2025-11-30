@@ -5,7 +5,6 @@ import type {Person} from "./persons.tsx";
 export type Agency = {
     id: string;
     description: string;
-    role: string;
     persons: Person[];
 };
 
@@ -21,14 +20,12 @@ export type AgencyItemResponse = {
 
 export type AddAgencyPayload = {
     description: string;
-    role: string;
     person_ids?: string[];
 };
 
 export type UpdateAgencyPayload = {
     id: string;
     description: string;
-    role: string;
     person_ids?: string[];
 };
 

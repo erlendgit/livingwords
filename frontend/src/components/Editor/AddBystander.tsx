@@ -9,8 +9,7 @@ interface AddBystanderProps {
 export function AddBystander({bystanderId, onChange}: AddBystanderProps) {
     return (
         <SpaceWidget>
-            <AgencySelect agencyType={"bystander"}
-                          formTitle={"Omstander(s) toevoegen"}
+            <AgencySelect formTitle={"Omstander(s) toevoegen"}
                           description={"Dit zijn de omstanders"}
                           buttonLabel={"Omstanders kiezen"}
                           agencyId={bystanderId}

@@ -3,17 +3,18 @@ import {TruthListSelect} from "./TruthListSelect.tsx";
 import {TruthAddSelect} from "./TruthAddSelect.tsx";
 
 interface TruthSelectorProps {
-    truthIds: string[],
+    ids: string[],
     onAdd: (value: string) => void,
     onRemove: (value: string) => void,
     onCancel: () => void,
 }
 
-export function TruthSelector({truthIds, onAdd, onRemove, onCancel}: TruthSelectorProps) {
+export function TruthSelector({ids, onAdd, onRemove, onCancel}: TruthSelectorProps) {
     const [viewMode, setViewMode] = useState<string>("list");
     const startListView = () => setViewMode("list");
     const startAddView = () => setViewMode("add");
 
+    // TODO: ook bij story en context voor zo'n mechanisme zorgen.
     function handleAddNew(id: string) {
         onAdd(id);
         startListView()
@@ -23,7 +24,7 @@ export function TruthSelector({truthIds, onAdd, onRemove, onCancel}: TruthSelect
         <div>
             {viewMode === "list" && (
                 <TruthListSelect
-                    truthIds={truthIds}
+                    ids={ids}
                     onAdd={onAdd}
                     onRemove={onRemove}
                     onAddNew={startAddView}
@@ -31,7 +32,7 @@ export function TruthSelector({truthIds, onAdd, onRemove, onCancel}: TruthSelect
             )}
             {viewMode === "add" && (
                 <TruthAddSelect
-                    onAdd={handleAddNew}
+                    onSave={handleAddNew}
                     onCancel={startListView}/>
             )}
         </div>

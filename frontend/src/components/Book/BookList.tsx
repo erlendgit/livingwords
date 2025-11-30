@@ -25,11 +25,10 @@ export function BookList() {
             </ul>
             {showAddForm && (
                 <ModalDialogWidget title={"Add a new book"} onCancel={stopShowAddBookForm}>
-                    <BookAddForm onClose={stopShowAddBookForm} />
+                    <BookAddForm onClose={stopShowAddBookForm}/>
                 </ModalDialogWidget>
             )}
             {!showAddForm && <SmallButtonWidget onClick={startShowAddBookForm}>Add book</SmallButtonWidget>}
         </>
-    )
-        ;
+    );
 }

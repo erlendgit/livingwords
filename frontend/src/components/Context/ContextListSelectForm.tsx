@@ -4,13 +4,14 @@ import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
 
 interface ContextSelectListProps {
-    storyId: string | null,
-    onChange: (value: string) => void,
-    onClickAdd: () => void,
-    onClose: () => void,
+    ids: string[];
+    onAdd: (value: string) => void;
+    onRemove: (value: string) => void;
+    onClickAdd: () => void;
+    onClose: () => void;
 }
 
-export function ContextListSelectForm({storyId, onChange, onClose, onClickAdd}: ContextSelectListProps) {
+export function ContextListSelectForm({ids, onAdd, onRemove, onClose, onClickAdd}: ContextSelectListProps) {
     const {data, isLoading, isError} = useContextList();
     const contexts: Context[] | undefined = data?.nodes
     const hasStories: boolean = !!(contexts && contexts.length > 0)
@@ -22,18 +23,30 @@ export function ContextListSelectForm({storyId, onChange, onClose, onClickAdd}: 
         return <p>Error while loading context options!</p>
     }
 
+    const selected = contexts?.filter((context) => ids.includes(context.id));
+    const unselected = contexts?.filter((context) => !ids.includes(context.id));
+
     return (
         <>
             {hasStories &&
                 <table>
-                    {contexts?.map((context) => (
+                    {selected?.map((context) => (
                         <tr>
                             <td style={{width: "100%"}}>
                                 <ContextCardView context={context}/>
                             </td>
                             <td>
-                                {context.id !== storyId && (
-                                    <SmallButtonWidget onClick={() => onChange(context.id)}>Select</SmallButtonWidget>)}
+                                <SmallButtonWidget onClick={() => onRemove(context.id)}>Remove</SmallButtonWidget>
+                            </td>
+                        </tr>
+                    ))}
+                    {unselected?.map((context) => (
+                        <tr>
+                            <td style={{width: "100%"}}>
+                                <ContextCardView context={context}/>
+                            </td>
+                            <td>
+                                <SmallButtonWidget onClick={() => onAdd(context.id)}>Select</SmallButtonWidget>
                             </td>
                         </tr>
                     ))}

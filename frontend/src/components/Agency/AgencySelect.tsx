@@ -7,7 +7,6 @@ import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 import {FlexWidget} from "../../widgets/layout/FlexWidget.tsx";
 
 interface AgencySelectProps {
-    agencyType: string
     description: string
     formTitle: string
     buttonLabel: string
@@ -16,7 +15,6 @@ interface AgencySelectProps {
 }
 
 export function AgencySelect({
-                                 agencyType,
                                  description,
                                  formTitle,
                                  buttonLabel,
@@ -52,7 +50,7 @@ export function AgencySelect({
             {showForm && (
                 <ModalDialogWidget title={formTitle} onCancel={handleCloseForm}>
                     {viewMode === 'list' && <AgencyListSelect agencyId={agencyId} onSelect={handleSelect} onCreate={handleSwitchToAdd} onCancel={handleCloseForm}/>}
-                    {viewMode === 'add' && <AgencyCreateSelect role={agencyType} onSelect={handleSelect} onCancel={handleSwitchToList}/>}
+                    {viewMode === 'add' && <AgencyCreateSelect onSelect={handleSelect} onCancel={handleSwitchToList}/>}
                 </ModalDialogWidget>
             )}
 

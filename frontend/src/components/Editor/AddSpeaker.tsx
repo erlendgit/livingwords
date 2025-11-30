@@ -9,8 +9,7 @@ interface AddSpeakerProps {
 export function AddSpeaker({speakerId, onChange}: AddSpeakerProps) {
     return (
         <SpaceWidget>
-            <AgencySelect agencyType={"speaker"}
-                          formTitle={"Spreker toevoegen"}
+            <AgencySelect formTitle={"Spreker toevoegen"}
                           description={"Dit is de spreker"}
                           buttonLabel={"Spreker kiezen"}
                           agencyId={speakerId}

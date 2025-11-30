@@ -7,11 +7,13 @@ import {FlexWidget} from "../../widgets/layout/FlexWidget.tsx";
 import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 
 interface AddContextProps {
-    contextId: string | null;
-    onChange: (value: string | null) => void;
+    ids: string[];
+    onAdd: (value: string) => void;
+    onRemove: (value: string) => void;
+    onClear: () => void;
 }
 
-export function AddContext({contextId, onChange}: AddContextProps) {
+export function AddContext({ids, onAdd, onRemove, onClear}: AddContextProps) {
     const [edit, setEdit] = useState<boolean>(false)
 
     function onCloseModal() {
@@ -20,14 +22,24 @@ export function AddContext({contextId, onChange}: AddContextProps) {
 
     return (
         <SpaceWidget>
-            {contextId && <ContextCard contextId={contextId}/>}
+            {ids && (
+                <ul>
+                    {ids.map((id => (
+                            <li key={id}>
+                                <ContextCard contextId={id}/>
+                                <SmallButtonWidget onClick={() => onRemove(id)}>Remove</SmallButtonWidget>
+                            </li>
+                        ))
+                    )}
+                </ul>
+            )}
             <FlexWidget>
                 <SmallButtonWidget onClick={() => setEdit(true)}>Add context</SmallButtonWidget>
-                {contextId && <SmallButtonWidget onClick={() => onChange(null)}>Clear context</SmallButtonWidget>}
+                {ids && <SmallButtonWidget onClick={onClear}>Clear context</SmallButtonWidget>}
             </FlexWidget>
             {edit && (
                 <ModalDialogWidget title={"Describe the context"} onCancel={onCloseModal}>
-                    <ContextSelector contextId={contextId} onChange={onChange} onClose={onCloseModal}/>
+                    <ContextSelector ids={ids} onAdd={onAdd} onRemove={onRemove} onClose={onCloseModal}/>
                 </ModalDialogWidget>
             )}
         </SpaceWidget>

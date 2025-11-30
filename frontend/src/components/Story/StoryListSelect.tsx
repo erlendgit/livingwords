@@ -4,15 +4,16 @@ import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
 
 interface StoryListSelectProps {
-    storyId: string | null,
-    onChange: (value: string) => void,
+    ids: string[];
+    onAdd: (value: string) => void;
+    onRemove: (value: string) => void;
     onClickAdd: () => void,
     onClose: () => void,
 }
 
-export function StoryListSelect({storyId, onChange, onClose, onClickAdd}: StoryListSelectProps) {
+export function StoryListSelect({ids, onAdd, onRemove, onClose, onClickAdd}: StoryListSelectProps) {
     const {data, isLoading, isError} = useStoryList();
-    const stories: Story[] | undefined = data?.nodes
+    const stories: Story[] = data?.nodes || [];
     const hasStories: boolean = !!(stories && stories.length > 0)
 
     if (isLoading) {
@@ -22,18 +23,31 @@ export function StoryListSelect({storyId, onChange, onClose, onClickAdd}: StoryL
         return <p>Error while loading stories!</p>
     }
 
+    // filter out already selected stories in "ids"
+    const selected = stories.filter((story) => ids.includes(story.id));
+    const unselected = stories.filter((story) => !ids.includes(story.id));
+
     return (
         <>
             {hasStories &&
                 <table>
-                    {stories?.map((story) => (
+                    {selected?.map((story) => (
                         <tr>
                             <td style={{width: "100%"}}>
                                 <StoryCardView story={story}/>
                             </td>
                             <td>
-                                {story.id !== storyId && (
-                                    <SmallButtonWidget onClick={() => onChange(story.id)}>Select</SmallButtonWidget>)}
+                                <SmallButtonWidget onClick={() => onRemove(story.id)}>Remove</SmallButtonWidget>)
+                            </td>
+                        </tr>
+                    ))}
+                    {unselected?.map((story) => (
+                        <tr>
+                            <td style={{width: "100%"}}>
+                                <StoryCardView story={story}/>
+                            </td>
+                            <td>
+                                <SmallButtonWidget onClick={() => onAdd(story.id)}>Select</SmallButtonWidget>
                             </td>
                         </tr>
                     ))}

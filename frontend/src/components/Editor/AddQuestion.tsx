@@ -4,46 +4,41 @@ import {QuestionCard} from "../Question/QuestionCard.tsx";
 import {QuestionSelector} from "../Question/QuestionSelector.tsx";
 import SpaceWidget from "../../widgets/layout/SpaceWidget.tsx";
 import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
+import {FlexWidget} from "../../widgets/layout/FlexWidget.tsx";
 
 interface AddQuestionProps {
-    questionIds: string[];
-    onChange: (value: string[]) => void;
+    ids: string[];
+    onAdd: (value: string) => void;
+    onRemove: (value: string) => void;
+    onClear: () => void;
 }
 
-export function AddQuestion({questionIds, onChange}: AddQuestionProps) {
+export function AddQuestion({ids, onAdd, onRemove, onClear}: AddQuestionProps) {
     const [edit, setEdit] = useState<boolean>(false);
     const startEdit = () => setEdit(true);
     const stopEdit = () => setEdit(false);
-    const hasQuestions = questionIds && questionIds.length > 0;
-
-    function handleAdd(id: string) {
-        if (questionIds.includes(id)) {
-            return;
-        }
-        onChange([...questionIds, id]);
-    }
-
-    function handleRemove(id: string) {
-        if (!questionIds.includes(id)) {
-            return;
-        }
-        onChange(questionIds.filter(sid => sid !== id));
-    }
+    const hasQuestions = ids && ids.length > 0;
 
     return (
         <SpaceWidget>
             {hasQuestions && (
                 <ul>
-                    {questionIds.map((id) => (<li key={id}>
-                        <QuestionCard questionId={id} />
-                        <SmallButtonWidget onClick={() => handleRemove(id)}>Remove</SmallButtonWidget>
+                    {ids.map((id) => (<li key={id}>
+                        <QuestionCard questionId={id}/>
+                        <SmallButtonWidget onClick={() => onRemove(id)}>Remove</SmallButtonWidget>
                     </li>))}
                 </ul>
             )}
-            <SmallButtonWidget onClick={startEdit}>Add question</SmallButtonWidget>
+            <FlexWidget>
+                <SmallButtonWidget onClick={startEdit}>Add question</SmallButtonWidget>
+                {hasQuestions && (
+                    <SmallButtonWidget onClick={onClear}>Clear all</SmallButtonWidget>
+                )}
+            </FlexWidget>
             {edit && (
                 <ModalDialogWidget title={"Select question"} onCancel={stopEdit}>
-                    <QuestionSelector questionIds={questionIds} onAdd={handleAdd} onRemove={handleRemove} onCancel={stopEdit}/>
+                    <QuestionSelector ids={ids} onAdd={onAdd} onRemove={onRemove}
+                                      onCancel={stopEdit}/>
                 </ModalDialogWidget>
             )}
         </SpaceWidget>
