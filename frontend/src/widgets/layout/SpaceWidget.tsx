@@ -1,10 +1,9 @@
-import {Box} from "@mui/material";
+import {Box, type BoxProps} from "@mui/material";
 
-function SpaceWidget({children}: {children: React.ReactNode}) {
+function SpaceWidget(props: BoxProps) {
     return (
-        <Box component={"section"} style={{ marginBottom: '1rem' }}>
-            {children}
-        </Box>
+        <Box component={"section"} style={{ marginBottom: '1rem' }}
+            {...props} />
     );
 }
 

@@ -1,11 +1,8 @@
-import React from "react";
-import {Box} from "@mui/material";
+import {Box, type BoxProps} from "@mui/material";
 
-function HeaderWidget({children}: { children: React.ReactNode }) {
+function HeaderWidget(props: BoxProps) {
     return (
-        <Box component={"header"}>
-            {children}
-        </Box>
+        <Box component={"header"} {...props} />
     )
 }
 

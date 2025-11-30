@@ -1,19 +1,13 @@
-import {Button} from "@mui/material";
+import {Button, type ButtonProps} from "@mui/material";
 
-export function ButtonWidget({children, ...props}: { children: React.ReactNode; props?: unknown }) {
-    const {variant = "contained", ...rest} = props as { variant?: string } & Record<string, unknown>;
-
+export function ButtonWidget(props: ButtonProps) {
     return (
-        <Button variant={variant} {...rest}>
-            {children}
-        </Button>
+        <Button variant={"contained"} {...props} />
     );
 }
 
-export function SmallButtonWidget({children, ...props}: { children: React.ReactNode; props?: unknown }) {
+export function SmallButtonWidget(props: ButtonProps) {
     return (
-        <ButtonWidget size={"small"} {...props}>
-            {children}
-        </ButtonWidget>
+        <ButtonWidget size={"small"} {...props} />
     );
 }

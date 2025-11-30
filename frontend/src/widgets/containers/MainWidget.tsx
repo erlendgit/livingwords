@@ -1,11 +1,8 @@
-import React from "react";
-import {Container} from "@mui/material";
+import {Container, type ContainerProps} from "@mui/material";
 
-function MainWidget({children}: {children: React.ReactNode}){
+function MainWidget(props: ContainerProps) {
     return (
-        <Container component={"main"}>
-            {children}
-        </Container>
+        <Container component={"main"} {...props}/>
     )
 }
 

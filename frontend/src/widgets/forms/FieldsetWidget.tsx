@@ -1,18 +1,15 @@
-import {FormGroup} from "@mui/material";
+import {FormGroup, type FormGroupProps} from "@mui/material";
 
-function FieldsetWidget({children}: { children: React.ReactNode }) {
+function FieldsetWidget(props: FormGroupProps) {
     return (
         <FormGroup
-            component={"fieldset"}
             sx={{
                 margin: '.5rem 0 1rem',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-around',
                 gap: '1rem',
-            }}>
-            {children}
-        </FormGroup>
+            }} {...props}/>
     );
 }
 
