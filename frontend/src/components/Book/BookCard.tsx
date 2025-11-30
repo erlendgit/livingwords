@@ -1,5 +1,6 @@
 import {Link} from "react-router-dom";
 import {type Book, useBook} from "../../plugins/api/books.tsx";
+import SpaceWidget from "../../widgets/layout/SpaceWidget.tsx";
 
 interface BookDisplayProps {
     withLink?: boolean
@@ -30,13 +31,13 @@ export function BookCardView({book, display}: BookCardViewProps) {
     const {withLink = true} = display || {};
 
     return (
-        <div>
+        <SpaceWidget>
             <strong>{book.title}</strong>
             {withLink && (
                 <Link to={`/book/${book.id}`} role={"button"} className="primary">
                     View details
                 </Link>
             )}
-        </div>
+        </SpaceWidget>
     );
 }

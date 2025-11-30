@@ -4,7 +4,7 @@ import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
 import FormWidget from "../../widgets/forms/FormWidget.tsx";
 import FieldsetWidget from "../../widgets/forms/FieldsetWidget.tsx";
-import {MultilineTextFieldWidget} from "../../widgets/forms/TextFieldWidget.tsx";
+import {MultilineTextInputWidget} from "../../widgets/forms/TextInputWidget.tsx";
 
 interface QuestionAddSelectProps {
     onAdd: (value: string) => void;
@@ -29,12 +29,12 @@ export function QuestionAddSelect({onAdd, onCancel}: QuestionAddSelectProps) {
     return (
         <FormWidget>
             <FieldsetWidget>
-                <MultilineTextFieldWidget
+                <MultilineTextInputWidget
                     label="Question"
                     rows={2}
                     value={question}
                     onChange={(e) => setQuestion(e.target.value)}/>
-                <MultilineTextFieldWidget
+                <MultilineTextInputWidget
                     label="Answer"
                     rows={2}
                     value={answer}

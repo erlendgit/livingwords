@@ -3,7 +3,7 @@ import {useAddTruth} from "../../plugins/api/truths.tsx";
 import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
 import FieldsetWidget from "../../widgets/forms/FieldsetWidget.tsx";
-import {MultilineTextFieldWidget} from "../../widgets/forms/TextFieldWidget.tsx";
+import {MultilineTextInputWidget} from "../../widgets/forms/TextInputWidget.tsx";
 import FormWidget from "../../widgets/forms/FormWidget.tsx";
 
 interface TruthAddSelectProps {
@@ -28,7 +28,7 @@ export function TruthAddSelect({onAdd, onCancel}: TruthAddSelectProps) {
     return (
         <FormWidget>
             <FieldsetWidget>
-                <MultilineTextFieldWidget
+                <MultilineTextInputWidget
                     label="Truth statement"
                     rows={3}
                     value={statement}

@@ -4,7 +4,7 @@ import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
 import FormWidget from "../../widgets/forms/FormWidget.tsx";
 import FieldsetWidget from "../../widgets/forms/FieldsetWidget.tsx";
-import {MultilineTextFieldWidget} from "../../widgets/forms/TextFieldWidget.tsx";
+import {MultilineTextInputWidget} from "../../widgets/forms/TextInputWidget.tsx";
 
 interface AgencyCreateSelectProps {
     role: string;
@@ -30,7 +30,7 @@ export function AgencyCreateSelect({role, onSelect, onCancel}: AgencyCreateSelec
     return (
         <FormWidget>
             <FieldsetWidget>
-                <MultilineTextFieldWidget
+                <MultilineTextInputWidget
                     label={"Description"}
                     value={description}
                     rows={3}

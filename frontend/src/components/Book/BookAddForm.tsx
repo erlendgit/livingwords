@@ -1,11 +1,10 @@
 import {useEffect, useState} from "react";
 import {useAddBook} from "../../plugins/api/books.tsx";
 import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
-import {FlexWidget} from "../../widgets/layout/FlexWidget.tsx";
 import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
 import FormWidget from "../../widgets/forms/FormWidget.tsx";
 import FieldsetWidget from "../../widgets/forms/FieldsetWidget.tsx";
-import {TextFieldWidget} from "../../widgets/forms/TextFieldWidget.tsx";
+import {TextInputWidget} from "../../widgets/forms/TextInputWidget.tsx";
 
 interface BookAddFormProps {
     onSave: () => void,
@@ -29,7 +28,7 @@ export function BookAddForm({onSave, onCancel}: BookAddFormProps) {
     return (
         <FormWidget>
             <FieldsetWidget>
-                <TextFieldWidget
+                <TextInputWidget
                     label={"Title"}
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}/>

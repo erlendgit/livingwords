@@ -15,6 +15,8 @@ import {AddTruth} from "./AddTruth.tsx";
 import {BookCard} from "../Book/BookCard.tsx";
 import {FlexWidget} from "../../widgets/layout/FlexWidget.tsx";
 import SpaceWidget from "../../widgets/layout/SpaceWidget.tsx";
+import {ScriptureAfterCard, ScriptureBeforeCard} from "./ScriptureCard.tsx";
+import LeftRightWidget from "../../widgets/containers/LeftRightWidget.tsx";
 
 export function ContentEditor() {
     const {id: bookId} = useParams<{ id: string }>();
@@ -40,12 +42,12 @@ export function ContentEditor() {
     }
 
     return (
-        <FlexWidget>
+        <LeftRightWidget>
             <SpaceWidget>
                 <BookCard bookId={bookId} display={{withLink: false}}/>
-                Previous content will go here.
-                <EditContent title={"Write your content here"} content={content} onChange={setContent}/>
-                Next content will go here.
+                <ScriptureBeforeCard bookId={bookId} chapter={chapter} verse={verse}/>
+                <EditContent title={"Content"} content={content} onChange={setContent}/>
+                <ScriptureAfterCard bookId={bookId} chapter={chapter} verse={verse}/>
                 <FlexWidget>
                     <EditChapter chapter={chapter} onChange={setChapter}/>
                     <EditVerse verse={verse} onChange={setVerse}/>
@@ -67,6 +69,6 @@ export function ContentEditor() {
                 <AddListener listenerId={listenerId} onChange={setListenerId}/>
                 <AddBystander bystanderId={bystanderId} onChange={setBystanderId}/>
             </SpaceWidget>
-        </FlexWidget>
+        </LeftRightWidget>
     );
 }

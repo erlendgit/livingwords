@@ -3,7 +3,7 @@ import {type Story, useAddStory} from "../../plugins/api/stories.tsx";
 import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
 import FieldsetWidget from "../../widgets/forms/FieldsetWidget.tsx";
-import {MultilineTextFieldWidget, TextFieldWidget} from "../../widgets/forms/TextFieldWidget.tsx";
+import {MultilineTextInputWidget, TextInputWidget} from "../../widgets/forms/TextInputWidget.tsx";
 import FormWidget from "../../widgets/forms/FormWidget.tsx";
 
 interface StoryAddProps {
@@ -30,11 +30,11 @@ export function StoryAddSelect({selectStory, onClose}: StoryAddProps) {
     return (
         <FormWidget>
             <FieldsetWidget>
-                <TextFieldWidget
+                <TextInputWidget
                     label={"Title"}
                     value={title}
                     onChange={(e) => setTitle(e.target.value || "")}/>
-                <MultilineTextFieldWidget
+                <MultilineTextInputWidget
                     label={"Summary"}
                     value={summary}
                     rows={4}

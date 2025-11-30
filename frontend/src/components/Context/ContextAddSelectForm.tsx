@@ -3,7 +3,7 @@ import {type Context, useAddContext} from "../../plugins/api/contexts.tsx";
 import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
 import FieldsetWidget from "../../widgets/forms/FieldsetWidget.tsx";
-import {MultilineTextFieldWidget} from "../../widgets/forms/TextFieldWidget.tsx";
+import {MultilineTextInputWidget} from "../../widgets/forms/TextInputWidget.tsx";
 import FormWidget from "../../widgets/forms/FormWidget.tsx";
 
 interface ContextAddFormProps {
@@ -29,7 +29,7 @@ export function ContextAddSelectForm({selectContext, onClose}: ContextAddFormPro
     return (
         <FormWidget>
             <FieldsetWidget>
-                <MultilineTextFieldWidget
+                <MultilineTextInputWidget
                     label={"Context description"}
                     value={description}
                     rows={3}
