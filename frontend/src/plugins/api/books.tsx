@@ -13,11 +13,13 @@ export type BookItemResponse = {
 
 export type AddBookPayload = {
     title: string,
+    summary?: string,
 }
 
 export type Book = {
     id: string;
     title: string;
+    summary?: string;
 };
 
 export function useBookList() {
@@ -43,6 +45,19 @@ export function useAddBook() {
         mutationFn: (payload) => apiPost<AddBookPayload, BookItemResponse>("book/", payload),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ["books"]});
+        },
+    });
+}
+
+
+export function useEditBook(id: string) {
+    const queryClient = useQueryClient();
+
+    return useMutation<BookItemResponse, Error, AddBookPayload>({
+        mutationFn: (payload) => apiPost<AddBookPayload, BookItemResponse>(`book/${id}/`, payload),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ["books"]});
+            queryClient.invalidateQueries({queryKey: ["books", id]});
         },
     });
 }

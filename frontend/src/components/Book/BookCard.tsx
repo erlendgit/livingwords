@@ -1,9 +1,14 @@
 import {Link} from "react-router-dom";
 import {type Book, useBook} from "../../plugins/api/books.tsx";
 import SpaceWidget from "../../widgets/layout/SpaceWidget.tsx";
+import {useState} from "react";
+import {TextButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
+import ModalDialogWidget from "../../widgets/containers/ModalDialogWidget.tsx";
+import {BookEditForm} from "./BookForm.tsx";
 
 interface BookDisplayProps {
     withLink?: boolean
+    withSummary?: boolean
 }
 
 interface BookCardProps {
@@ -29,14 +34,27 @@ export function BookCard({bookId, display}: BookCardProps) {
 
 export function BookCardView({book, display}: BookCardViewProps) {
     const {withLink = true} = display || {};
+    const {withSummary = false} = display || {};
+    const [showEditDialog, setShowEditDialog] = useState<boolean>(false);
+    const handleShowEditDialog = () => setShowEditDialog(true);
+    const handleCloseEditDialog = () => setShowEditDialog(false);
 
     return (
         <SpaceWidget>
             <strong>{book.title}</strong>
+            {withSummary && book.summary && <p>{book.summary}</p>}
             {withLink && (
-                <Link to={`/book/${book.id}`} role={"button"} className="primary">
-                    View details
-                </Link>
+                <>
+                    <TextButtonWidget component={Link} to={`/book/${book.id}`}>
+                        Details
+                    </TextButtonWidget>
+                    <TextButtonWidget onClick={handleShowEditDialog}>Edit</TextButtonWidget>
+                    {showEditDialog && (
+                        <ModalDialogWidget title={"Edit book"} onCancel={handleCloseEditDialog}>
+                            <BookEditForm book={book} onClose={handleCloseEditDialog}/>
+                        </ModalDialogWidget>
+                    )}
+                </>
             )}
         </SpaceWidget>
     );

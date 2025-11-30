@@ -17,6 +17,7 @@ class BookIn(Schema):
 class BookOut(Schema):
     id: uuid.UUID
     title: str
+    summary: Union[str, None] = None
 
 
 class BookResponse(Schema):
@@ -57,5 +58,23 @@ def add_book(request, payload: BookIn):
                 sort_order=Book.objects.count() + 1
             )
         )
+    except ValidationError as e:
+        return 400, BookErrorResponse(details=str(e))
+
+
+@router.post("/{id}/")
+def update_book(request, id: str, payload: BookIn):
+    try:
+        book = Book.objects.get(id=id)
+        if not payload.title:
+            raise ValidationError("Title is required.")
+        book.title = payload.title
+        book.summary = payload.summary
+        book.save()
+        return BookResponse(
+            node=book
+        )
+    except Book.DoesNotExist:
+        return 404, BookErrorResponse(details="Book not found.")
     except ValidationError as e:
         return 400, BookErrorResponse(details=str(e))
