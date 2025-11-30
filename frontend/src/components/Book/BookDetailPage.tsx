@@ -5,7 +5,7 @@ import {useState} from "react";
 import ModalDialogWidget from "../../widgets/containers/ModalDialogWidget.tsx";
 import {BookEditForm} from "./BookForm.tsx";
 
-export function BookDetail() {
+export function BookDetailPage() {
     const {id} = useParams<{ id: string }>();
     const {data, isLoading, isError, error} = useBook(id!);
     const book: Book | undefined = data?.node

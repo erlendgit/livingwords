@@ -1,4 +1,3 @@
-import {useParams} from "react-router-dom";
 import {useState} from "react";
 import {EditContent} from "./EditContent.tsx";
 import {EditChapter} from "./EditChapter.tsx";
@@ -17,46 +16,9 @@ import {FlexWidget} from "../../widgets/layout/FlexWidget.tsx";
 import SpaceWidget from "../../widgets/layout/SpaceWidget.tsx";
 import {ScriptureAfterCard, ScriptureBeforeCard} from "./ScriptureCard.tsx";
 import LeftRightWidget from "../../widgets/containers/LeftRightWidget.tsx";
-import {type LivingWord, useLivingWord} from "../../plugins/api/words.tsx";
-import {type Book, useBook} from "../../plugins/api/books.tsx";
+import {type LivingWord} from "../../plugins/api/words.tsx";
+import {type Book} from "../../plugins/api/books.tsx";
 import useListState from "../../plugins/ListState.tsx";
-
-export function ContentEditor() {
-    const {id: bookId} = useParams<{ id: string }>();
-    const {data, isLoading} = useBook(bookId!);
-    const book: Book | undefined = data?.node;
-
-    if (isLoading) { return <p>Loading...</p>; }
-    if (!book) { return <p>Book not found</p>; }
-
-    return <ContentEditorGivenThisBook book={book}/>;
-}
-
-function ContentEditorGivenThisBook({book}: { book: Book }) {
-    const [chapter, setChapter] = useState(1);
-    const [verse, setVerse] = useState(1);
-    const {data, isLoading} = useLivingWord(book.id, chapter, verse);
-    const livingWord : LivingWord|undefined = data?.node;
-
-    if (isLoading) {
-        return <p>Loading...</p>;
-    }
-    if (!livingWord) {
-        return <p>Living Word not found</p>;
-    }
-
-
-    return (
-        <ContentEditorView
-            word={livingWord}
-            book={book}
-            chapter={chapter}
-            onUpdateChapter={setChapter}
-            verse={verse}
-            onUpdateVerse={setVerse}
-        />
-    );
-}
 
 interface ContentEditorViewProps {
     word: LivingWord;
@@ -67,7 +29,7 @@ interface ContentEditorViewProps {
     onUpdateVerse: (verse: number) => void;
 }
 
-function ContentEditorView({word, book, chapter, onUpdateChapter, verse, onUpdateVerse}: ContentEditorViewProps) {
+function ContentEditor({word, book, chapter, onUpdateChapter, verse, onUpdateVerse}: ContentEditorViewProps) {
     const [content, setContent] = useState(word.content);
     const [notes, setNotes] = useState(word.notes);
     const [storyIds, addStoryId, removeStoryId, clearStoryIds] = useListState<string>(word.story_ids || []);
@@ -115,3 +77,5 @@ function ContentEditorView({word, book, chapter, onUpdateChapter, verse, onUpdat
         </LeftRightWidget>
     );
 }
+
+export default ContentEditor;
