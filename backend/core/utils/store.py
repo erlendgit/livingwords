@@ -11,13 +11,15 @@ def store_living_word_data(payload: LivingWord):
         book_id=payload.book_id,
         chapter=payload.chapter,
         verse=payload.verse,
-        defaults={'text': payload.text, 'notes': payload.notes}
+        defaults={'content': payload.content, 'notes': payload.notes}
     )
 
     if not _created:
-        word.text = payload.text
+        word.content = payload.content
         word.notes = payload.notes
         word.save()
+
+    print(payload)
 
     _update_stories(word, payload.story_ids)
     _update_contexts(word, payload.context_ids)
@@ -36,6 +38,7 @@ def _update_stories(word, story_ids):
 
     word.stories.add(*(set(story_ids) - current_stories))
     word.stories.remove(*(current_stories - set(story_ids)))
+    print(word.stories.all())
 
 
 def _update_contexts(word, context_ids):
@@ -60,11 +63,12 @@ def _update_truths(word, truth_ids):
 
 
 def _update_agency(word, agent_id, role):
-    AgencyWord.objects.get_or_create(
-        agency_id=agent_id,
-        word=word,
-        role=role
-    )
+    if agent_id:
+        AgencyWord.objects.get_or_create(
+            agency_id=agent_id,
+            word=word,
+            role=role
+        )
     for ref in word.agency_refs.filter(role=role).all():
         if ref.agency_id != agent_id:
             ref.delete()

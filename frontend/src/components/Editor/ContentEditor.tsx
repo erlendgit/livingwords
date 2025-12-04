@@ -16,7 +16,7 @@ import {FlexWidget} from "../../widgets/layout/FlexWidget.tsx";
 import SpaceWidget from "../../widgets/layout/SpaceWidget.tsx";
 import {ScriptureAfterCard, ScriptureBeforeCard} from "./ScriptureCard.tsx";
 import LeftRightWidget from "../../widgets/containers/LeftRightWidget.tsx";
-import {type LivingWord} from "../../plugins/api/words.tsx";
+import {type LivingWord, useUpdateLivingWord} from "../../plugins/api/words.tsx";
 import {type Book} from "../../plugins/api/books.tsx";
 import useListState from "../../plugins/ListState.tsx";
 
@@ -30,6 +30,7 @@ interface ContentEditorViewProps {
 }
 
 function ContentEditor({word, book, chapter, onUpdateChapter, verse, onUpdateVerse}: ContentEditorViewProps) {
+    const {mutate: storeLivingWord, isPending, isError} = useUpdateLivingWord();
     const [content, setContent] = useState(word.content || "");
     const [notes, setNotes] = useState(word.notes || "");
     const [storyIds, addStoryId, removeStoryId, clearStoryIds] = useListState<string>(word.story_ids || []);
@@ -41,9 +42,22 @@ function ContentEditor({word, book, chapter, onUpdateChapter, verse, onUpdateVer
     const [listenerId, setListenerId] = useState<string | null>(word.listener_id);
     const [bystanderId, setBystanderId] = useState<string | null>(word.bystander_id);
 
-
     function handleSubmit() {
-        console.log("Submit pressed!")
+        storeLivingWord({
+            content,
+            book_id: book.id,
+            chapter,
+            verse,
+            notes,
+            narrator_id: narratorId,
+            speaker_id: speakerId,
+            listener_id: listenerId,
+            bystander_id: bystanderId,
+            story_ids: storyIds,
+            context_ids: contextIds,
+            question_ids: questionIds,
+            truth_ids: truthIds,
+        })
     }
 
     return (
@@ -53,6 +67,8 @@ function ContentEditor({word, book, chapter, onUpdateChapter, verse, onUpdateVer
                 <ScriptureBeforeCard bookId={book.id} chapter={chapter} verse={verse}/>
                 <EditContent title={"Content"} content={content} onChange={setContent}/>
                 <ScriptureAfterCard bookId={book.id} chapter={chapter} verse={verse}/>
+                {isPending && <p>Is storing...</p>}
+                {isError && <p>An error occured! Try again later.</p>}
                 <FlexWidget>
                     <EditChapter chapter={chapter} onChange={onUpdateChapter}/>
                     <EditVerse verse={verse} onChange={onUpdateVerse}/>

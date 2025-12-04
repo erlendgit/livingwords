@@ -15,6 +15,11 @@ class Word(SharedBaseModel):
         related_name='content'
     )
 
+    def get_agency_id_by_role(self, role):
+        if ref := self.agency_refs.filter(role=role).first():
+            return ref.agency_id
+        return None
+
     def __str__(self):
         return f"{self.book} {self.chapter}:{self.verse}; {self.content}"
 

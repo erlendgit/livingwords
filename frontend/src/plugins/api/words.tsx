@@ -19,10 +19,10 @@ export type LivingWord = {
     chapter: number;
     verse: number;
     notes: string;
-    narrator_id: string;
-    speaker_id: string;
-    listener_id: string;
-    bystander_id: string;
+    narrator_id: string | null;
+    speaker_id: string | null;
+    listener_id: string | null;
+    bystander_id: string | null;
     story_ids: string[];
     context_ids: string[];
     question_ids: string[];
