@@ -11,7 +11,9 @@ function useListState<T>(initialItems: T[] = []): UseListStateResult<T> {
     const [items, setItems] = useState<T[]>(initialItems);
 
     const addItem = (item: T) => {
-        setItems((prevItems) => [...prevItems, item]);
+        if (!items.includes(item)) {
+            setItems((prevItems) => [...prevItems, item]);
+        }
     };
 
     const removeItem = (item: T) => {

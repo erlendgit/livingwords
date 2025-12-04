@@ -1,7 +1,11 @@
 import {TruthCard, TruthCardView} from "./TruthCard.tsx";
-import {useTruthList} from "../../plugins/api/truths.tsx";
+import {type Truth, useTruthList} from "../../plugins/api/truths.tsx";
 import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
+import {ItemTableWidget} from "../../widgets/containers/TableWidget.tsx";
+
+const TruthList = ItemTableWidget<Truth>;
+const TruthIdList = ItemTableWidget<string>;
 
 interface TruthListSelectProps {
     ids: string[];
@@ -11,35 +15,35 @@ interface TruthListSelectProps {
     onDone: () => void;
 }
 
+
 export function TruthListSelect({ids, onAdd, onRemove, onAddNew, onDone}: TruthListSelectProps) {
     const {data, isLoading, isError} = useTruthList();
-    const truths = (data?.nodes || []).filter(truth => !ids.includes(truth.id));
-    // TODO: ook bij stories en context voor zo'n mechanisme zorgen.
-    const hasTruths = ids && ids.length > 0;
+    const available = (data?.nodes || []).filter(truth => !ids.includes(truth.id));
+    const hasTruths = ids.length > 0;
 
     return (
         <>
             {hasTruths && (
-                <ul>
-                    {ids.map((id) => (
-                        <li key={id}>
-                            <TruthCard truthId={id}/>
+                <TruthIdList
+                    items={ids}
+                    columnCallbacks={[
+                        (id: string) => <TruthCard truthId={id}/>,
+                        (id: string) => (
                             <SmallButtonWidget onClick={() => onRemove(id)}>Remove</SmallButtonWidget>
-                        </li>
-                    ))}
-                </ul>
+                        ),
+                    ]}/>
             )}
             {isLoading && <p>Loading truths...</p>}
             {isError && <p>Error while loading truths!</p>}
-            {truths && (
-                <ul>
-                    {truths.map((truth) => (
-                        <li key={truth.id}>
-                            <TruthCardView truth={truth}/>
+            {available.length > 0 && (
+                <TruthList
+                    items={available}
+                    columnCallbacks={[
+                        (truth: Truth) => <TruthCardView truth={truth}/>,
+                        (truth: Truth) => (
                             <SmallButtonWidget onClick={() => onAdd(truth.id)}>Add</SmallButtonWidget>
-                        </li>
-                    ))}
-                </ul>
+                        ),
+                    ]}/>
             )}
             <DialogActionsWidget>
                 <SmallButtonWidget onClick={onAddNew}>Create new</SmallButtonWidget>

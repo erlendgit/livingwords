@@ -2,6 +2,9 @@ import {type Story, useStoryList} from "../../plugins/api/stories.tsx";
 import {StoryCardView} from "./StoryCard.tsx";
 import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
+import {ItemTableWidget} from "../../widgets/containers/TableWidget.tsx";
+
+const StoryList = ItemTableWidget<Story>;
 
 interface StoryListSelectProps {
     ids: string[];
@@ -14,7 +17,8 @@ interface StoryListSelectProps {
 export function StoryListSelect({ids, onAdd, onRemove, onClose, onClickAdd}: StoryListSelectProps) {
     const {data, isLoading, isError} = useStoryList();
     const stories: Story[] = data?.nodes || [];
-    const hasStories: boolean = !!(stories && stories.length > 0)
+    const selected = stories.filter((story) => ids.includes(story.id));
+    const unselected = stories.filter((story) => !ids.includes(story.id));
 
     if (isLoading) {
         return <p>Loading stories...</p>
@@ -23,40 +27,29 @@ export function StoryListSelect({ids, onAdd, onRemove, onClose, onClickAdd}: Sto
         return <p>Error while loading stories!</p>
     }
 
-    // filter out already selected stories in "ids"
-    const selected = stories.filter((story) => ids.includes(story.id));
-    const unselected = stories.filter((story) => !ids.includes(story.id));
-
     return (
         <>
-            {hasStories &&
-                <table>
-                    {selected?.map((story) => (
-                        <tr>
-                            <td style={{width: "100%"}}>
-                                <StoryCardView story={story}/>
-                            </td>
-                            <td>
-                                <SmallButtonWidget onClick={() => onRemove(story.id)}>Remove</SmallButtonWidget>)
-                            </td>
-                        </tr>
-                    ))}
-                    {unselected?.map((story) => (
-                        <tr>
-                            <td style={{width: "100%"}}>
-                                <StoryCardView story={story}/>
-                            </td>
-                            <td>
-                                <SmallButtonWidget onClick={() => onAdd(story.id)}>Select</SmallButtonWidget>
-                            </td>
-                        </tr>
-                    ))}
-                </table>
-            }
-            {!hasStories && <p>No stories found yet.</p>}
+            {selected.length > 0 &&
+                <StoryList
+                    items={selected}
+                    columnCallbacks={[
+                        (story: Story) => <StoryCardView story={story}/>,
+                        (story: Story) => (
+                            <SmallButtonWidget onClick={() => onRemove(story.id)}>Remove</SmallButtonWidget>
+                        ),
+                    ]}/>}
+            {unselected.length > 0 &&
+                <StoryList
+                    items={unselected}
+                    columnCallbacks={[
+                        (story: Story) => <StoryCardView story={story}/>,
+                        (story: Story) => (
+                            <SmallButtonWidget onClick={() => onAdd(story.id)}>Select</SmallButtonWidget>
+                        ),
+                    ]}/>}
             <DialogActionsWidget>
                 <SmallButtonWidget onClick={onClickAdd}>Add story</SmallButtonWidget>
-                <SmallButtonWidget onClick={onClose}>Cancel</SmallButtonWidget>
+                <SmallButtonWidget onClick={onClose}>Done</SmallButtonWidget>
             </DialogActionsWidget>
         </>
     );

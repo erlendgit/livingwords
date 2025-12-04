@@ -1,7 +1,10 @@
-import {QuestionCard, QuestionCardView} from "./QuestionCard.tsx";
-import {useQuestionList} from "../../plugins/api/questions.tsx";
+import {QuestionCardView} from "./QuestionCard.tsx";
+import {type Question, useQuestionList} from "../../plugins/api/questions.tsx";
 import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
+import {ItemTableWidget} from "../../widgets/containers/TableWidget.tsx";
+
+const QuestionList = ItemTableWidget<Question>;
 
 interface QuestionListSelectProps {
     ids: string[];
@@ -13,33 +16,36 @@ interface QuestionListSelectProps {
 
 export function QuestionListSelect({ids, onAdd, onRemove, onAddNew, onCancel}: QuestionListSelectProps) {
     const {data, isLoading, isError} = useQuestionList();
-    const questions = (data?.nodes || []).filter(question => !ids.includes(question.id));
-    const hasQuestions = ids && ids.length > 0;
+    const questions = data?.nodes || [];
 
-    // TODO: moet eigenlijk een table worden.
+    const selected = questions.filter((item) => ids.includes(item.id))
+    const available = questions.filter((item) => !ids.includes(item.id))
+
     return (
         <>
-            {hasQuestions && (
-                <ul>
-                    {ids.map((id) => (
-                        <li key={id}>
-                            <QuestionCard questionId={id}/>
-                            <SmallButtonWidget onClick={() => onRemove(id)}>Remove</SmallButtonWidget>
-                        </li>
-                    ))}
-                </ul>
-            )}
             {isLoading && <p>Loading questions...</p>}
             {isError && <p>Error while loading questions!</p>}
-            {questions && (
-                <ul>
-                    {questions.map((question) => (
-                        <li key={question.id}>
-                            <QuestionCardView question={question}/>
-                            <SmallButtonWidget onClick={() => onAdd(question.id)}>Add</SmallButtonWidget>
-                        </li>
-                    ))}
-                </ul>
+            {selected.length > 0 && (
+                <QuestionList
+                    items={selected}
+                    columnCallbacks={[
+                        (question: Question) => <QuestionCardView question={question}/>,
+                        (question: Question) => <SmallButtonWidget
+                            onClick={() => onRemove(question.id)}>Remove</SmallButtonWidget>,
+                    ]}
+                >
+                </QuestionList>
+            )}
+            {available.length > 0 && (
+                <QuestionList
+                    items={available}
+                    columnCallbacks={[
+                        (question: Question) => <QuestionCardView question={question}/>,
+                        (question: Question) => <SmallButtonWidget
+                            onClick={() => onAdd(question.id)}>Add</SmallButtonWidget>,
+                    ]}
+                >
+                </QuestionList>
             )}
             <DialogActionsWidget>
                 <SmallButtonWidget onClick={onAddNew}>Create new</SmallButtonWidget>
@@ -48,3 +54,4 @@ export function QuestionListSelect({ids, onAdd, onRemove, onAddNew, onCancel}: Q
         </>
     );
 }
+

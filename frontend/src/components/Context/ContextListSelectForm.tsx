@@ -55,7 +55,7 @@ export function ContextListSelectForm({ids, onAdd, onRemove, onClose, onClickAdd
             {!hasStories && <p>No context found yet.</p>}
             <DialogActionsWidget>
                 <SmallButtonWidget onClick={onClickAdd}>Add context</SmallButtonWidget>
-                <SmallButtonWidget onClick={onClose}>Cancel</SmallButtonWidget>
+                <SmallButtonWidget onClick={onClose}>Done</SmallButtonWidget>
             </DialogActionsWidget>
         </>
     );

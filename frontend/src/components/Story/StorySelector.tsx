@@ -12,18 +12,22 @@ interface StorySelectProps {
 export function StorySelector({ids, onAdd, onRemove, onClose}: StorySelectProps) {
     const [step, setStep] = useState<string>("list");
 
-    const selectListView = () => setStep("list")
-    const selectAddView = () => setStep("add")
+    const handleShowListView = () => setStep("list")
+    const handleShowAddForm = () => setStep("add")
+    const handleAddNew = (id: string) => {
+        onAdd(id);
+        handleShowListView()
+    }
 
     return (
         <>
             {step === 'list' && <StoryListSelect ids={ids}
-                                                 onClickAdd={selectAddView}
+                                                 onClickAdd={handleShowAddForm}
                                                  onAdd={onAdd}
                                                  onRemove={onRemove}
                                                  onClose={onClose}/>}
-            {step === 'add' && <StoryAddSelect onClose={selectListView}
-                                               onSave={onAdd}/>}
+            {step === 'add' && <StoryAddSelect onClose={handleShowListView}
+                                               onSave={handleAddNew}/>}
         </>
     );
 }

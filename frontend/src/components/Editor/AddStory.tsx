@@ -4,7 +4,8 @@ import {StorySelector} from "../Story/StorySelector.tsx";
 import ModalDialogWidget from "../../widgets/containers/ModalDialogWidget.tsx";
 import SpaceWidget from "../../widgets/layout/SpaceWidget.tsx";
 import {FlexWidget} from "../../widgets/layout/FlexWidget.tsx";
-import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
+import {SmallButtonWidget, TextButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
+import {TableWidget} from "../../widgets/containers/TableWidget.tsx";
 
 interface AddStoryProps {
     ids: string[];
@@ -15,27 +16,40 @@ interface AddStoryProps {
 
 export function AddStory({ids, onAdd, onRemove, onClear}: AddStoryProps) {
     const [edit, setEdit] = useState<boolean>(false)
-    const handleOpen = () => setEdit(true);
-    const handleClose = () => setEdit(false);
+    const hasStories = ids.length > 0;
+
+    const handleOpenModal = () => setEdit(true);
+    const handleCloseModal = () => setEdit(false);
 
     return (
         <SpaceWidget>
-            {ids && (
-                <ul>
+            {hasStories && (
+                <TableWidget>
                     {ids.map((storyId) => (
-                        <StoryCard storyId={storyId}/>
+                        <tr>
+                            <td>
+                                <StoryCard storyId={storyId}/>
+                            </td>
+                            <td>
+                                <TextButtonWidget onClick={() => onRemove(storyId)}>
+                                    Remove
+                                </TextButtonWidget>
+                            </td>
+                        </tr>
                     ))}
-                </ul>
+                </TableWidget>
             )}
             <FlexWidget>
-                <SmallButtonWidget size={"small"} onClick={handleOpen}>Select story</SmallButtonWidget>
-                {ids && <SmallButtonWidget onClick={() => onClear()}>Clear value</SmallButtonWidget>}
+                <SmallButtonWidget size={"small"} onClick={handleOpenModal}>Select story</SmallButtonWidget>
+                {hasStories && <SmallButtonWidget onClick={() => onClear()}>Clear value</SmallButtonWidget>}
             </FlexWidget>
-            {edit && (
-                <ModalDialogWidget title={"Select a story"} onCancel={handleClose}>
-                    <StorySelector ids={ids} onAdd={onAdd} onRemove={onRemove} onClose={handleClose}/>
-                </ModalDialogWidget>
-            )}
+            {
+                edit && (
+                    <ModalDialogWidget title={"Select a story"} onCancel={handleCloseModal}>
+                        <StorySelector ids={ids} onAdd={onAdd} onRemove={onRemove} onClose={handleCloseModal}/>
+                    </ModalDialogWidget>
+                )
+            }
         </SpaceWidget>
     );
 }

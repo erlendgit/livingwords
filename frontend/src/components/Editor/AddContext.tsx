@@ -4,7 +4,8 @@ import {useState} from "react";
 import {ContextSelector} from "../Context/ContextSelector.tsx";
 import SpaceWidget from "../../widgets/layout/SpaceWidget.tsx";
 import {FlexWidget} from "../../widgets/layout/FlexWidget.tsx";
-import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
+import {SmallButtonWidget, TextButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
+import {TableWidget} from "../../widgets/containers/TableWidget.tsx";
 
 interface AddContextProps {
     ids: string[];
@@ -15,31 +16,33 @@ interface AddContextProps {
 
 export function AddContext({ids, onAdd, onRemove, onClear}: AddContextProps) {
     const [edit, setEdit] = useState<boolean>(false)
+    const hasContext = ids.length > 0
 
-    function onCloseModal() {
-        setEdit(false)
-    }
+    const handleShowModal = () => setEdit(true)
+    const handleCloseModal = () => setEdit(false)
 
     return (
         <SpaceWidget>
-            {ids && (
-                <ul>
+            {hasContext && (
+                <TableWidget>
                     {ids.map((id => (
-                            <li key={id}>
-                                <ContextCard contextId={id}/>
-                                <SmallButtonWidget onClick={() => onRemove(id)}>Remove</SmallButtonWidget>
-                            </li>
+                            <tr key={id}>
+                                <td><ContextCard contextId={id}/></td>
+                                <td>
+                                    <TextButtonWidget onClick={() => onRemove(id)}>Remove</TextButtonWidget>
+                                </td>
+                            </tr>
                         ))
                     )}
-                </ul>
+                </TableWidget>
             )}
             <FlexWidget>
-                <SmallButtonWidget onClick={() => setEdit(true)}>Add context</SmallButtonWidget>
-                {ids && <SmallButtonWidget onClick={onClear}>Clear context</SmallButtonWidget>}
+                <SmallButtonWidget onClick={handleShowModal}>Add context</SmallButtonWidget>
+                {hasContext && <SmallButtonWidget onClick={onClear}>Clear context</SmallButtonWidget>}
             </FlexWidget>
             {edit && (
-                <ModalDialogWidget title={"Describe the context"} onCancel={onCloseModal}>
-                    <ContextSelector ids={ids} onAdd={onAdd} onRemove={onRemove} onClose={onCloseModal}/>
+                <ModalDialogWidget title={"Describe the context"} onCancel={handleCloseModal}>
+                    <ContextSelector ids={ids} onAdd={onAdd} onRemove={onRemove} onClose={handleCloseModal}/>
                 </ModalDialogWidget>
             )}
         </SpaceWidget>

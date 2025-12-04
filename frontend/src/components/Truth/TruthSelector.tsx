@@ -11,13 +11,12 @@ interface TruthSelectorProps {
 
 export function TruthSelector({ids, onAdd, onRemove, onCancel}: TruthSelectorProps) {
     const [viewMode, setViewMode] = useState<string>("list");
-    const startListView = () => setViewMode("list");
-    const startAddView = () => setViewMode("add");
 
-    // TODO: ook bij story en context voor zo'n mechanisme zorgen.
-    function handleAddNew(id: string) {
+    const handleStartListView = () => setViewMode("list");
+    const handleStartAddView = () => setViewMode("add");
+    const handleAddNew = (id: string) => {
         onAdd(id);
-        startListView()
+        handleStartListView()
     }
 
     return (
@@ -27,13 +26,13 @@ export function TruthSelector({ids, onAdd, onRemove, onCancel}: TruthSelectorPro
                     ids={ids}
                     onAdd={onAdd}
                     onRemove={onRemove}
-                    onAddNew={startAddView}
+                    onAddNew={handleStartAddView}
                     onDone={onCancel}/>
             )}
             {viewMode === "add" && (
                 <TruthAddSelect
                     onSave={handleAddNew}
-                    onCancel={startListView}/>
+                    onCancel={handleStartListView}/>
             )}
         </div>
     );

@@ -12,18 +12,23 @@ interface ContextSelectProps {
 export function ContextSelector({ids, onAdd, onRemove, onClose}: ContextSelectProps) {
     const [step, setStep] = useState<string>("list");
 
-    const selectListView = () => setStep("list")
-    const selectAddView = () => setStep("add")
+    const handleShowListView = () => setStep("list")
+    const handleShowAddView = () => setStep("add")
+
+    function handleAddNew(id: string) {
+        onAdd(id);
+        handleShowListView()
+    }
 
     return (
         <>
             {step === 'list' && <ContextListSelectForm ids={ids}
-                                                       onClickAdd={selectAddView}
+                                                       onClickAdd={handleShowAddView}
                                                        onAdd={onAdd}
                                                        onRemove={onRemove}
                                                        onClose={onClose}/>}
-            {step === 'add' && <ContextAddSelectForm onClose={selectListView}
-                                                     onSave={onAdd}/>}
+            {step === 'add' && <ContextAddSelectForm onClose={handleShowListView}
+                                                     onSave={handleAddNew}/>}
         </>
     );
 }
