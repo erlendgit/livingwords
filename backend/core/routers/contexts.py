@@ -8,6 +8,7 @@ from ninja import Router, Schema
 from django.core.exceptions import ValidationError
 
 from core.models import StoryContext
+from shared.schemas import ErrorResponse
 
 router = Router()
 logger = logging.getLogger(__name__)
@@ -27,7 +28,7 @@ class ContextResponse(Schema):
     details: Union[str, None]
 
 
-@router.post("/", response={200: ContextResponse, 400: ContextResponse})
+@router.post("/", response={200: ContextResponse, 400: ErrorResponse})
 def add_context(request, payload: ContextIn):
     try:
         return ContextResponse(
@@ -36,12 +37,10 @@ def add_context(request, payload: ContextIn):
             ),
             details=None
         )
-    except Exception as e:
-        logger.error(format_exc())
-        return 400, ContextResponse(
-            node=None,
-            details=str(e)
-        )
+    except Exception:
+        msg = "Error on add context"
+        logger.exception(msg)
+        return 400, ErrorResponse(error=msg)
 
 
 class ContextListResponse(Schema):

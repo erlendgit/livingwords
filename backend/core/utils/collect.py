@@ -30,7 +30,6 @@ def get_living_word_data(book_id, chapter, verse) -> LivingWord:
     except Book.DoesNotExist:
         raise ValueError("Book does not exist")
     except Word.DoesNotExist:
-        logger.error("Word does not yet exist")
         return LivingWord(
             content="",
             book_id=book_id,

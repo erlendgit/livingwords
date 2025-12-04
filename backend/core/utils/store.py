@@ -19,8 +19,6 @@ def store_living_word_data(payload: LivingWord):
         word.notes = payload.notes
         word.save()
 
-    print(payload)
-
     _update_stories(word, payload.story_ids)
     _update_contexts(word, payload.context_ids)
     _update_questions(word, payload.question_ids)
@@ -38,7 +36,6 @@ def _update_stories(word, story_ids):
 
     word.stories.add(*(set(story_ids) - current_stories))
     word.stories.remove(*(current_stories - set(story_ids)))
-    print(word.stories.all())
 
 
 def _update_contexts(word, context_ids):

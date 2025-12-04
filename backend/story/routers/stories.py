@@ -6,6 +6,8 @@ from uuid import UUID
 from ninja import Router, Schema
 
 from django.core.exceptions import ValidationError
+
+from shared.schemas import ErrorResponse
 from story.models import Story
 
 router = Router()
@@ -28,7 +30,7 @@ class StoryResponse(Schema):
     details: Union[str, None]
 
 
-@router.post("/", response={200: StoryResponse, 400: StoryResponse})
+@router.post("/", response={200: StoryResponse, 400: ErrorResponse})
 def add_story(request, payload: StoryIn):
     try:
         if not payload.title:
@@ -41,12 +43,10 @@ def add_story(request, payload: StoryIn):
             ),
             details=None
         )
-    except Exception as e:
-        logger.error(format_exc())
-        return 400, StoryResponse(
-            node=None,
-            details=str(e)
-        )
+    except Exception:
+        msg = "Error when storing new story reference"
+        logger.exception(msg)
+        return 400, ErrorResponse(error=msg)
 
 
 class StoryListResponse(Schema):

@@ -11,13 +11,14 @@ router = Router()
 logger = logging.getLogger(__name__)
 
 
-@router.get("/{book_id}/{chapter}/{verse}/")
+@router.get("/{book_id}/{chapter}/{verse}/", response={200: LivingWordResponse, 400: ErrorResponse})
 def get_living_word(request, book_id: str, chapter: int, verse: int):
     try:
         return 200, _generic_living_word_response(book_id, chapter, verse)
-    except Exception as e:
-        logger.error(f"Error retrieving living word: {e}")
-        return {"error": "Unable to retrieve living word at this time."}
+    except Exception:
+        msg = "Error retrieving living word"
+        logger.exception(msg)
+        return ErrorResponse(error=msg)
 
 
 @router.post("/", response={200: LivingWordResponse, 400: ErrorResponse})
@@ -25,9 +26,10 @@ def store_living_word(request, payload: LivingWord):
     try:
         result = store_living_word_data(payload)
         return 200, _generic_living_word_response(result.book_id, result.chapter, result.verse)
-    except Exception as e:
-        logger.exception(f"Error saving living word")
-        return 400, {"error": "Unable to save living word at this time."}
+    except Exception:
+        msg = "Error saving living word"
+        logger.exception(msg)
+        return 400, ErrorResponse(msg=msg)
 
 
 def _generic_living_word_response(book_id, chapter, verse):
