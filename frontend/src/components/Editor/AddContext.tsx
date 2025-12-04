@@ -31,7 +31,7 @@ export function AddContext({ids, onAdd, onRemove, onClear}: AddContextProps) {
                     columnCallbacks={[
                         (id: string) => <ContextCard contextId={id}/>,
                         (id: string) => (
-                            <TextButtonWidget onClick={() => onRemove(id)}>Remove</TextButtonWidget>
+                            <TextButtonWidget onClick={() => onRemove(id)}>Deselect</TextButtonWidget>
                         ),
                     ]}/>
             )}

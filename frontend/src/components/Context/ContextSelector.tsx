@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {ContextListSelectForm} from "./ContextListSelectForm.tsx";
-import {ContextAddSelectForm} from "./ContextAddSelectForm.tsx";
+import {ContextAddSelectForm} from "./ContextSelectForm.tsx";
 
 interface ContextSelectProps {
     ids: string[],

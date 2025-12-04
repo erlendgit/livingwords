@@ -32,7 +32,7 @@ export function TruthListSelect({ids, onAdd, onRemove, onAddNew, onDone}: TruthL
                         (truth: Truth) => (
                             <>
                                 {ids.includes(truth.id) &&
-                                    <TextButtonWidget onClick={() => onRemove(truth.id)}>Remove</TextButtonWidget>}
+                                    <TextButtonWidget onClick={() => onRemove(truth.id)}>Deselect</TextButtonWidget>}
                                 {!ids.includes(truth.id) &&
                                     <SmallButtonWidget onClick={() => onAdd(truth.id)}>Select</SmallButtonWidget>}
                             </>

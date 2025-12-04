@@ -18,6 +18,6 @@ export function SmallButtonWidget(props: ButtonWidgetProps) {
 
 export function TextButtonWidget(props: ButtonWidgetProps) {
     return (
-        <Button variant={"text"} {...props} />
+        <SmallButtonWidget variant={"text"} {...props} />
     );
 }

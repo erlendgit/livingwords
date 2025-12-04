@@ -17,12 +17,7 @@ export type Context = {
     description: string;
 };
 
-export type AddContextPayload = {
-    description: string;
-};
-
-export type UpdateContextPayload = {
-    id: string;
+export type ContextPayload = {
     description: string;
 };
 
@@ -45,23 +40,23 @@ export function useContext(id: string) {
 export function useAddContext() {
     const queryClient = useQueryClient();
 
-    return useMutation<ContextItemResponse, Error, AddContextPayload>({
-        mutationFn: (payload) => apiPost<AddContextPayload, ContextItemResponse>("context/", payload),
+    return useMutation<ContextItemResponse, Error, ContextPayload>({
+        mutationFn: (payload) => apiPost<ContextPayload, ContextItemResponse>("context/", payload),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ["contexts"]});
         },
     });
 }
 
-export function useUpdateContext() {
+export function useUpdateContext(id: string) {
     const queryClient = useQueryClient();
 
-    return useMutation<ContextItemResponse, Error, UpdateContextPayload>({
+    return useMutation<ContextItemResponse, Error, ContextPayload>({
         mutationFn: (payload) =>
-            apiPost<UpdateContextPayload, ContextItemResponse>(`context/${payload.id}/`, payload),
-        onSuccess: (_, variables) => {
+            apiPost<ContextPayload, ContextItemResponse>(`context/${id}/`, payload),
+        onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ["contexts"]});
-            queryClient.invalidateQueries({queryKey: ["contexts", variables.id]});
+            queryClient.invalidateQueries({queryKey: ["contexts", id]});
         },
     });
 }

@@ -30,7 +30,7 @@ export function QuestionListSelect({ids, onAdd, onRemove, onAddNew, onCancel}: Q
                         (question: Question) => (
                             <>
                                 {ids.includes(question.id) &&
-                                    <TextButtonWidget onClick={() => onRemove(question.id)}>Remove</TextButtonWidget>}
+                                    <TextButtonWidget onClick={() => onRemove(question.id)}>Deselect</TextButtonWidget>}
                                 {!ids.includes(question.id) &&
                                     <SmallButtonWidget onClick={() => onAdd(question.id)}>Select</SmallButtonWidget>}
                             </>

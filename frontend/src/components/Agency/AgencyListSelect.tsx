@@ -5,6 +5,7 @@ import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.ts
 import {ItemTableWidget} from "../../widgets/containers/TableWidget.tsx";
 import {useState} from "react";
 import {AgencyUpdateSelect} from "./AgencyForm.tsx";
+import {FlexWidget} from "../../widgets/layout/FlexWidget.tsx";
 
 const AgencyList = ItemTableWidget<Agency>;
 
@@ -59,12 +60,12 @@ export function AgencyListSelectTab({agencyId, onSelect, onCreate, onEdit, onCan
                     columnCallbacks={[
                         (agency: Agency) => <AgencyCardView agency={agency}/>,
                         (agency: Agency) => (
-                            <>
+                            <FlexWidget>
                                 {agencyId !== agency.id ?
                                     <SmallButtonWidget onClick={() => onSelect(agency.id)}>Select</SmallButtonWidget> :
-                                    <TextButtonWidget onClick={() => onSelect(null)}>Remove</TextButtonWidget>}
+                                    <TextButtonWidget onClick={() => onSelect(null)}>Deselect</TextButtonWidget>}
                                 <TextButtonWidget onClick={() => onEdit(agency)}>Edit</TextButtonWidget>
-                            </>
+                            </FlexWidget>
                         ),
                     ]}/>
             )}

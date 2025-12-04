@@ -46,7 +46,7 @@ export function AgencySelect({
             )}
             <FlexWidget>
                 <SmallButtonWidget onClick={handleOpenForm}>{buttonLabel}</SmallButtonWidget>
-                {agencyId && <SmallButtonWidget onClick={() => setAgencyId(null)}>Remove</SmallButtonWidget>}
+                {agencyId && <SmallButtonWidget onClick={() => setAgencyId(null)}>Clear value</SmallButtonWidget>}
             </FlexWidget>
 
             {showForm && (

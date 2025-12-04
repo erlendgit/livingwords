@@ -35,7 +35,7 @@ export function StoryListSelect({ids, onAdd, onRemove, onClose, onClickAdd}: Sto
                         (story: Story) => (
                             <>
                                 {ids.includes(story.id) &&
-                                    <TextButtonWidget onClick={() => onRemove(story.id)}>Remove</TextButtonWidget>}
+                                    <TextButtonWidget onClick={() => onRemove(story.id)}>Deselect</TextButtonWidget>}
                                 {!ids.includes(story.id) &&
                                     <SmallButtonWidget onClick={() => onAdd(story.id)}>Select</SmallButtonWidget>}
                             </>

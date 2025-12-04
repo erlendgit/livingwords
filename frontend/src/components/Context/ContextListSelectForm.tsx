@@ -3,6 +3,9 @@ import {ContextCardView} from "./ContextCard.tsx";
 import {SmallButtonWidget, TextButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
 import {ItemTableWidget} from "../../widgets/containers/TableWidget.tsx";
+import {useState} from "react";
+import {ContextUpdateForm} from "./ContextSelectForm.tsx";
+import {FlexWidget} from "../../widgets/layout/FlexWidget.tsx";
 
 const ContextList = ItemTableWidget<Context>;
 
@@ -15,6 +18,36 @@ interface ContextSelectListProps {
 }
 
 export function ContextListSelectForm({ids, onAdd, onRemove, onClose, onClickAdd}: ContextSelectListProps) {
+    const [editing, setEditing] = useState<Context | null>(null);
+
+    const handleShowList = () => setEditing(null);
+    const handleShowEdit = (context: Context) => setEditing(context);
+
+    return (
+        <>
+            {editing && <ContextUpdateForm context={editing} onClose={handleShowList}/>}
+            {!editing &&
+                <ContextListSelectTab
+                    ids={ids}
+                    onAdd={onAdd}
+                    onEdit={handleShowEdit}
+                    onRemove={onRemove}
+                    onClickAdd={onClickAdd}
+                    onClose={onClose}/>}
+        </>
+    )
+}
+
+interface ContextListSelectTabProps {
+    ids: string[];
+    onAdd: (value: string) => void;
+    onEdit: (context: Context) => void;
+    onRemove: (value: string) => void;
+    onClickAdd: () => void;
+    onClose: () => void;
+}
+
+function ContextListSelectTab({ids, onAdd, onEdit, onRemove, onClickAdd, onClose}: ContextListSelectTabProps) {
     const {data, isLoading, isError} = useContextList();
     const contexts: Context[] = data?.nodes || [];
     const hasContext: boolean = contexts.length > 0
@@ -34,12 +67,13 @@ export function ContextListSelectForm({ids, onAdd, onRemove, onClose, onClickAdd
                     columnCallbacks={[
                         (context: Context) => <ContextCardView context={context}/>,
                         (context: Context) => (
-                            <>
+                            <FlexWidget>
                                 {ids.includes(context.id) &&
-                                    <TextButtonWidget onClick={() => onRemove(context.id)}>Remove</TextButtonWidget>}
+                                    <TextButtonWidget onClick={() => onRemove(context.id)}>Deselect</TextButtonWidget>}
                                 {!ids.includes(context.id) &&
                                     <SmallButtonWidget onClick={() => onAdd(context.id)}>Select</SmallButtonWidget>}
-                            </>
+                                <TextButtonWidget onClick={() => onEdit(context)}>Edit</TextButtonWidget>
+                            </FlexWidget>
                         ),
                     ]}/>
             }

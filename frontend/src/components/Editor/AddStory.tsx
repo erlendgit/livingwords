@@ -31,7 +31,7 @@ export function AddStory({ids, onAdd, onRemove, onClear}: AddStoryProps) {
                     columnCallbacks={[
                         (storyId: string) => <StoryCard storyId={storyId}/>,
                         (storyId: string) => (
-                            <TextButtonWidget onClick={() => onRemove(storyId)}>Remove</TextButtonWidget>
+                            <TextButtonWidget onClick={() => onRemove(storyId)}>Deselect</TextButtonWidget>
                         ),
                     ]}/>
 

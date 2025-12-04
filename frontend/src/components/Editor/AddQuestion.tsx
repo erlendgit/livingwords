@@ -31,7 +31,7 @@ export function AddQuestion({ids, onAdd, onRemove, onClear}: AddQuestionProps) {
                     columnCallbacks={[
                         (id: string) => <QuestionCard questionId={id}/>,
                         (id: string) => (
-                            <TextButtonWidget onClick={() => onRemove(id)}>Remove</TextButtonWidget>
+                            <TextButtonWidget onClick={() => onRemove(id)}>Deselect</TextButtonWidget>
                         ),
                     ]}/>
             )}

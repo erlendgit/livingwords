@@ -31,7 +31,7 @@ export function AddTruth({ids, onAdd, onRemove, onClear}: AddTruthProps) {
                     columnCallbacks={[
                         (id: string) => <TruthCard truthId={id}/>,
                         (id: string) => (
-                            <TextButtonWidget onClick={() => onRemove(id)}>Remove</TextButtonWidget>
+                            <TextButtonWidget onClick={() => onRemove(id)}>Deselect</TextButtonWidget>
                         ),
                     ]}/>
             )}

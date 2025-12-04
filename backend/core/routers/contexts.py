@@ -25,7 +25,6 @@ class ContextOut(Schema):
 
 class ContextResponse(Schema):
     node: Union[ContextOut, None]
-    details: Union[str, None]
 
 
 @router.post("/", response={200: ContextResponse, 400: ErrorResponse})
@@ -54,7 +53,7 @@ def list_context(request):
     )
 
 
-@router.get("/{id}/", response={200: ContextResponse, 404: ContextResponse})
+@router.get("/{id}/", response={200: ContextResponse, 404: ErrorResponse})
 def get_context(request, id):
     try:
         return ContextResponse(
@@ -62,7 +61,26 @@ def get_context(request, id):
             details=None,
         )
     except (StoryContext.DoesNotExist, ValueError, ValidationError):
-        return 404, ContextResponse(
-            node=None,
-            details="Not found"
+        return 404, ErrorResponse(
+            error="Not found"
         )
+
+
+@router.post("/{id}/", response={200: ContextResponse, 404: ErrorResponse, 400: ErrorResponse})
+def update_context(request, id, payload: ContextIn):
+    try:
+        context = StoryContext.objects.get(id=id)
+    except (StoryContext.DoesNotExist, ValueError, ValidationError):
+        return 404, ErrorResponse(error="Not found")
+
+    try:
+        context.description = payload.description
+        context.save()
+
+        return ContextResponse(
+            node=context,
+        )
+    except Exception:
+        msg = "Error on update context"
+        logger.exception(msg)
+        return 400, ErrorResponse(error=msg)
