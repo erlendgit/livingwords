@@ -15,25 +15,17 @@ interface AgencyListSelectProps {
     onCreate: () => void;
 }
 
-interface EditProps {
-    agency: Agency;
-    onCancel: () => void;
-}
-
 export function AgencyListSelect({agencyId, onSelect, onCreate, onCancel}: AgencyListSelectProps) {
-    const [editing, setEditing] = useState<EditProps | null>(null);
+    const [editing, setEditing] = useState<Agency | null>(null);
 
     const handleShowList = () => setEditing(null);
-    const handleShowEdit = (agency: Agency) => setEditing({
-        agency,
-        onCancel: handleShowList,
-    });
+    const handleShowEdit = (agency: Agency) => setEditing(agency);
 
     return (
         <>
             {editing &&
                 <AgencyUpdateSelect
-                    agency={editing.agency}
+                    agency={editing}
                     onCancel={handleShowList}/>}
             {!editing &&
                 <AgencyListSelectTab
