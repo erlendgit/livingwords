@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {EditContent} from "./EditContent.tsx";
 import {EditChapter} from "./EditChapter.tsx";
 import {EditVerse} from "./EditVerse.tsx";
@@ -18,7 +18,7 @@ import {ScriptureAfterCard, ScriptureBeforeCard} from "./ScriptureCard.tsx";
 import LeftRightWidget from "../../widgets/containers/LeftRightWidget.tsx";
 import {type LivingWord, useUpdateLivingWord} from "../../plugins/api/words.tsx";
 import {type Book} from "../../plugins/api/books.tsx";
-import useListState from "../../plugins/ListState.tsx";
+import {useListModifiers} from "../../plugins/ListModifiers.tsx";
 
 interface ContentEditorViewProps {
     word: LivingWord;
@@ -31,33 +31,28 @@ interface ContentEditorViewProps {
 
 function ContentEditor({word, book, chapter, onUpdateChapter, verse, onUpdateVerse}: ContentEditorViewProps) {
     const {mutate: storeLivingWord, isPending, isError} = useUpdateLivingWord();
-    const [content, setContent] = useState(word.content || "");
-    const [notes, setNotes] = useState(word.notes || "");
-    const [storyIds, addStoryId, removeStoryId, clearStoryIds] = useListState<string>(word.story_ids || []);
-    const [contextIds, addContextId, removeContextId, clearContextIds] = useListState<string>(word.context_ids || []);
-    const [questionIds, addQuestionId, removeQuestionId, clearQuestionIds] = useListState<string>(word.question_ids || []);
-    const [truthIds, addTruthId, removeTruthId, clearTruthIds] = useListState<string>(word.truth_ids || []);
-    const [narratorId, setNarratorId] = useState<string | null>(word.narrator_id);
-    const [speakerId, setSpeakerId] = useState<string | null>(word.speaker_id);
-    const [listenerId, setListenerId] = useState<string | null>(word.listener_id);
-    const [bystanderId, setBystanderId] = useState<string | null>(word.bystander_id);
+    const [formValues, setFormValues] = useState<LivingWord>(word);
+    const setContent = (content: string) => setFormValues({...formValues, content});
+    const setNotes = (notes: string) => setFormValues({...formValues, notes});
+    const setStoryIds = (story_ids: string[]) => setFormValues({...formValues, story_ids});
+    const [addStoryId, removeStoryId, clearStoryIds] = useListModifiers<string>(formValues.story_ids, setStoryIds);
+    const setContextIds = (context_ids: string[]) => setFormValues({...formValues, context_ids});
+    const [addContextId, removeContextId, clearContextIds] = useListModifiers<string>(formValues.context_ids, setContextIds);
+    const setQuestionIds = (question_ids: string[]) => setFormValues({...formValues, question_ids});
+    const [addQuestionId, removeQuestionId, clearQuestionIds] = useListModifiers<string>(formValues.question_ids, setQuestionIds);
+    const setTruthIds = (truth_ids: string[]) => setFormValues({...formValues, truth_ids});
+    const [addTruthId, removeTruthId, clearTruthIds] = useListModifiers<string>(formValues.truth_ids, setTruthIds);
+    const setNarratorId = (narrator_id: string | null) => setFormValues({...formValues, narrator_id});
+    const setSpeakerId = (speaker_id: string | null) => setFormValues({...formValues, speaker_id});
+    const setListenerId = (listener_id: string | null) => setFormValues({...formValues, listener_id});
+    const setBystanderId = (bystander_id: string | null) => setFormValues({...formValues, bystander_id});
+
+    useEffect(() => {
+        setFormValues(word)
+    }, [word]);
 
     function handleSubmit() {
-        storeLivingWord({
-            content,
-            book_id: book.id,
-            chapter,
-            verse,
-            notes,
-            narrator_id: narratorId,
-            speaker_id: speakerId,
-            listener_id: listenerId,
-            bystander_id: bystanderId,
-            story_ids: storyIds,
-            context_ids: contextIds,
-            question_ids: questionIds,
-            truth_ids: truthIds,
-        })
+        storeLivingWord(formValues)
     }
 
     return (
@@ -65,7 +60,7 @@ function ContentEditor({word, book, chapter, onUpdateChapter, verse, onUpdateVer
             <SpaceWidget>
                 <BookCardView book={book} display={{withLink: false}}/>
                 <ScriptureBeforeCard bookId={book.id} chapter={chapter} verse={verse}/>
-                <EditContent title={"Content"} content={content} onChange={setContent}/>
+                <EditContent title={"Content"} content={formValues.content} onChange={setContent}/>
                 <ScriptureAfterCard bookId={book.id} chapter={chapter} verse={verse}/>
                 {isPending && <p>Is storing...</p>}
                 {isError && <p>An error occured! Try again later.</p>}
@@ -74,21 +69,21 @@ function ContentEditor({word, book, chapter, onUpdateChapter, verse, onUpdateVer
                     <EditVerse verse={verse} onChange={onUpdateVerse}/>
                     <EditSubmit onSubmit={handleSubmit}/>
                 </FlexWidget>
-                <EditContent title={"Write your notes here"} content={notes} onChange={setNotes}/>
+                <EditContent title={"Write your notes here"} content={formValues.notes} onChange={setNotes}/>
             </SpaceWidget>
             <SpaceWidget>
                 <FlexWidget>
-                    <AddStory ids={storyIds} onAdd={addStoryId} onRemove={removeStoryId} onClear={clearStoryIds}/>
-                    <AddContext ids={contextIds} onAdd={addContextId} onRemove={removeContextId} onClear={clearContextIds}/>
+                    <AddStory ids={formValues.story_ids || []} onAdd={addStoryId} onRemove={removeStoryId} onClear={clearStoryIds}/>
+                    <AddContext ids={formValues.context_ids || []} onAdd={addContextId} onRemove={removeContextId} onClear={clearContextIds}/>
                 </FlexWidget>
                 <FlexWidget>
-                    <AddTruth ids={truthIds} onAdd={addTruthId} onRemove={removeTruthId} onClear={clearTruthIds}/>
-                    <AddQuestion ids={questionIds} onAdd={addQuestionId} onRemove={removeQuestionId} onClear={clearQuestionIds}/>
+                    <AddTruth ids={formValues.truth_ids || []} onAdd={addTruthId} onRemove={removeTruthId} onClear={clearTruthIds}/>
+                    <AddQuestion ids={formValues.question_ids || []} onAdd={addQuestionId} onRemove={removeQuestionId} onClear={clearQuestionIds}/>
                 </FlexWidget>
-                <AddNarrator narratorId={narratorId} onChange={setNarratorId}/>
-                <AddSpeaker speakerId={speakerId} onChange={setSpeakerId}/>
-                <AddListener listenerId={listenerId} onChange={setListenerId}/>
-                <AddBystander bystanderId={bystanderId} onChange={setBystanderId}/>
+                <AddNarrator narratorId={formValues.narrator_id} onChange={setNarratorId}/>
+                <AddSpeaker speakerId={formValues.speaker_id} onChange={setSpeakerId}/>
+                <AddListener listenerId={formValues.listener_id} onChange={setListenerId}/>
+                <AddBystander bystanderId={formValues.bystander_id} onChange={setBystanderId}/>
             </SpaceWidget>
         </LeftRightWidget>
     );

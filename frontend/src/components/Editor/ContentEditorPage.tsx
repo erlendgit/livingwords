@@ -32,6 +32,8 @@ export function ContentEditorLoader({book}: { book: Book }) {
         return <p>Verse not found</p>;
     }
 
+    console.log("rebuild with", livingWord)
+
     return (
         <ContentEditor
             word={livingWord}
