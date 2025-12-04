@@ -38,7 +38,7 @@ export function AddQuestion({ids, onAdd, onRemove, onClear}: AddQuestionProps) {
             <FlexWidget>
                 <SmallButtonWidget onClick={handleOpenModal}>Add question</SmallButtonWidget>
                 {hasQuestions && (
-                    <SmallButtonWidget onClick={onClear}>Clear all</SmallButtonWidget>
+                    <SmallButtonWidget onClick={onClear}>Clear value</SmallButtonWidget>
                 )}
             </FlexWidget>
             {edit && (

@@ -37,7 +37,7 @@ export function AddTruth({ids, onAdd, onRemove, onClear}: AddTruthProps) {
             )}
             <FlexWidget>
                 <SmallButtonWidget onClick={handleOpenModal}>Select truth</SmallButtonWidget>
-                {hasTruths && <SmallButtonWidget onClick={onClear}>Clear all truths</SmallButtonWidget>}
+                {hasTruths && <SmallButtonWidget onClick={onClear}>Clear value</SmallButtonWidget>}
             </FlexWidget>
             {
                 edit && (

@@ -18,13 +18,7 @@ export type AgencyItemResponse = {
     detail?: string;
 };
 
-export type AddAgencyPayload = {
-    description: string;
-    person_ids?: string[];
-};
-
-export type UpdateAgencyPayload = {
-    id: string;
+export type AgencyPayload = {
     description: string;
     person_ids?: string[];
 };
@@ -48,27 +42,27 @@ export function useAgency(id: string) {
 export function useAddAgency() {
     const queryClient = useQueryClient();
 
-    return useMutation<AgencyItemResponse, Error, AddAgencyPayload>({
+    return useMutation<AgencyItemResponse, Error, AgencyPayload>({
         mutationFn: (payload) =>
-            apiPost<AddAgencyPayload, AgencyItemResponse>("agency/", payload),
+            apiPost<AgencyPayload, AgencyItemResponse>("agency/", payload),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ["agencies"]});
         },
     });
 }
 
-export function useUpdateAgency() {
+export function useUpdateAgency(id: string) {
     const queryClient = useQueryClient();
 
-    return useMutation<AgencyItemResponse, Error, UpdateAgencyPayload>({
+    return useMutation<AgencyItemResponse, Error, AgencyPayload>({
         mutationFn: (payload) =>
-            apiPost<UpdateAgencyPayload, AgencyItemResponse>(
-                `agency/${payload.id}/`,
+            apiPost<AgencyPayload, AgencyItemResponse>(
+                `agency/${id}/`,
                 payload,
             ),
-        onSuccess: (_, variables) => {
+        onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ["agencies"]});
-            queryClient.invalidateQueries({queryKey: ["agencies", variables.id]});
+            queryClient.invalidateQueries({queryKey: ["agencies", id]});
         },
     });
 }

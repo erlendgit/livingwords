@@ -37,7 +37,7 @@ export function AddContext({ids, onAdd, onRemove, onClear}: AddContextProps) {
             )}
             <FlexWidget>
                 <SmallButtonWidget onClick={handleShowModal}>Add context</SmallButtonWidget>
-                {hasContext && <SmallButtonWidget onClick={onClear}>Clear context</SmallButtonWidget>}
+                {hasContext && <SmallButtonWidget onClick={onClear}>Clear value</SmallButtonWidget>}
             </FlexWidget>
             {edit && (
                 <ModalDialogWidget title={"Describe the context"} onCancel={handleCloseModal}>
