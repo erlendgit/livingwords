@@ -5,7 +5,9 @@ import {ContextSelector} from "../Context/ContextSelector.tsx";
 import SpaceWidget from "../../widgets/layout/SpaceWidget.tsx";
 import {FlexWidget} from "../../widgets/layout/FlexWidget.tsx";
 import {SmallButtonWidget, TextButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
-import {TableWidget} from "../../widgets/containers/TableWidget.tsx";
+import {ItemTableWidget} from "../../widgets/containers/TableWidget.tsx";
+
+const ContextIdList = ItemTableWidget<string>;
 
 interface AddContextProps {
     ids: string[];
@@ -24,17 +26,14 @@ export function AddContext({ids, onAdd, onRemove, onClear}: AddContextProps) {
     return (
         <SpaceWidget>
             {hasContext && (
-                <TableWidget>
-                    {ids.map((id => (
-                            <tr key={id}>
-                                <td><ContextCard contextId={id}/></td>
-                                <td>
-                                    <TextButtonWidget onClick={() => onRemove(id)}>Remove</TextButtonWidget>
-                                </td>
-                            </tr>
-                        ))
-                    )}
-                </TableWidget>
+                <ContextIdList
+                    items={ids}
+                    columnCallbacks={[
+                        (id: string) => <ContextCard contextId={id}/>,
+                        (id: string) => (
+                            <TextButtonWidget onClick={() => onRemove(id)}>Remove</TextButtonWidget>
+                        ),
+                    ]}/>
             )}
             <FlexWidget>
                 <SmallButtonWidget onClick={handleShowModal}>Add context</SmallButtonWidget>

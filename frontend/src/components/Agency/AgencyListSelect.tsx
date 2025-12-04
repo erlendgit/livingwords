@@ -1,7 +1,10 @@
-import {useAgencyList} from "../../plugins/api/agencies.tsx";
+import {type Agency, useAgencyList} from "../../plugins/api/agencies.tsx";
 import {AgencyCardView} from "./AgencyCard.tsx";
-import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
+import {SmallButtonWidget, TextButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
+import {ItemTableWidget} from "../../widgets/containers/TableWidget.tsx";
+
+const AgencyList = ItemTableWidget<Agency>;
 
 interface AgencyListSelectProps {
     agencyId: string | null;
@@ -17,22 +20,21 @@ export function AgencyListSelect({agencyId, onSelect, onCreate, onCancel}: Agenc
 
     return (
         <>
-            <div>
-                {hasAgencies && (
-                    <ul>
-                        {agencies.map((agency) => (
-                            <li>
-                                <AgencyCardView agency={agency}/>
-                                {agencyId !== agency.id && <SmallButtonWidget onClick={() => onSelect(agency.id)}>Select</SmallButtonWidget>}
-                                {agencyId === agency.id && <SmallButtonWidget onClick={() => onSelect(null)}>Deselect</SmallButtonWidget>}
-                            </li>
-                        ))}
-                    </ul>
-                )}
-                {!hasAgencies && <p>No agencies available.</p>}
-                {isLoading && <p>Loading...</p>}
-                {isError && <p>Error: {(error as Error).message}</p>}
-            </div>
+            {hasAgencies && (
+                <AgencyList
+                    items={agencies}
+                    columnCallbacks={[
+                        (agency: Agency) => <AgencyCardView agency={agency}/>,
+                        (agency: Agency) => (
+                            agencyId !== agency.id ?
+                                <SmallButtonWidget onClick={() => onSelect(agency.id)}>Select</SmallButtonWidget> :
+                                <TextButtonWidget onClick={() => onSelect(null)}>Remove</TextButtonWidget>
+                        ),
+                    ]}/>
+            )}
+            {!hasAgencies && <p>No agencies available.</p>}
+            {isLoading && <p>Loading...</p>}
+            {isError && <p>Error: {(error as Error).message}</p>}
             <DialogActionsWidget>
                 <SmallButtonWidget onClick={onCreate}>Create new agency</SmallButtonWidget>
                 <SmallButtonWidget onClick={onCancel}>Cancel</SmallButtonWidget>

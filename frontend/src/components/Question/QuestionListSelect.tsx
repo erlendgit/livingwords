@@ -1,6 +1,6 @@
 import {QuestionCardView} from "./QuestionCard.tsx";
 import {type Question, useQuestionList} from "../../plugins/api/questions.tsx";
-import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
+import {SmallButtonWidget, TextButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
 import {ItemTableWidget} from "../../widgets/containers/TableWidget.tsx";
 
@@ -18,31 +18,23 @@ export function QuestionListSelect({ids, onAdd, onRemove, onAddNew, onCancel}: Q
     const {data, isLoading, isError} = useQuestionList();
     const questions = data?.nodes || [];
 
-    const selected = questions.filter((item) => ids.includes(item.id))
-    const available = questions.filter((item) => !ids.includes(item.id))
-
     return (
         <>
             {isLoading && <p>Loading questions...</p>}
             {isError && <p>Error while loading questions!</p>}
-            {selected.length > 0 && (
+            {questions.length > 0 && (
                 <QuestionList
-                    items={selected}
+                    items={questions}
                     columnCallbacks={[
                         (question: Question) => <QuestionCardView question={question}/>,
-                        (question: Question) => <SmallButtonWidget
-                            onClick={() => onRemove(question.id)}>Remove</SmallButtonWidget>,
-                    ]}
-                >
-                </QuestionList>
-            )}
-            {available.length > 0 && (
-                <QuestionList
-                    items={available}
-                    columnCallbacks={[
-                        (question: Question) => <QuestionCardView question={question}/>,
-                        (question: Question) => <SmallButtonWidget
-                            onClick={() => onAdd(question.id)}>Add</SmallButtonWidget>,
+                        (question: Question) => (
+                            <>
+                                {ids.includes(question.id) &&
+                                    <TextButtonWidget onClick={() => onRemove(question.id)}>Remove</TextButtonWidget>}
+                                {!ids.includes(question.id) &&
+                                    <SmallButtonWidget onClick={() => onAdd(question.id)}>Select</SmallButtonWidget>}
+                            </>
+                        ),
                     ]}
                 >
                 </QuestionList>

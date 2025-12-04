@@ -5,7 +5,9 @@ import ModalDialogWidget from "../../widgets/containers/ModalDialogWidget.tsx";
 import SpaceWidget from "../../widgets/layout/SpaceWidget.tsx";
 import {FlexWidget} from "../../widgets/layout/FlexWidget.tsx";
 import {SmallButtonWidget, TextButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
-import {TableWidget} from "../../widgets/containers/TableWidget.tsx";
+import {ItemTableWidget} from "../../widgets/containers/TableWidget.tsx";
+
+const StoryIdList = ItemTableWidget<string>;
 
 interface AddStoryProps {
     ids: string[];
@@ -24,20 +26,15 @@ export function AddStory({ids, onAdd, onRemove, onClear}: AddStoryProps) {
     return (
         <SpaceWidget>
             {hasStories && (
-                <TableWidget>
-                    {ids.map((storyId) => (
-                        <tr>
-                            <td>
-                                <StoryCard storyId={storyId}/>
-                            </td>
-                            <td>
-                                <TextButtonWidget onClick={() => onRemove(storyId)}>
-                                    Remove
-                                </TextButtonWidget>
-                            </td>
-                        </tr>
-                    ))}
-                </TableWidget>
+                <StoryIdList
+                    items={ids}
+                    columnCallbacks={[
+                        (storyId: string) => <StoryCard storyId={storyId}/>,
+                        (storyId: string) => (
+                            <TextButtonWidget onClick={() => onRemove(storyId)}>Remove</TextButtonWidget>
+                        ),
+                    ]}/>
+
             )}
             <FlexWidget>
                 <SmallButtonWidget size={"small"} onClick={handleOpenModal}>Select story</SmallButtonWidget>

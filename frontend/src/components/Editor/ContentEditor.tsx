@@ -30,8 +30,8 @@ interface ContentEditorViewProps {
 }
 
 function ContentEditor({word, book, chapter, onUpdateChapter, verse, onUpdateVerse}: ContentEditorViewProps) {
-    const [content, setContent] = useState(word.content);
-    const [notes, setNotes] = useState(word.notes);
+    const [content, setContent] = useState(word.content || "");
+    const [notes, setNotes] = useState(word.notes || "");
     const [storyIds, addStoryId, removeStoryId, clearStoryIds] = useListState<string>(word.story_ids || []);
     const [contextIds, addContextId, removeContextId, clearContextIds] = useListState<string>(word.context_ids || []);
     const [questionIds, addQuestionId, removeQuestionId, clearQuestionIds] = useListState<string>(word.question_ids || []);

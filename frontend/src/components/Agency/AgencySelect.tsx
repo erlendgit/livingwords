@@ -28,10 +28,12 @@ export function AgencySelect({
     const handleSwitchToAdd = () => setViewMode('add');
     const handleSwitchToList = () => setViewMode('list');
 
-    function handleSelect(agencyId: string|null) {
+    function handleSelect(agencyId: string | null) {
         setAgencyId(agencyId);
         handleSwitchToList();
-        handleCloseForm();
+        if (agencyId) {
+            handleCloseForm();
+        }
     }
 
     return (
@@ -49,7 +51,9 @@ export function AgencySelect({
 
             {showForm && (
                 <ModalDialogWidget title={formTitle} onCancel={handleCloseForm}>
-                    {viewMode === 'list' && <AgencyListSelect agencyId={agencyId} onSelect={handleSelect} onCreate={handleSwitchToAdd} onCancel={handleCloseForm}/>}
+                    {viewMode === 'list' &&
+                        <AgencyListSelect agencyId={agencyId} onSelect={handleSelect} onCreate={handleSwitchToAdd}
+                                          onCancel={handleCloseForm}/>}
                     {viewMode === 'add' && <AgencyCreateSelect onSelect={handleSelect} onCancel={handleSwitchToList}/>}
                 </ModalDialogWidget>
             )}
