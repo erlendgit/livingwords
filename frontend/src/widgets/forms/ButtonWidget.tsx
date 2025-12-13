@@ -21,3 +21,9 @@ export function TextButtonWidget(props: ButtonWidgetProps) {
         <SmallButtonWidget variant={"text"} {...props} />
     );
 }
+
+export function LinkButtonWidget(props: ButtonWidgetProps) {
+    return (
+        <ButtonWidget variant={"outlined"} size={"small"} {...props} />
+    );
+}

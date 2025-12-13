@@ -5,6 +5,11 @@ import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.ts
 import FormWidget from "../../widgets/forms/FormWidget.tsx";
 import FieldsetWidget from "../../widgets/forms/FieldsetWidget.tsx";
 import {MultilineTextInputWidget} from "../../widgets/forms/TextInputWidget.tsx";
+import type {Person} from "../../plugins/api/persons.tsx";
+import useListState from "../../plugins/ListState.tsx";
+import {PersonCardDeck} from "./PersonCard.tsx";
+import {PersonListSelect} from "./PersonListSelect.tsx";
+import {AddPersonFormSelect, UpdatePersonForm} from "./PersonForm.tsx";
 
 interface AgencyCreateSelectProps {
     onSelect: (value: string) => void;
@@ -68,7 +73,66 @@ interface AgencyFormProps {
     children?: React.ReactNode;
 }
 
+interface PersonFormState {
+    mode: "create" | "update";
+    editing?: Person;
+}
+
 export function AgencyForm({agency, onSave, onCancel, children}: AgencyFormProps) {
+    const [formState, setFormState] = useState<PersonFormState>();
+    const [personIds, addPersonId, removePersonId] = useListState<string>(agency?.persons.map(p => p.id) || []);
+
+    const handleShowAgencyForm = () => setFormState(undefined);
+    const handleShowAddPersonform = () => setFormState({mode: "create"});
+    const handleShowEditPersonForm = (person: Person) => setFormState({mode: "update", editing: person});
+
+    function handleSave(value: AgencyPayload) {
+        value.person_ids = personIds
+        onSave(value);
+    }
+
+    function handleAddPersonSave(personId: string) {
+        addPersonId(personId);
+        handleShowAgencyForm();
+    }
+
+    if (formState && formState.editing) {
+        return (
+            <UpdatePersonForm
+                person={formState.editing}
+                onClose={handleShowAgencyForm}/>
+        )
+    } else if (formState) {
+        return (
+            <AddPersonFormSelect
+                onSave={handleAddPersonSave}
+                onClose={handleShowAgencyForm}/>
+        )
+    }
+
+    return (
+        <AgencyDetailForm
+            agency={agency}
+            onSave={handleSave}
+            onCancel={onCancel}>
+            <PersonCardDeck
+                ids={personIds}
+                onEdit={handleShowEditPersonForm}
+                onRemove={removePersonId}
+            />
+            <SmallButtonWidget onClick={handleShowAddPersonform}>Add Person</SmallButtonWidget>
+            <PersonListSelect
+                ids={personIds}
+                onSelect={addPersonId}
+                onDeselect={removePersonId}
+                onEdit={handleShowEditPersonForm}
+            />
+            {children}
+        </AgencyDetailForm>
+    )
+}
+
+export function AgencyDetailForm({agency, onSave, onCancel, children}: AgencyFormProps) {
     const [description, setDescription] = useState<string>(() => agency?.description || "");
 
     function handleSave() {

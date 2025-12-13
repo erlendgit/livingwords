@@ -14,13 +14,9 @@ interface AgencySelectProps {
     setAgencyId: (value: string | null) => void
 }
 
-export function AgencySelect({
-                                 description,
-                                 formTitle,
-                                 buttonLabel,
-                                 agencyId,
-                                 setAgencyId
-                             }: AgencySelectProps) {
+export function AgencySelect(props: AgencySelectProps) {
+    const {description, formTitle, buttonLabel} = props;
+    const {agencyId, setAgencyId} = props;
     const [showForm, setShowForm] = useState(false);
     const [viewMode, setViewMode] = useState<'list' | 'add'>('list');
     const handleOpenForm = () => setShowForm(true);

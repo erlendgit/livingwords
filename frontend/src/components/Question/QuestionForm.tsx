@@ -97,7 +97,7 @@ function QuestionForm({question, onSave, onCancel, children}: QuestionFormProps)
             </FieldsetWidget>
             {children}
             <DialogActionsWidget>
-                <SmallButtonWidget onClick={handleSave}>Add new question</SmallButtonWidget>
+                <SmallButtonWidget onClick={handleSave}>Save</SmallButtonWidget>
                 <SmallButtonWidget onClick={onCancel}>Cancel</SmallButtonWidget>
             </DialogActionsWidget>
         </FormWidget>

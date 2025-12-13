@@ -12,3 +12,16 @@ export function FlexWidget(props: BoxProps) {
             {...props} />
     );
 }
+
+export function FlexEndWidget(props: BoxProps) {
+    return (
+        <Box
+            sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: ".5rem",
+                "& > *": {flex: 'none'}
+            }}
+            {...props} />
+    );
+}

@@ -17,13 +17,7 @@ export type PersonItemResponse = {
     detail?: string;
 };
 
-export type AddPersonPayload = {
-    name: string;
-    biography?: string | null;
-};
-
-export type UpdatePersonPayload = {
-    id: string;
+export type PersonPayload = {
     name: string;
     biography?: string | null;
 };
@@ -47,27 +41,27 @@ export function usePerson(id: string) {
 export function useAddPerson() {
     const queryClient = useQueryClient();
 
-    return useMutation<PersonItemResponse, Error, AddPersonPayload>({
+    return useMutation<PersonItemResponse, Error, PersonPayload>({
         mutationFn: (payload) =>
-            apiPost<AddPersonPayload, PersonItemResponse>("person/", payload),
+            apiPost<PersonPayload, PersonItemResponse>("person/", payload),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ["persons"]});
         },
     });
 }
 
-export function useUpdatePerson() {
+export function useUpdatePerson(id: string) {
     const queryClient = useQueryClient();
 
-    return useMutation<PersonItemResponse, Error, UpdatePersonPayload>({
+    return useMutation<PersonItemResponse, Error, PersonPayload>({
         mutationFn: (payload) =>
-            apiPost<UpdatePersonPayload, PersonItemResponse>(
-                `person/${payload.id}/`,
+            apiPost<PersonPayload, PersonItemResponse>(
+                `person/${id}/`,
                 payload,
             ),
-        onSuccess: (_, variables) => {
+        onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ["persons"]});
-            queryClient.invalidateQueries({queryKey: ["persons", variables.id]});
+            queryClient.invalidateQueries({queryKey: ["persons", id]});
         },
     });
 }
