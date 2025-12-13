@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {QuestionListSelect} from "./QuestionListSelect.tsx";
-import {QuestionAddSelect} from "./QuestionAddSelect.tsx";
+import {QuestionAddSelect} from "./QuestionForm.tsx";
 
 interface QuestionSelectorProps {
     ids: string[],

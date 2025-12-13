@@ -1,5 +1,5 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiGet, apiPost } from "./api.tsx";
+import {useQuery, useMutation, useQueryClient} from "@tanstack/react-query";
+import {apiGet, apiPost} from "./api.tsx";
 
 export type QuestionListResponse = {
     nodes?: Question[];
@@ -17,13 +17,7 @@ export type Question = {
     answer: string | null;
 };
 
-export type AddQuestionPayload = {
-    question: string;
-    answer?: string | null;
-};
-
-export type UpdateQuestionPayload = {
-    id: string;
+export type QuestionPayload = {
     question: string;
     answer?: string | null;
 };
@@ -47,27 +41,24 @@ export function useQuestion(id: string) {
 export function useAddQuestion() {
     const queryClient = useQueryClient();
 
-    return useMutation<QuestionItemResponse, Error, AddQuestionPayload>({
+    return useMutation<QuestionItemResponse, Error, QuestionPayload>({
         mutationFn: (payload) =>
-            apiPost<AddQuestionPayload, QuestionItemResponse>("question/", payload),
+            apiPost<QuestionPayload, QuestionItemResponse>("question/", payload),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["questions"] });
+            queryClient.invalidateQueries({queryKey: ["questions"]});
         },
     });
 }
 
-export function useUpdateQuestion() {
+export function useUpdateQuestion(id: string) {
     const queryClient = useQueryClient();
 
-    return useMutation<QuestionItemResponse, Error, UpdateQuestionPayload>({
+    return useMutation<QuestionItemResponse, Error, QuestionPayload>({
         mutationFn: (payload) =>
-            apiPost<UpdateQuestionPayload, QuestionItemResponse>(
-                `question/${payload.id}/`,
-                payload,
-            ),
-        onSuccess: (_, variables) => {
-            queryClient.invalidateQueries({ queryKey: ["questions"] });
-            queryClient.invalidateQueries({ queryKey: ["questions", variables.id] });
+            apiPost<QuestionPayload, QuestionItemResponse>(`question/${id}/`, payload),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ["questions"]});
+            queryClient.invalidateQueries({queryKey: ["questions", id]});
         },
     });
 }
