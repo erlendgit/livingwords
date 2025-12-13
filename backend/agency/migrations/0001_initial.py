@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -28,7 +27,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('role', models.TextField(choices=[('narrator', 'Narrator'), ('speaker', 'Main Character'), ('listener', 'Supporting Character'), ('bystander', 'Bystander')])),
+                ('role', models.TextField(choices=[('narrator', 'Narrator'), ('speaker', 'Main Character'),
+                                                   ('listener', 'Supporting Character'), ('bystander', 'Bystander')])),
             ],
             options={
                 'abstract': False,

@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -23,7 +22,8 @@ class Migration(migrations.Migration):
                 ('notes', models.TextField(blank=True, null=True)),
                 ('verse', models.IntegerField()),
                 ('chapter', models.IntegerField()),
-                ('book', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='content', to='book.book')),
+                ('book', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='content',
+                                           to='book.book')),
             ],
             options={
                 'abstract': False,

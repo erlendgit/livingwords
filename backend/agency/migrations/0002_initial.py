@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -22,12 +21,14 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='agencyword',
             name='agency',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='word_refs', to='agency.agency'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='word_refs',
+                                    to='agency.agency'),
         ),
         migrations.AddField(
             model_name='agencyword',
             name='word',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='agency_refs', to='core.word'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='agency_refs',
+                                    to='core.word'),
         ),
         migrations.AddField(
             model_name='agency',

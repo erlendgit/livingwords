@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Word,  StoryContext
+from .models import Word, StoryContext
 
 
 @admin.register(Word)
@@ -15,4 +15,3 @@ class ContextAdmin(admin.ModelAdmin):
     list_display = ("description",)
     search_fields = ("description",)
     ordering = ("description",)
-

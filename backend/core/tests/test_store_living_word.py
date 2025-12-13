@@ -130,7 +130,6 @@ class TestUpdateAgencyTestCase(TestCase):
         self.agency2 = agency_factory(description="Agency 2")
         self.agency3 = agency_factory(description="Agency 3")
 
-
     def test_update_agency(self):
         _update_agency(self.word, self.agency1.id, RoleChoices.narrator.value)
 

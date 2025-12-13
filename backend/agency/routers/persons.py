@@ -37,8 +37,10 @@ def list_people(request):
 
 @router.get("/{id}/", response={200: PersonResponse, 404: PersonErrorResponse})
 def get_person(request, id: str):
-    try: return 200, PersonResponse(node=Person.objects.get(id=id))
-    except Person.DoesNotExist: return 404, PersonErrorResponse(details="Not found")
+    try:
+        return 200, PersonResponse(node=Person.objects.get(id=id))
+    except Person.DoesNotExist:
+        return 404, PersonErrorResponse(details="Not found")
 
 
 @router.post("/", response={201: PersonResponse, 400: PersonErrorResponse})
@@ -51,7 +53,11 @@ def add_person(request, payload: PersonIn):
 @router.post("/{id}/", response={200: PersonResponse, 400: PersonErrorResponse, 404: PersonErrorResponse})
 def update_person(request, id: str, payload: PersonIn):
     if not payload.name or payload.name.strip() == "": return 400, PersonErrorResponse(details="Name cannot be empty")
-    try: person = Person.objects.get(id=id)
-    except Person.DoesNotExist: return 404, PersonErrorResponse(details="Not found")
-    person.name = payload.name; person.biography = payload.biography; person.save()
+    try:
+        person = Person.objects.get(id=id)
+    except Person.DoesNotExist:
+        return 404, PersonErrorResponse(details="Not found")
+    person.name = payload.name;
+    person.biography = payload.biography;
+    person.save()
     return 200, PersonResponse(node=person)
