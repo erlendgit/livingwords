@@ -46,7 +46,6 @@ export function ContextUpdateForm({context, onClose}: ContextUpdateFormProps) {
     }
 
     useEffect(() => {
-        // TODO: Als er een fout optreedt sluit ie het scherm toch.
         if (data?.node && !isPending && !isError) {
             onClose();
         }
@@ -74,7 +73,6 @@ function ContextForm({context, onSave, onClose, children}: ContextFormProps) {
         onSave({
             description,
         })
-        onClose()
     }
 
     return (

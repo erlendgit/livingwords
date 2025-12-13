@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {StoryListSelect} from "./StoryListSelect.tsx";
-import {StoryAddSelect} from "./StoryAddSelect.tsx";
+import {StoryAddSelectForm} from "./StoryForm.tsx";
 
 interface StorySelectProps {
     ids: string[];
@@ -26,8 +26,8 @@ export function StorySelector({ids, onAdd, onRemove, onClose}: StorySelectProps)
                                                  onAdd={onAdd}
                                                  onRemove={onRemove}
                                                  onClose={onClose}/>}
-            {step === 'add' && <StoryAddSelect onClose={handleShowListView}
-                                               onSave={handleAddNew}/>}
+            {step === 'add' && <StoryAddSelectForm onClose={handleShowListView}
+                                                   onSave={handleAddNew}/>}
         </>
     );
 }

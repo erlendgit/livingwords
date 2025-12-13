@@ -15,15 +15,10 @@ export type StoryItemResponse = {
 export type Story = {
     id: string;
     title: string;
-};
-
-export type AddStoryPayload = {
-    title: string;
     summary: string;
 };
 
-export type UpdateStoryPayload = {
-    id: string;
+export type StoryPayload = {
     title: string;
     summary: string;
 };
@@ -47,23 +42,23 @@ export function useStory(id: string) {
 export function useAddStory() {
     const queryClient = useQueryClient();
 
-    return useMutation<StoryItemResponse, Error, AddStoryPayload>({
-        mutationFn: (payload) => apiPost<AddStoryPayload, StoryItemResponse>("story/", payload),
+    return useMutation<StoryItemResponse, Error, StoryPayload>({
+        mutationFn: (payload) => apiPost<StoryPayload, StoryItemResponse>("story/", payload),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ["stories"]});
         },
     });
 }
 
-export function useUpdateStory() {
+export function useUpdateStory(id: string) {
     const queryClient = useQueryClient();
 
-    return useMutation<StoryItemResponse, Error, UpdateStoryPayload>({
+    return useMutation<StoryItemResponse, Error, StoryPayload>({
         mutationFn: (payload) =>
-            apiPost<UpdateStoryPayload, StoryItemResponse>(`story/${payload.id}/`, payload),
-        onSuccess: (_, variables) => {
+            apiPost<StoryPayload, StoryItemResponse>(`story/${id}/`, payload),
+        onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ["stories"]});
-            queryClient.invalidateQueries({queryKey: ["stories", variables.id]});
+            queryClient.invalidateQueries({queryKey: ["stories", id]});
         },
     });
 }
