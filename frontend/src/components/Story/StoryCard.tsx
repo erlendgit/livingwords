@@ -1,26 +1,24 @@
-import {type Story, useStory} from "../../plugins/api/stories.tsx";
+import { type Story, useStory } from "../../plugins/api/stories.tsx";
 
 interface StoryCardProps {
-    storyId: string
+    storyId: string;
 }
 
 interface StoryCardViewProps {
-    story: Story,
+    story: Story;
 }
 
-export function StoryCard({storyId}: StoryCardProps) {
-    const {data, isLoading, isError, error} = useStory(storyId);
-    const story = data?.node
+export function StoryCard({ storyId }: StoryCardProps) {
+    const { data, isLoading, isError, error } = useStory(storyId);
+    const story = data?.node;
 
     if (isLoading) return <p>Loading {storyId}...</p>;
     if (isError) return <p>Error: {(error as Error).message}</p>;
     if (!story) return <p>Story {storyId} not found</p>;
 
-    return <StoryCardView story={story}/>
+    return <StoryCardView story={story} />;
 }
 
-export function StoryCardView({story}: StoryCardViewProps) {
-    return (
-        <div>{story.title}</div>
-    )
+export function StoryCardView({ story }: StoryCardViewProps) {
+    return <div>{story.title}</div>;
 }

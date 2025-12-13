@@ -21,10 +21,10 @@ type IntegerInputWidgetProps = Omit<
 };
 
 export function IntegerInputWidget({
-                                       value,
-                                       onChange,
-                                       ...props
-                                   }: IntegerInputWidgetProps) {
+    value,
+    onChange,
+    ...props
+}: IntegerInputWidgetProps) {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const parsed = parseInt(event.target.value, 10);
         onChange(Number.isNaN(parsed) ? 0 : parsed);

@@ -1,4 +1,4 @@
-import {AgencySelect} from "../Agency/AgencySelect.tsx";
+import { AgencySelect } from "../Agency/AgencySelect.tsx";
 import SpaceWidget from "../../widgets/layout/SpaceWidget.tsx";
 
 interface AddBystanderProps {
@@ -6,14 +6,16 @@ interface AddBystanderProps {
     onChange: (value: string | null) => void;
 }
 
-export function AddBystander({bystanderId, onChange}: AddBystanderProps) {
+export function AddBystander({ bystanderId, onChange }: AddBystanderProps) {
     return (
         <SpaceWidget>
-            <AgencySelect formTitle={"Omstander(s) toevoegen"}
-                          description={"Dit zijn de omstanders"}
-                          buttonLabel={"Omstanders kiezen"}
-                          agencyId={bystanderId}
-                          setAgencyId={onChange}/>
+            <AgencySelect
+                formTitle={"Omstander(s) toevoegen"}
+                description={"Dit zijn de omstanders"}
+                buttonLabel={"Omstanders kiezen"}
+                agencyId={bystanderId}
+                setAgencyId={onChange}
+            />
         </SpaceWidget>
     );
 }

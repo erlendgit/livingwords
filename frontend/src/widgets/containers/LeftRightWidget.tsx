@@ -1,4 +1,4 @@
-import {Box, type BoxProps} from "@mui/material";
+import { Box, type BoxProps } from "@mui/material";
 
 function LeftRightWidget(props: BoxProps) {
     return (
@@ -8,9 +8,10 @@ function LeftRightWidget(props: BoxProps) {
                 justifyContent: "space-between",
                 flexWrap: "wrap",
                 gap: "1rem",
-                "& > *": {flex: 1}
+                "& > *": { flex: 1 },
             }}
-            {...props} />
+            {...props}
+        />
     );
 }
 

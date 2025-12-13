@@ -1,23 +1,28 @@
-import {useState} from "react";
-import {TruthListSelectForm} from "./TruthListSelect.tsx";
-import {TruthAddSelect} from "./TruthAddSelect.tsx";
+import { useState } from "react";
+import { TruthListSelectForm } from "./TruthListSelect.tsx";
+import { TruthAddSelect } from "./TruthAddSelect.tsx";
 
 interface TruthSelectorProps {
-    ids: string[],
-    onAdd: (value: string) => void,
-    onRemove: (value: string) => void,
-    onCancel: () => void,
+    ids: string[];
+    onAdd: (value: string) => void;
+    onRemove: (value: string) => void;
+    onCancel: () => void;
 }
 
-export function TruthSelector({ids, onAdd, onRemove, onCancel}: TruthSelectorProps) {
+export function TruthSelector({
+    ids,
+    onAdd,
+    onRemove,
+    onCancel,
+}: TruthSelectorProps) {
     const [viewMode, setViewMode] = useState<string>("list");
 
     const handleStartListView = () => setViewMode("list");
     const handleStartAddView = () => setViewMode("add");
     const handleAddNew = (id: string) => {
         onAdd(id);
-        handleStartListView()
-    }
+        handleStartListView();
+    };
 
     return (
         <div>
@@ -27,14 +32,15 @@ export function TruthSelector({ids, onAdd, onRemove, onCancel}: TruthSelectorPro
                     onAdd={onAdd}
                     onRemove={onRemove}
                     onAddNew={handleStartAddView}
-                    onDone={onCancel}/>
+                    onDone={onCancel}
+                />
             )}
             {viewMode === "add" && (
                 <TruthAddSelect
                     onSave={handleAddNew}
-                    onCancel={handleStartListView}/>
+                    onCancel={handleStartListView}
+                />
             )}
         </div>
     );
-
 }

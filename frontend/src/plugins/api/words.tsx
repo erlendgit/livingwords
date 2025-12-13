@@ -1,5 +1,5 @@
-import {useQuery, useMutation, useQueryClient} from "@tanstack/react-query";
-import {apiGet, apiPost} from "./api.tsx";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiGet, apiPost } from "./api.tsx";
 
 export type LivingWordListResponse = {
     nodes?: LivingWord[];
@@ -11,7 +11,7 @@ export type LivingWordResponse = {
     before?: LivingWordListResponse;
     after?: LivingWordListResponse;
     detail?: string;
-}
+};
 
 export type LivingWord = {
     content: string;
@@ -32,7 +32,8 @@ export type LivingWord = {
 export function useLivingWord(bookId: string, chapter: number, verse: number) {
     return useQuery({
         queryKey: ["words", bookId, chapter, verse],
-        queryFn: () => apiGet<LivingWordResponse>(`word/${bookId}/${chapter}/${verse}/`),
+        queryFn: () =>
+            apiGet<LivingWordResponse>(`word/${bookId}/${chapter}/${verse}/`),
         staleTime: 1000 * 60,
     });
 }
@@ -44,7 +45,14 @@ export function useUpdateLivingWord() {
         mutationFn: (payload) =>
             apiPost<LivingWord, LivingWordResponse>(`word/`, payload),
         onSuccess: (_, payload) => {
-            queryClient.invalidateQueries({queryKey: ["words", payload.book_id, payload.chapter, payload.verse]});
+            queryClient.invalidateQueries({
+                queryKey: [
+                    "words",
+                    payload.book_id,
+                    payload.chapter,
+                    payload.verse,
+                ],
+            });
         },
     });
 }

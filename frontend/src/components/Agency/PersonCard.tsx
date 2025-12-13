@@ -1,6 +1,6 @@
-import {type Person, usePerson} from "../../plugins/api/persons.tsx";
-import {LabelListWidget} from "../../widgets/containers/LabelListWidget.tsx";
-import {LinkButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
+import { type Person, usePerson } from "../../plugins/api/persons.tsx";
+import { LabelListWidget } from "../../widgets/containers/LabelListWidget.tsx";
+import { LinkButtonWidget } from "../../widgets/forms/ButtonWidget.tsx";
 
 interface PersonCardDeckProps {
     ids: string[];
@@ -8,12 +8,14 @@ interface PersonCardDeckProps {
     onRemove?: (id: string) => void;
 }
 
-export function PersonCardDeck({ids, onEdit, onRemove}: PersonCardDeckProps) {
+export function PersonCardDeck({ ids, onEdit, onRemove }: PersonCardDeckProps) {
     return (
-        <LabelListWidget items={
-            ids.map(id => <PersonCard id={id} onEdit={onEdit} onRemove={onRemove}/>)
-        }/>
-    )
+        <LabelListWidget
+            items={ids.map((id) => (
+                <PersonCard id={id} onEdit={onEdit} onRemove={onRemove} />
+            ))}
+        />
+    );
 }
 
 interface PersonCardProps {
@@ -22,9 +24,9 @@ interface PersonCardProps {
     onRemove?: (id: string) => void;
 }
 
-export function PersonCard({id, onEdit, onRemove}: PersonCardProps) {
-    const {data, isLoading, isError} = usePerson(id)
-    const person : Person | undefined = data?.node;
+export function PersonCard({ id, onEdit, onRemove }: PersonCardProps) {
+    const { data, isLoading, isError } = usePerson(id);
+    const person: Person | undefined = data?.node;
 
     if (isLoading) {
         return <span>Loading person...</span>;
@@ -34,7 +36,7 @@ export function PersonCard({id, onEdit, onRemove}: PersonCardProps) {
     }
 
     return (
-        <PersonCardView person={person} onEdit={onEdit} onRemove={onRemove}/>
+        <PersonCardView person={person} onEdit={onEdit} onRemove={onRemove} />
     );
 }
 
@@ -44,15 +46,23 @@ interface PersonCardViewProps {
     onRemove?: (id: string) => void;
 }
 
-export function PersonCardView({person, onEdit, onRemove}: PersonCardViewProps) {
+export function PersonCardView({
+    person,
+    onEdit,
+    onRemove,
+}: PersonCardViewProps) {
     return (
         <>
             <span> {person.name} </span>
             {onEdit && (
-                <LinkButtonWidget onClick={() => onEdit(person)}>Edit</LinkButtonWidget>
+                <LinkButtonWidget onClick={() => onEdit(person)}>
+                    Edit
+                </LinkButtonWidget>
             )}
             {onRemove && (
-                <LinkButtonWidget onClick={() => onRemove(person.id)}>Remove</LinkButtonWidget>
+                <LinkButtonWidget onClick={() => onRemove(person.id)}>
+                    Remove
+                </LinkButtonWidget>
             )}
         </>
     );

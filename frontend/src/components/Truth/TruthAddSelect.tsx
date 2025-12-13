@@ -1,9 +1,14 @@
-import {useEffect, useState} from "react";
-import {type TruthPayload, type Truth, useAddTruth, useUpdateTruth} from "../../plugins/api/truths.tsx";
-import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
-import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
+import { useEffect, useState } from "react";
+import {
+    type TruthPayload,
+    type Truth,
+    useAddTruth,
+    useUpdateTruth,
+} from "../../plugins/api/truths.tsx";
+import { SmallButtonWidget } from "../../widgets/forms/ButtonWidget.tsx";
+import { DialogActionsWidget } from "../../widgets/containers/ModalDialogWidget.tsx";
 import FieldsetWidget from "../../widgets/forms/FieldsetWidget.tsx";
-import {MultilineTextInputWidget} from "../../widgets/forms/TextInputWidget.tsx";
+import { MultilineTextInputWidget } from "../../widgets/forms/TextInputWidget.tsx";
 import FormWidget from "../../widgets/forms/FormWidget.tsx";
 
 interface TruthAddSelectProps {
@@ -11,8 +16,8 @@ interface TruthAddSelectProps {
     onCancel: () => void;
 }
 
-export function TruthAddSelect({onSave, onCancel}: TruthAddSelectProps) {
-    const {mutate: addTruth, data, isPending, isError} = useAddTruth();
+export function TruthAddSelect({ onSave, onCancel }: TruthAddSelectProps) {
+    const { mutate: addTruth, data, isPending, isError } = useAddTruth();
     const truth = data?.node;
 
     function handleSave(value: TruthPayload) {
@@ -30,7 +35,7 @@ export function TruthAddSelect({onSave, onCancel}: TruthAddSelectProps) {
             {isPending && <p>Storing the truth...</p>}
             {isError && <p>Truth could not be stored.</p>}
         </TruthForm>
-    )
+    );
 }
 
 interface TruthUpdateFormProps {
@@ -38,8 +43,13 @@ interface TruthUpdateFormProps {
     onClose: () => void;
 }
 
-export function TruthUpdateForm({truth, onClose}: TruthUpdateFormProps) {
-    const {mutate: updateTruth, data, isPending, isError} = useUpdateTruth(truth.id);
+export function TruthUpdateForm({ truth, onClose }: TruthUpdateFormProps) {
+    const {
+        mutate: updateTruth,
+        data,
+        isPending,
+        isError,
+    } = useUpdateTruth(truth.id);
 
     function handleSave(value: TruthPayload) {
         updateTruth(value);
@@ -56,7 +66,7 @@ export function TruthUpdateForm({truth, onClose}: TruthUpdateFormProps) {
             {isPending && <p>Updating the truth...</p>}
             {isError && <p>Truth could not be updated.</p>}
         </TruthForm>
-    )
+    );
 }
 
 interface TruthFormProps {
@@ -66,11 +76,11 @@ interface TruthFormProps {
     children?: React.ReactNode;
 }
 
-function TruthForm({truth, onSave, onCancel, children}: TruthFormProps) {
+function TruthForm({ truth, onSave, onCancel, children }: TruthFormProps) {
     const [statement, setStatement] = useState<string>(truth?.statement || "");
 
     function handleSave() {
-        onSave({statement});
+        onSave({ statement });
     }
 
     return (
@@ -80,7 +90,8 @@ function TruthForm({truth, onSave, onCancel, children}: TruthFormProps) {
                     label="Truth statement"
                     rows={3}
                     value={statement}
-                    onChange={(e) => setStatement(e.target.value)}/>
+                    onChange={(e) => setStatement(e.target.value)}
+                />
             </FieldsetWidget>
             {children}
             <DialogActionsWidget>

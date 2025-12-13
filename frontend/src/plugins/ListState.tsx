@@ -1,10 +1,10 @@
-import {useState} from "react";
+import { useState } from "react";
 
 type UseListStateResult<T> = [
     T[],
     (item: T) => void,
     (item: T) => void,
-    () => void
+    () => void,
 ];
 
 function useListState<T>(initialItems: T[] = []): UseListStateResult<T> {
@@ -24,12 +24,7 @@ function useListState<T>(initialItems: T[] = []): UseListStateResult<T> {
         setItems([]);
     };
 
-    return [
-        items,
-        addItem,
-        removeItem,
-        clearItems,
-    ];
+    return [items, addItem, removeItem, clearItems];
 }
 
 export default useListState;

@@ -1,20 +1,20 @@
-import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import {apiGet, apiPost} from "./api.tsx";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { apiGet, apiPost } from "./api.tsx";
 
 export type BookListResponse = {
     nodes?: Book[];
     detail?: string;
-}
+};
 
 export type BookItemResponse = {
     node?: Book;
     detail?: string;
-}
+};
 
 export type AddBookPayload = {
-    title: string,
-    summary?: string,
-}
+    title: string;
+    summary?: string;
+};
 
 export type Book = {
     id: string;
@@ -42,22 +42,23 @@ export function useAddBook() {
     const queryClient = useQueryClient();
 
     return useMutation<BookItemResponse, Error, AddBookPayload>({
-        mutationFn: (payload) => apiPost<AddBookPayload, BookItemResponse>("book/", payload),
+        mutationFn: (payload) =>
+            apiPost<AddBookPayload, BookItemResponse>("book/", payload),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ["books"]});
+            queryClient.invalidateQueries({ queryKey: ["books"] });
         },
     });
 }
-
 
 export function useEditBook(id: string) {
     const queryClient = useQueryClient();
 
     return useMutation<BookItemResponse, Error, AddBookPayload>({
-        mutationFn: (payload) => apiPost<AddBookPayload, BookItemResponse>(`book/${id}/`, payload),
+        mutationFn: (payload) =>
+            apiPost<AddBookPayload, BookItemResponse>(`book/${id}/`, payload),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ["books"]});
-            queryClient.invalidateQueries({queryKey: ["books", id]});
+            queryClient.invalidateQueries({ queryKey: ["books"] });
+            queryClient.invalidateQueries({ queryKey: ["books", id] });
         },
     });
 }

@@ -1,4 +1,4 @@
-import {Box, type BoxProps} from "@mui/material";
+import { Box, type BoxProps } from "@mui/material";
 
 export function FlexWidget(props: BoxProps) {
     return (
@@ -7,9 +7,10 @@ export function FlexWidget(props: BoxProps) {
                 display: "flex",
                 justifyContent: "space-between",
                 gap: ".5rem",
-                "& > *": {flex: 1}
+                "& > *": { flex: 1 },
             }}
-            {...props} />
+            {...props}
+        />
     );
 }
 
@@ -20,8 +21,9 @@ export function FlexEndWidget(props: BoxProps) {
                 display: "flex",
                 justifyContent: "flex-end",
                 gap: ".5rem",
-                "& > *": {flex: 'none'}
+                "& > *": { flex: "none" },
             }}
-            {...props} />
+            {...props}
+        />
     );
 }

@@ -1,12 +1,12 @@
-import {useParams} from "react-router-dom";
-import {type Book, useBook} from "../../plugins/api/books.tsx";
-import {useState} from "react";
-import {type LivingWord, useLivingWord} from "../../plugins/api/words.tsx";
+import { useParams } from "react-router-dom";
+import { type Book, useBook } from "../../plugins/api/books.tsx";
+import { useState } from "react";
+import { type LivingWord, useLivingWord } from "../../plugins/api/words.tsx";
 import ContentEditor from "./ContentEditor.tsx";
 
 function ContentEditorPage() {
-    const {id: bookId} = useParams<{ id: string }>();
-    const {data, isLoading} = useBook(bookId!);
+    const { id: bookId } = useParams<{ id: string }>();
+    const { data, isLoading } = useBook(bookId!);
     const book: Book | undefined = data?.node;
 
     if (isLoading) {
@@ -16,13 +16,13 @@ function ContentEditorPage() {
         return <p>Book not found</p>;
     }
 
-    return <ContentEditorLoader book={book}/>;
+    return <ContentEditorLoader book={book} />;
 }
 
-export function ContentEditorLoader({book}: { book: Book }) {
+export function ContentEditorLoader({ book }: { book: Book }) {
     const [chapter, setChapter] = useState(1);
     const [verse, setVerse] = useState(1);
-    const {data, isLoading} = useLivingWord(book.id, chapter, verse);
+    const { data, isLoading } = useLivingWord(book.id, chapter, verse);
     const livingWord: LivingWord | undefined = data?.node;
 
     if (isLoading) {
@@ -32,7 +32,7 @@ export function ContentEditorLoader({book}: { book: Book }) {
         return <p>Verse not found</p>;
     }
 
-    console.log("rebuild with", livingWord)
+    console.log("rebuild with", livingWord);
 
     return (
         <ContentEditor

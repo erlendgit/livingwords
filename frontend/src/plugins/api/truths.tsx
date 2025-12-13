@@ -1,5 +1,5 @@
-import {useQuery, useMutation, useQueryClient} from "@tanstack/react-query";
-import {apiGet, apiPost} from "./api.tsx";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiGet, apiPost } from "./api.tsx";
 
 export type TruthListResponse = {
     nodes?: Truth[];
@@ -43,7 +43,7 @@ export function useAddTruth() {
         mutationFn: (payload) =>
             apiPost<TruthPayload, TruthItemResponse>("truth/", payload),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ["truths"]});
+            queryClient.invalidateQueries({ queryKey: ["truths"] });
         },
     });
 }
@@ -53,13 +53,10 @@ export function useUpdateTruth(id: string) {
 
     return useMutation<TruthItemResponse, Error, TruthPayload>({
         mutationFn: (payload) =>
-            apiPost<TruthPayload, TruthItemResponse>(
-                `truth/${id}/`,
-                payload,
-            ),
+            apiPost<TruthPayload, TruthItemResponse>(`truth/${id}/`, payload),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ["truths"]});
-            queryClient.invalidateQueries({queryKey: ["truths", id]});
+            queryClient.invalidateQueries({ queryKey: ["truths"] });
+            queryClient.invalidateQueries({ queryKey: ["truths", id] });
         },
     });
 }

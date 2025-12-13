@@ -1,5 +1,5 @@
-import {useQuery, useMutation, useQueryClient} from "@tanstack/react-query";
-import {apiGet, apiPost} from "./api.tsx";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiGet, apiPost } from "./api.tsx";
 
 export type Person = {
     id: string;
@@ -23,10 +23,10 @@ export type PersonPayload = {
     biography?: string | null;
 };
 
-export function usePersonList(query: string="") {
+export function usePersonList(query: string = "") {
     return useQuery({
         queryKey: ["persons"],
-        queryFn: () => apiGet<PersonListResponse>("person/", {query}),
+        queryFn: () => apiGet<PersonListResponse>("person/", { query }),
         staleTime: 1000 * 60,
     });
 }
@@ -46,7 +46,7 @@ export function useAddPerson() {
         mutationFn: (payload) =>
             apiPost<PersonPayload, PersonItemResponse>("person/", payload),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ["persons"]});
+            queryClient.invalidateQueries({ queryKey: ["persons"] });
         },
     });
 }
@@ -61,8 +61,8 @@ export function useUpdatePerson(id: string) {
                 payload,
             ),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ["persons"]});
-            queryClient.invalidateQueries({queryKey: ["persons", id]});
+            queryClient.invalidateQueries({ queryKey: ["persons"] });
+            queryClient.invalidateQueries({ queryKey: ["persons", id] });
         },
     });
 }

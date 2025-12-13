@@ -1,5 +1,5 @@
-import {useQuery, useMutation, useQueryClient} from "@tanstack/react-query";
-import {apiGet, apiPost} from "./api.tsx";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiGet, apiPost } from "./api.tsx";
 
 export type QuestionListResponse = {
     nodes?: Question[];
@@ -43,9 +43,12 @@ export function useAddQuestion() {
 
     return useMutation<QuestionItemResponse, Error, QuestionPayload>({
         mutationFn: (payload) =>
-            apiPost<QuestionPayload, QuestionItemResponse>("question/", payload),
+            apiPost<QuestionPayload, QuestionItemResponse>(
+                "question/",
+                payload,
+            ),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ["questions"]});
+            queryClient.invalidateQueries({ queryKey: ["questions"] });
         },
     });
 }
@@ -55,10 +58,13 @@ export function useUpdateQuestion(id: string) {
 
     return useMutation<QuestionItemResponse, Error, QuestionPayload>({
         mutationFn: (payload) =>
-            apiPost<QuestionPayload, QuestionItemResponse>(`question/${id}/`, payload),
+            apiPost<QuestionPayload, QuestionItemResponse>(
+                `question/${id}/`,
+                payload,
+            ),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ["questions"]});
-            queryClient.invalidateQueries({queryKey: ["questions", id]});
+            queryClient.invalidateQueries({ queryKey: ["questions"] });
+            queryClient.invalidateQueries({ queryKey: ["questions", id] });
         },
     });
 }

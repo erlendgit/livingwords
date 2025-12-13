@@ -1,6 +1,6 @@
-import {useQuery, useMutation, useQueryClient} from "@tanstack/react-query";
-import {apiGet, apiPost} from "./api.tsx";
-import type {Person} from "./persons.tsx";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiGet, apiPost } from "./api.tsx";
+import type { Person } from "./persons.tsx";
 
 export type Agency = {
     id: string;
@@ -46,7 +46,7 @@ export function useAddAgency() {
         mutationFn: (payload) =>
             apiPost<AgencyPayload, AgencyItemResponse>("agency/", payload),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ["agencies"]});
+            queryClient.invalidateQueries({ queryKey: ["agencies"] });
         },
     });
 }
@@ -61,8 +61,8 @@ export function useUpdateAgency(id: string) {
                 payload,
             ),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ["agencies"]});
-            queryClient.invalidateQueries({queryKey: ["agencies", id]});
+            queryClient.invalidateQueries({ queryKey: ["agencies"] });
+            queryClient.invalidateQueries({ queryKey: ["agencies", id] });
         },
     });
 }

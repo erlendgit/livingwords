@@ -1,27 +1,35 @@
-import {useEffect, useState} from "react";
-import {type Agency, type AgencyPayload, useAddAgency, useUpdateAgency} from "../../plugins/api/agencies.tsx";
-import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
-import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
+import { useEffect, useState } from "react";
+import {
+    type Agency,
+    type AgencyPayload,
+    useAddAgency,
+    useUpdateAgency,
+} from "../../plugins/api/agencies.tsx";
+import { SmallButtonWidget } from "../../widgets/forms/ButtonWidget.tsx";
+import { DialogActionsWidget } from "../../widgets/containers/ModalDialogWidget.tsx";
 import FormWidget from "../../widgets/forms/FormWidget.tsx";
 import FieldsetWidget from "../../widgets/forms/FieldsetWidget.tsx";
-import {MultilineTextInputWidget} from "../../widgets/forms/TextInputWidget.tsx";
-import type {Person} from "../../plugins/api/persons.tsx";
+import { MultilineTextInputWidget } from "../../widgets/forms/TextInputWidget.tsx";
+import type { Person } from "../../plugins/api/persons.tsx";
 import useListState from "../../plugins/ListState.tsx";
-import {PersonCardDeck} from "./PersonCard.tsx";
-import {PersonListSelect} from "./PersonListSelect.tsx";
-import {AddPersonFormSelect, UpdatePersonForm} from "./PersonForm.tsx";
+import { PersonCardDeck } from "./PersonCard.tsx";
+import { PersonListSelect } from "./PersonListSelect.tsx";
+import { AddPersonFormSelect, UpdatePersonForm } from "./PersonForm.tsx";
 
 interface AgencyCreateSelectProps {
     onSelect: (value: string) => void;
     onCancel: () => void;
 }
 
-export function AgencyCreateSelect({onSelect, onCancel}: AgencyCreateSelectProps) {
-    const {mutate: addAgency, data, isPending, isError} = useAddAgency()
+export function AgencyCreateSelect({
+    onSelect,
+    onCancel,
+}: AgencyCreateSelectProps) {
+    const { mutate: addAgency, data, isPending, isError } = useAddAgency();
     const newAgencyId = data?.node?.id;
 
     function handleSave(agency: AgencyPayload) {
-        addAgency(agency)
+        addAgency(agency);
     }
 
     useEffect(() => {
@@ -44,12 +52,20 @@ interface AgencyUpdateSelectProps {
     onCancel: () => void;
 }
 
-export function AgencyUpdateSelect({agency, onCancel}: AgencyUpdateSelectProps) {
-    const {mutate: updateAgency, data, isPending, isError} = useUpdateAgency(agency.id)
+export function AgencyUpdateSelect({
+    agency,
+    onCancel,
+}: AgencyUpdateSelectProps) {
+    const {
+        mutate: updateAgency,
+        data,
+        isPending,
+        isError,
+    } = useUpdateAgency(agency.id);
     const updatedAgencyId = data?.node?.id;
 
     function handleSave(updatedAgency: AgencyPayload) {
-        updateAgency(updatedAgency)
+        updateAgency(updatedAgency);
     }
 
     useEffect(() => {
@@ -63,7 +79,7 @@ export function AgencyUpdateSelect({agency, onCancel}: AgencyUpdateSelectProps) 
             {isPending && <p>Is storing...</p>}
             {isError && <p>An error occured! Try again later.</p>}
         </AgencyForm>
-    )
+    );
 }
 
 interface AgencyFormProps {
@@ -78,14 +94,24 @@ interface PersonFormState {
     editing?: Person;
 }
 
-export function AgencyForm({agency, onSave, onCancel, children}: AgencyFormProps) {
+export function AgencyForm({
+    agency,
+    onSave,
+    onCancel,
+    children,
+}: AgencyFormProps) {
     const [formState, setFormState] = useState<PersonFormState>();
-    const [description, setDescription] = useState<string>(() => agency?.description || "");
-    const [personIds, addPersonId, removePersonId] = useListState<string>(agency?.persons.map(p => p.id) || []);
+    const [description, setDescription] = useState<string>(
+        () => agency?.description || "",
+    );
+    const [personIds, addPersonId, removePersonId] = useListState<string>(
+        agency?.persons.map((p) => p.id) || [],
+    );
 
     const handleShowAgencyForm = () => setFormState(undefined);
-    const handleShowAddPersonform = () => setFormState({mode: "create"});
-    const handleShowEditPersonForm = (person: Person) => setFormState({mode: "update", editing: person});
+    const handleShowAddPersonform = () => setFormState({ mode: "create" });
+    const handleShowEditPersonForm = (person: Person) =>
+        setFormState({ mode: "update", editing: person });
 
     function handleSave() {
         onSave({
@@ -103,14 +129,16 @@ export function AgencyForm({agency, onSave, onCancel, children}: AgencyFormProps
         return (
             <UpdatePersonForm
                 person={formState.editing}
-                onClose={handleShowAgencyForm}/>
-        )
+                onClose={handleShowAgencyForm}
+            />
+        );
     } else if (formState) {
         return (
             <AddPersonFormSelect
                 onSave={handleAddPersonSave}
-                onClose={handleShowAgencyForm}/>
-        )
+                onClose={handleShowAgencyForm}
+            />
+        );
     }
 
     return (
@@ -120,14 +148,17 @@ export function AgencyForm({agency, onSave, onCancel, children}: AgencyFormProps
                     label={"Description"}
                     value={description}
                     rows={3}
-                    onChange={(e) => setDescription(e.target.value)}/>
+                    onChange={(e) => setDescription(e.target.value)}
+                />
             </FieldsetWidget>
             <PersonCardDeck
                 ids={personIds}
                 onEdit={handleShowEditPersonForm}
                 onRemove={removePersonId}
             />
-            <SmallButtonWidget onClick={handleShowAddPersonform}>Add Person</SmallButtonWidget>
+            <SmallButtonWidget onClick={handleShowAddPersonform}>
+                Add Person
+            </SmallButtonWidget>
             <PersonListSelect
                 ids={personIds}
                 onSelect={addPersonId}
@@ -140,5 +171,5 @@ export function AgencyForm({agency, onSave, onCancel, children}: AgencyFormProps
                 <SmallButtonWidget onClick={onCancel}>Cancel</SmallButtonWidget>
             </DialogActionsWidget>
         </FormWidget>
-    )
+    );
 }

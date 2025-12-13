@@ -1,6 +1,6 @@
 // stories.tsx
-import {useQuery, useMutation, useQueryClient} from "@tanstack/react-query";
-import {apiGet, apiPost} from "./api.tsx";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiGet, apiPost } from "./api.tsx";
 
 export type ContextListResponse = {
     nodes?: Context[];
@@ -41,9 +41,10 @@ export function useAddContext() {
     const queryClient = useQueryClient();
 
     return useMutation<ContextItemResponse, Error, ContextPayload>({
-        mutationFn: (payload) => apiPost<ContextPayload, ContextItemResponse>("context/", payload),
+        mutationFn: (payload) =>
+            apiPost<ContextPayload, ContextItemResponse>("context/", payload),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ["contexts"]});
+            queryClient.invalidateQueries({ queryKey: ["contexts"] });
         },
     });
 }
@@ -53,10 +54,13 @@ export function useUpdateContext(id: string) {
 
     return useMutation<ContextItemResponse, Error, ContextPayload>({
         mutationFn: (payload) =>
-            apiPost<ContextPayload, ContextItemResponse>(`context/${id}/`, payload),
+            apiPost<ContextPayload, ContextItemResponse>(
+                `context/${id}/`,
+                payload,
+            ),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: ["contexts"]});
-            queryClient.invalidateQueries({queryKey: ["contexts", id]});
+            queryClient.invalidateQueries({ queryKey: ["contexts"] });
+            queryClient.invalidateQueries({ queryKey: ["contexts", id] });
         },
     });
 }

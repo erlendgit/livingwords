@@ -1,11 +1,14 @@
-import {type Agency, useAgencyList} from "../../plugins/api/agencies.tsx";
-import {AgencyCardView} from "./AgencyCard.tsx";
-import {SmallButtonWidget, TextButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
-import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
-import {ItemTableWidget} from "../../widgets/containers/TableWidget.tsx";
-import {useState} from "react";
-import {AgencyUpdateSelect} from "./AgencyForm.tsx";
-import {FlexWidget} from "../../widgets/layout/FlexWidget.tsx";
+import { type Agency, useAgencyList } from "../../plugins/api/agencies.tsx";
+import { AgencyCardView } from "./AgencyCard.tsx";
+import {
+    SmallButtonWidget,
+    TextButtonWidget,
+} from "../../widgets/forms/ButtonWidget.tsx";
+import { DialogActionsWidget } from "../../widgets/containers/ModalDialogWidget.tsx";
+import { ItemTableWidget } from "../../widgets/containers/TableWidget.tsx";
+import { useState } from "react";
+import { AgencyUpdateSelect } from "./AgencyForm.tsx";
+import { FlexWidget } from "../../widgets/layout/FlexWidget.tsx";
 
 const AgencyList = ItemTableWidget<Agency>;
 
@@ -16,7 +19,12 @@ interface AgencyListSelectProps {
     onCreate: () => void;
 }
 
-export function AgencyListSelect({agencyId, onSelect, onCreate, onCancel}: AgencyListSelectProps) {
+export function AgencyListSelect({
+    agencyId,
+    onSelect,
+    onCreate,
+    onCancel,
+}: AgencyListSelectProps) {
     const [editing, setEditing] = useState<Agency | null>(null);
 
     const handleShowList = () => setEditing(null);
@@ -24,19 +32,23 @@ export function AgencyListSelect({agencyId, onSelect, onCreate, onCancel}: Agenc
 
     return (
         <>
-            {editing &&
+            {editing && (
                 <AgencyUpdateSelect
                     agency={editing}
-                    onCancel={handleShowList}/>}
-            {!editing &&
+                    onCancel={handleShowList}
+                />
+            )}
+            {!editing && (
                 <AgencyListSelectTab
                     agencyId={agencyId}
                     onSelect={onSelect}
                     onCreate={onCreate}
                     onEdit={handleShowEdit}
-                    onCancel={onCancel}/>}
+                    onCancel={onCancel}
+                />
+            )}
         </>
-    )
+    );
 }
 
 interface AgencyListSelectTabProps {
@@ -47,8 +59,14 @@ interface AgencyListSelectTabProps {
     onCancel: () => void;
 }
 
-export function AgencyListSelectTab({agencyId, onSelect, onCreate, onEdit, onCancel}: AgencyListSelectTabProps) {
-    const {data, isLoading, isError, error} = useAgencyList();
+export function AgencyListSelectTab({
+    agencyId,
+    onSelect,
+    onCreate,
+    onEdit,
+    onCancel,
+}: AgencyListSelectTabProps) {
+    const { data, isLoading, isError, error } = useAgencyList();
     const agencies = data?.nodes || [];
     const hasAgencies = agencies.length > 0;
 
@@ -58,22 +76,39 @@ export function AgencyListSelectTab({agencyId, onSelect, onCreate, onEdit, onCan
                 <AgencyList
                     items={agencies}
                     columnCallbacks={[
-                        (agency: Agency) => <AgencyCardView agency={agency}/>,
+                        (agency: Agency) => <AgencyCardView agency={agency} />,
                         (agency: Agency) => (
                             <FlexWidget>
-                                {agencyId !== agency.id ?
-                                    <SmallButtonWidget onClick={() => onSelect(agency.id)}>Select</SmallButtonWidget> :
-                                    <TextButtonWidget onClick={() => onSelect(null)}>Deselect</TextButtonWidget>}
-                                <TextButtonWidget onClick={() => onEdit(agency)}>Edit</TextButtonWidget>
+                                {agencyId !== agency.id ? (
+                                    <SmallButtonWidget
+                                        onClick={() => onSelect(agency.id)}
+                                    >
+                                        Select
+                                    </SmallButtonWidget>
+                                ) : (
+                                    <TextButtonWidget
+                                        onClick={() => onSelect(null)}
+                                    >
+                                        Deselect
+                                    </TextButtonWidget>
+                                )}
+                                <TextButtonWidget
+                                    onClick={() => onEdit(agency)}
+                                >
+                                    Edit
+                                </TextButtonWidget>
                             </FlexWidget>
                         ),
-                    ]}/>
+                    ]}
+                />
             )}
             {!hasAgencies && <p>No agencies available.</p>}
             {isLoading && <p>Loading...</p>}
             {isError && <p>Error: {(error as Error).message}</p>}
             <DialogActionsWidget>
-                <SmallButtonWidget onClick={onCreate}>Create new agency</SmallButtonWidget>
+                <SmallButtonWidget onClick={onCreate}>
+                    Create new agency
+                </SmallButtonWidget>
                 <SmallButtonWidget onClick={onCancel}>Cancel</SmallButtonWidget>
             </DialogActionsWidget>
         </>

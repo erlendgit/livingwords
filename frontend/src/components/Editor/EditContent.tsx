@@ -1,5 +1,5 @@
 import FieldsetWidget from "../../widgets/forms/FieldsetWidget.tsx";
-import {MultilineTextInputWidget} from "../../widgets/forms/TextInputWidget.tsx";
+import { MultilineTextInputWidget } from "../../widgets/forms/TextInputWidget.tsx";
 
 interface ContentEditorProps {
     content: string;
@@ -7,14 +7,15 @@ interface ContentEditorProps {
     onChange: (newContent: string) => void;
 }
 
-export function EditContent({content, title, onChange}: ContentEditorProps) {
+export function EditContent({ content, title, onChange }: ContentEditorProps) {
     return (
         <FieldsetWidget>
             <MultilineTextInputWidget
                 value={content}
                 onChange={(e) => onChange(e.target.value)}
                 label={title}
-                rows={2}/>
+                rows={2}
+            />
         </FieldsetWidget>
-    )
+    );
 }
