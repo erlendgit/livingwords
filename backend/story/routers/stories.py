@@ -1,5 +1,4 @@
 import logging
-from traceback import format_exc
 from typing import Union, List
 from uuid import UUID
 
