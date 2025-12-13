@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {type AddTruthPayload, type Truth, useAddTruth} from "../../plugins/api/truths.tsx";
+import {type TruthPayload, type Truth, useAddTruth, useUpdateTruth} from "../../plugins/api/truths.tsx";
 import {SmallButtonWidget} from "../../widgets/forms/ButtonWidget.tsx";
 import {DialogActionsWidget} from "../../widgets/containers/ModalDialogWidget.tsx";
 import FieldsetWidget from "../../widgets/forms/FieldsetWidget.tsx";
@@ -15,7 +15,7 @@ export function TruthAddSelect({onSave, onCancel}: TruthAddSelectProps) {
     const {mutate: addTruth, data, isPending, isError} = useAddTruth();
     const truth = data?.node;
 
-    function handleSave(value: AddTruthPayload) {
+    function handleSave(value: TruthPayload) {
         addTruth(value);
     }
 
@@ -31,12 +31,37 @@ export function TruthAddSelect({onSave, onCancel}: TruthAddSelectProps) {
             {isError && <p>Truth could not be stored.</p>}
         </TruthForm>
     )
+}
 
+interface TruthUpdateFormProps {
+    truth: Truth;
+    onClose: () => void;
+}
+
+export function TruthUpdateForm({truth, onClose}: TruthUpdateFormProps) {
+    const {mutate: updateTruth, data, isPending, isError} = useUpdateTruth(truth.id);
+
+    function handleSave(value: TruthPayload) {
+        updateTruth(value);
+    }
+
+    useEffect(() => {
+        if (data?.node && !isPending && !isError) {
+            onClose();
+        }
+    }, [data, isPending, isError, onClose]);
+
+    return (
+        <TruthForm truth={truth} onSave={handleSave} onCancel={onClose}>
+            {isPending && <p>Updating the truth...</p>}
+            {isError && <p>Truth could not be updated.</p>}
+        </TruthForm>
+    )
 }
 
 interface TruthFormProps {
     truth?: Truth;
-    onSave: (value: AddTruthPayload) => void;
+    onSave: (value: TruthPayload) => void;
     onCancel: () => void;
     children?: React.ReactNode;
 }

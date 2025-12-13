@@ -16,12 +16,7 @@ export type Truth = {
     statement: string;
 };
 
-export type AddTruthPayload = {
-    statement: string;
-};
-
-export type UpdateTruthPayload = {
-    id: string;
+export type TruthPayload = {
     statement: string;
 };
 
@@ -44,27 +39,27 @@ export function useTruth(id: string) {
 export function useAddTruth() {
     const queryClient = useQueryClient();
 
-    return useMutation<TruthItemResponse, Error, AddTruthPayload>({
+    return useMutation<TruthItemResponse, Error, TruthPayload>({
         mutationFn: (payload) =>
-            apiPost<AddTruthPayload, TruthItemResponse>("truth/", payload),
+            apiPost<TruthPayload, TruthItemResponse>("truth/", payload),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ["truths"]});
         },
     });
 }
 
-export function useUpdateTruth() {
+export function useUpdateTruth(id: string) {
     const queryClient = useQueryClient();
 
-    return useMutation<TruthItemResponse, Error, UpdateTruthPayload>({
+    return useMutation<TruthItemResponse, Error, TruthPayload>({
         mutationFn: (payload) =>
-            apiPost<UpdateTruthPayload, TruthItemResponse>(
-                `truth/${payload.id}/`,
+            apiPost<TruthPayload, TruthItemResponse>(
+                `truth/${id}/`,
                 payload,
             ),
-        onSuccess: (_, variables) => {
+        onSuccess: () => {
             queryClient.invalidateQueries({queryKey: ["truths"]});
-            queryClient.invalidateQueries({queryKey: ["truths", variables.id]});
+            queryClient.invalidateQueries({queryKey: ["truths", id]});
         },
     });
 }

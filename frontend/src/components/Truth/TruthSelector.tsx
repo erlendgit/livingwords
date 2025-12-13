@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {TruthListSelect} from "./TruthListSelect.tsx";
+import {TruthListSelectForm} from "./TruthListSelect.tsx";
 import {TruthAddSelect} from "./TruthAddSelect.tsx";
 
 interface TruthSelectorProps {
@@ -22,7 +22,7 @@ export function TruthSelector({ids, onAdd, onRemove, onCancel}: TruthSelectorPro
     return (
         <div>
             {viewMode === "list" && (
-                <TruthListSelect
+                <TruthListSelectForm
                     ids={ids}
                     onAdd={onAdd}
                     onRemove={onRemove}
