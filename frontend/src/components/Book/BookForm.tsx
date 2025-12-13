@@ -13,6 +13,7 @@ import {
     MultilineTextInputWidget,
     TextInputWidget,
 } from "../../widgets/forms/TextInputWidget.tsx";
+import { BooleanInputWidget } from "../../widgets/forms/BooleanInputWidget.tsx";
 
 interface BookFormProps {
     book?: Book;
@@ -24,6 +25,10 @@ interface BookFormProps {
 function BookForm({ book, onSave, onCancel, children }: BookFormProps) {
     const [title, setTitle] = useState<string>(book?.title || "");
     const [summary, setSummary] = useState<string>(book?.summary || "");
+
+    function handleSave() {
+        onSave({ title, summary });
+    }
 
     return (
         <FormWidget>
@@ -42,28 +47,32 @@ function BookForm({ book, onSave, onCancel, children }: BookFormProps) {
             </FieldsetWidget>
             {children}
             <DialogActionsWidget>
-                <SmallButtonWidget onClick={() => onSave({ title, summary })}>
-                    Save
-                </SmallButtonWidget>
-                <SmallButtonWidget onClick={() => onCancel()}>
-                    Cancel
-                </SmallButtonWidget>
+                <SmallButtonWidget onClick={handleSave}>Save</SmallButtonWidget>
+                <SmallButtonWidget onClick={onCancel}>Cancel</SmallButtonWidget>
             </DialogActionsWidget>
         </FormWidget>
     );
 }
 
 export function BookAddForm({ onClose }: { onClose: () => void }) {
+    const [addMore, setAddMore] = useState<boolean>(false);
     const { mutate: addBook, data, isPending, isError } = useAddBook();
 
     useEffect(() => {
-        if (data && !isPending && !isError) {
+        if (data && !isPending && !isError && !addMore) {
             onClose();
         }
-    }, [onClose, data, isPending, isError]);
+    }, [onClose, data, isPending, isError, addMore]);
 
     return (
         <BookForm onSave={addBook} onCancel={onClose}>
+            <BooleanInputWidget
+                label={"Formulier open laten"}
+                value={addMore}
+                onChange={() => {
+                    setAddMore(!addMore);
+                }}
+            />
             {isPending && <p>Is storing book info...</p>}
             {isError && <p>An error occured! Try again later.</p>}
         </BookForm>
