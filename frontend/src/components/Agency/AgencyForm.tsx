@@ -80,15 +80,18 @@ interface PersonFormState {
 
 export function AgencyForm({agency, onSave, onCancel, children}: AgencyFormProps) {
     const [formState, setFormState] = useState<PersonFormState>();
+    const [description, setDescription] = useState<string>(() => agency?.description || "");
     const [personIds, addPersonId, removePersonId] = useListState<string>(agency?.persons.map(p => p.id) || []);
 
     const handleShowAgencyForm = () => setFormState(undefined);
     const handleShowAddPersonform = () => setFormState({mode: "create"});
     const handleShowEditPersonForm = (person: Person) => setFormState({mode: "update", editing: person});
 
-    function handleSave(value: AgencyPayload) {
-        value.person_ids = personIds
-        onSave(value);
+    function handleSave() {
+        onSave({
+            description,
+            person_ids: personIds,
+        });
     }
 
     function handleAddPersonSave(personId: string) {
@@ -111,10 +114,14 @@ export function AgencyForm({agency, onSave, onCancel, children}: AgencyFormProps
     }
 
     return (
-        <AgencyDetailForm
-            agency={agency}
-            onSave={handleSave}
-            onCancel={onCancel}>
+        <FormWidget>
+            <FieldsetWidget>
+                <MultilineTextInputWidget
+                    label={"Description"}
+                    value={description}
+                    rows={3}
+                    onChange={(e) => setDescription(e.target.value)}/>
+            </FieldsetWidget>
             <PersonCardDeck
                 ids={personIds}
                 onEdit={handleShowEditPersonForm}
@@ -128,33 +135,10 @@ export function AgencyForm({agency, onSave, onCancel, children}: AgencyFormProps
                 onEdit={handleShowEditPersonForm}
             />
             {children}
-        </AgencyDetailForm>
-    )
-}
-
-export function AgencyDetailForm({agency, onSave, onCancel, children}: AgencyFormProps) {
-    const [description, setDescription] = useState<string>(() => agency?.description || "");
-
-    function handleSave() {
-        onSave({
-            description,
-        });
-    }
-
-    return (
-        <FormWidget>
-            <FieldsetWidget>
-                <MultilineTextInputWidget
-                    label={"Description"}
-                    value={description}
-                    rows={3}
-                    onChange={(e) => setDescription(e.target.value)}/>
-            </FieldsetWidget>
-            {children}
             <DialogActionsWidget>
                 <SmallButtonWidget onClick={handleSave}>Save</SmallButtonWidget>
                 <SmallButtonWidget onClick={onCancel}>Cancel</SmallButtonWidget>
             </DialogActionsWidget>
         </FormWidget>
-    );
+    )
 }

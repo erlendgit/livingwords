@@ -8,6 +8,7 @@ export type Person = {
 };
 
 export type PersonListResponse = {
+    total: number;
     nodes?: Person[];
     detail?: string;
 };
@@ -22,10 +23,10 @@ export type PersonPayload = {
     biography?: string | null;
 };
 
-export function usePersonList() {
+export function usePersonList(query: string="") {
     return useQuery({
         queryKey: ["persons"],
-        queryFn: () => apiGet<PersonListResponse>("person/"),
+        queryFn: () => apiGet<PersonListResponse>("person/", {query}),
         staleTime: 1000 * 60,
     });
 }

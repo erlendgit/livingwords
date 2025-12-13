@@ -27,12 +27,20 @@ class PersonErrorResponse(Schema):
 
 
 class PersonListResponse(Schema):
+    total: int
     nodes: List[PersonOut]
 
 
 @router.get("/", response=PersonListResponse)
-def list_people(request):
-    return PersonListResponse(nodes=Person.objects.all())
+def list_people(request, query: Union[str, None] = None):
+    qs = Person.objects.all()
+    if query:
+        qs = qs.filter(name__icontains=query)
+
+    return PersonListResponse(
+        total=qs.count(),
+        nodes=qs.all()
+    )
 
 
 @router.get("/{id}/", response={200: PersonResponse, 404: PersonErrorResponse})
@@ -57,7 +65,7 @@ def update_person(request, id: str, payload: PersonIn):
         person = Person.objects.get(id=id)
     except Person.DoesNotExist:
         return 404, PersonErrorResponse(details="Not found")
-    person.name = payload.name;
-    person.biography = payload.biography;
+    person.name = payload.name
+    person.biography = payload.biography
     person.save()
     return 200, PersonResponse(node=person)
