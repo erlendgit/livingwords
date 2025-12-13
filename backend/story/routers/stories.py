@@ -72,3 +72,30 @@ def get_story(request, id):
             node=None,
             details="Not found"
         )
+
+
+@router.post("/{id}/", response={200: StoryResponse, 400: ErrorResponse})
+def update_story(request, id: UUID, payload: StoryIn):
+    try:
+        story = Story.objects.get(id=id)
+
+        if not payload.title:
+            raise ValidationError("Title is required.")
+
+        story.title = payload.title
+        story.summary = payload.summary
+        story.save()
+
+        return StoryResponse(
+            node=story,
+            details=None
+        )
+    except Story.DoesNotExist:
+        return 404, StoryResponse(
+            node=None,
+            details="Not found"
+        )
+    except Exception:
+        msg = "Error when updating story reference"
+        logger.exception(msg)
+        return 400, ErrorResponse(error=msg)
