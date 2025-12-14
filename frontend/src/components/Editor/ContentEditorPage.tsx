@@ -1,13 +1,16 @@
 import { useParams } from "react-router-dom";
 import { type Book, useBook } from "../../plugins/api/books.tsx";
-import { useState } from "react";
 import { type LivingWord, useLivingWord } from "../../plugins/api/words.tsx";
 import ContentEditor from "./ContentEditor.tsx";
 
 function ContentEditorPage() {
     const { id: bookId } = useParams<{ id: string }>();
+    const { chapter: chapterInput } = useParams<{ chapter: string }>();
+    const { verse: verseInput } = useParams<{ verse: string }>();
     const { data, isLoading } = useBook(bookId!);
     const book: Book | undefined = data?.node;
+    const chapter: number = chapterInput ? parseInt(chapterInput, 10) : 1;
+    const verse: number = verseInput ? parseInt(verseInput, 10) : 1;
 
     if (isLoading) {
         return <p>Loading...</p>;
@@ -16,12 +19,20 @@ function ContentEditorPage() {
         return <p>Book not found</p>;
     }
 
-    return <ContentEditorLoader book={book} />;
+    return <ContentEditorLoader book={book} chapter={chapter} verse={verse} />;
 }
 
-export function ContentEditorLoader({ book }: { book: Book }) {
-    const [chapter, setChapter] = useState(1);
-    const [verse, setVerse] = useState(1);
+interface ContentEditorLoaderProps {
+    book: Book;
+    chapter: number;
+    verse: number;
+}
+
+export function ContentEditorLoader({
+    book,
+    chapter,
+    verse,
+}: ContentEditorLoaderProps) {
     const { data, isLoading } = useLivingWord(book.id, chapter, verse);
     const livingWord: LivingWord | undefined = data?.node;
 
@@ -39,9 +50,7 @@ export function ContentEditorLoader({ book }: { book: Book }) {
             word={livingWord}
             book={book}
             chapter={chapter}
-            onUpdateChapter={setChapter}
             verse={verse}
-            onUpdateVerse={setVerse}
         />
     );
 }

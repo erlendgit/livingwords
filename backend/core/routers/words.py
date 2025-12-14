@@ -3,7 +3,11 @@ import logging
 from ninja import Router
 
 from core.schemas import LivingWordResponse, LivingWord
-from core.utils.collect import get_living_word_data, get_surrounding_words
+from core.utils.collect import (
+    get_living_word_data,
+    get_surrounding_words_before,
+    get_surrounding_words_after,
+)
 from core.utils.store import store_living_word_data
 from shared.schemas import ErrorResponse
 
@@ -29,12 +33,12 @@ def store_living_word(request, payload: LivingWord):
     except Exception:
         msg = "Error saving living word"
         logger.exception(msg)
-        return 400, ErrorResponse(msg=msg)
+        return 400, ErrorResponse(error=msg)
 
 
 def _generic_living_word_response(book_id, chapter, verse):
     return LivingWordResponse(
         node=get_living_word_data(book_id, chapter, verse),
-        before=get_surrounding_words(book_id, chapter, verse, before=True),
-        after=get_surrounding_words(book_id, chapter, verse, after=True),
+        before=get_surrounding_words_before(book_id, chapter, verse),
+        after=get_surrounding_words_after(book_id, chapter, verse),
     )

@@ -1,8 +1,10 @@
 import logging
 
+from django.db.models import Q
+
 from book.models import Book
 from core.models import Word
-from core.schemas import LivingWord
+from core.schemas import LivingWord, LivingWordCollection
 
 logger = logging.getLogger(__name__)
 
@@ -38,5 +40,26 @@ def get_living_word_data(book_id, chapter, verse) -> LivingWord:
         )
 
 
-def get_surrounding_words(book_id, chapter, verse, before=False, after=False):
-    return None
+def get_surrounding_words_before(book_id, chapter, verse):
+    qs = Word.objects.filter(book_id=book_id).order_by('chapter', 'verse')
+    this_chapter = Q(chapter=chapter, verse__lt=verse)
+    previous_chapter = Q(chapter=chapter - 1)
+    if chapter > 1:
+        qs = qs.filter(this_chapter | previous_chapter)
+    else:
+        qs = qs.filter(this_chapter)
+
+    return LivingWordCollection(
+        nodes=list(qs)[-5:]
+    )
+
+
+def get_surrounding_words_after(book_id, chapter, verse):
+    qs = Word.objects.filter(book_id=book_id).order_by('chapter', 'verse')
+
+    this_chapter = Q(chapter=chapter, verse__gt=verse)
+    next_chapter = Q(chapter=chapter + 1)
+    qs = qs.filter(this_chapter | next_chapter)
+    return LivingWordCollection(
+        nodes=qs[:5]
+    )

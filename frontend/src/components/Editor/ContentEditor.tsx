@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { EditContent } from "./EditContent.tsx";
-import { EditChapter } from "./EditChapter.tsx";
-import { EditVerse } from "./EditVerse.tsx";
 import { EditSubmit } from "./EditSubmit.tsx";
 import { AddStory } from "./AddStory.tsx";
 import { AddContext } from "./AddContext.tsx";
@@ -11,7 +9,6 @@ import { AddListener } from "./AddListener.tsx";
 import { AddBystander } from "./AddBystander.tsx";
 import { AddQuestion } from "./AddQuestion.tsx";
 import { AddTruth } from "./AddTruth.tsx";
-import { BookCardView } from "../Book/BookCard.tsx";
 import { FlexWidget } from "../../widgets/layout/FlexWidget.tsx";
 import SpaceWidget from "../../widgets/layout/SpaceWidget.tsx";
 import { ScriptureAfterCard, ScriptureBeforeCard } from "./ScriptureCard.tsx";
@@ -22,24 +19,17 @@ import {
 } from "../../plugins/api/words.tsx";
 import { type Book } from "../../plugins/api/books.tsx";
 import { useListModifiers } from "../../plugins/ListModifiers.tsx";
+import { BookNavigation } from "../Book/BookNavigation.tsx";
 
 interface ContentEditorViewProps {
     word: LivingWord;
     book: Book;
     chapter: number;
-    onUpdateChapter: (chapter: number) => void;
     verse: number;
-    onUpdateVerse: (verse: number) => void;
 }
 
-function ContentEditor({
-    word,
-    book,
-    chapter,
-    onUpdateChapter,
-    verse,
-    onUpdateVerse,
-}: ContentEditorViewProps) {
+function ContentEditor(props: ContentEditorViewProps) {
+    const { word, book, chapter, verse } = props;
     const {
         mutate: storeLivingWord,
         isPending,
@@ -89,7 +79,7 @@ function ContentEditor({
     return (
         <LeftRightWidget>
             <SpaceWidget>
-                <BookCardView book={book} display={{ withLink: false }} />
+                <BookNavigation book={book} chapter={chapter} verse={verse} />
                 <ScriptureBeforeCard
                     bookId={book.id}
                     chapter={chapter}
@@ -107,16 +97,14 @@ function ContentEditor({
                 />
                 {isPending && <p>Is storing...</p>}
                 {isError && <p>An error occured! Try again later.</p>}
-                <FlexWidget>
-                    <EditChapter chapter={chapter} onChange={onUpdateChapter} />
-                    <EditVerse verse={verse} onChange={onUpdateVerse} />
-                    <EditSubmit onSubmit={handleSubmit} />
-                </FlexWidget>
                 <EditContent
                     title={"Write your notes here"}
                     content={formValues.notes}
                     onChange={setNotes}
                 />
+                <FlexWidget>
+                    <EditSubmit onSubmit={handleSubmit} />
+                </FlexWidget>
             </SpaceWidget>
             <SpaceWidget>
                 <FlexWidget>

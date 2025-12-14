@@ -14,6 +14,10 @@ function App() {
                     <Route path="/" element={<BookList />} />
                     <Route path="/book/:id" element={<BookDetailPage />} />
                     <Route
+                        path="/book/:id/edit/:chapter/:verse"
+                        element={<ContentEditorPage />}
+                    />
+                    <Route
                         path="/book/:id/edit"
                         element={<ContentEditorPage />}
                     />

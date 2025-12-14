@@ -19,10 +19,10 @@ def store_living_word_data(payload: LivingWord):
         word.notes = payload.notes
         word.save()
 
-    _update_stories(word, payload.story_ids)
-    _update_contexts(word, payload.context_ids)
-    _update_questions(word, payload.question_ids)
-    _update_truths(word, payload.truth_ids)
+    _update_stories(word, payload.story_ids or [])
+    _update_contexts(word, payload.context_ids or [])
+    _update_questions(word, payload.question_ids or [])
+    _update_truths(word, payload.truth_ids or [])
     _update_agency(word, payload.narrator_id, RoleChoices.narrator.value)
     _update_agency(word, payload.speaker_id, RoleChoices.speaker.value)
     _update_agency(word, payload.listener_id, RoleChoices.listener.value)
