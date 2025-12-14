@@ -38,8 +38,13 @@ export function useLivingWord(bookId: string, chapter: number, verse: number) {
     });
 }
 
-export function useUpdateLivingWord() {
+interface UseUpdateLivingWordProps {
+    successCallback?: () => void;
+}
+
+export function useUpdateLivingWord(props? : UseUpdateLivingWordProps) {
     const queryClient = useQueryClient();
+    const { successCallback } = props || {};
 
     return useMutation<LivingWordResponse, Error, LivingWord>({
         mutationFn: (payload) =>
@@ -53,6 +58,9 @@ export function useUpdateLivingWord() {
                     payload.verse,
                 ],
             });
+            if (successCallback) {
+                successCallback();
+            }
         },
     });
 }

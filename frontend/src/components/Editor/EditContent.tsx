@@ -14,7 +14,7 @@ export function EditContent({ content, title, onChange }: ContentEditorProps) {
                 value={content}
                 onChange={(e) => onChange(e.target.value)}
                 label={title}
-                rows={2}
+                rows={3}
             />
         </FieldsetWidget>
     );

@@ -1,31 +1,50 @@
 import SpaceWidget from "../../widgets/layout/SpaceWidget.tsx";
+import {type LivingWord, useLivingWord} from "../../plugins/api/words.tsx";
+import {FlexChapterVerseWidget, FlexWidget} from "../../widgets/layout/FlexWidget.tsx";
+import {Box} from "@mui/material";
 
-interface ScriptureCardProps {
-    bookId: string;
-    chapter: number;
-    verse: number;
+interface ScriptureCardMultiProps {
+    verses?: LivingWord[];
 }
 
-export function ScriptureBeforeCard({
-    bookId,
-    chapter,
-    verse,
-}: ScriptureCardProps) {
+export function ScriptureCardMulti(props: ScriptureCardMultiProps){
+    const { verses } = props;
+    const hasVerses = verses && verses.length > 0;
+
+    if (!hasVerses) {
+        return null;
+    }
+
     return (
         <SpaceWidget>
-            Scripture Before: {bookId} {chapter}:{verse}
+            {verses.map((verse, index)=><ScriptureCard key={index} verse={verse}/>)}
         </SpaceWidget>
     );
 }
 
-export function ScriptureAfterCard({
-    bookId,
-    chapter,
-    verse,
-}: ScriptureCardProps) {
+interface ScriptureCardProps {
+    verse: LivingWord;
+}
+
+export function ScriptureCard(props: ScriptureCardProps) {
+    const { verse: _verse } = props;
+    const {data, isLoading, error} = useLivingWord(_verse.book_id, _verse.chapter, _verse.verse);
+    const verse = data?.node
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+    if (error) {
+        return <div>Error loading verse: {error.message}</div>;
+    }
+    if (!verse) {
+        return <div>Verse not found.</div>;
+    }
+
     return (
-        <SpaceWidget>
-            Scripture After: {bookId} {chapter}:{verse}
-        </SpaceWidget>
+        <FlexWidget>
+            <FlexChapterVerseWidget chapter={verse.chapter} verse={verse.verse}/>
+            <Box>{verse.content}</Box>
+        </FlexWidget>
     );
 }

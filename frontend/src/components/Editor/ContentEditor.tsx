@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
 import { EditContent } from "./EditContent.tsx";
 import { EditSubmit } from "./EditSubmit.tsx";
 import { AddStory } from "./AddStory.tsx";
@@ -9,9 +9,8 @@ import { AddListener } from "./AddListener.tsx";
 import { AddBystander } from "./AddBystander.tsx";
 import { AddQuestion } from "./AddQuestion.tsx";
 import { AddTruth } from "./AddTruth.tsx";
-import { FlexWidget } from "../../widgets/layout/FlexWidget.tsx";
+import {FlexChapterVerseWidget, FlexWidget} from "../../widgets/layout/FlexWidget.tsx";
 import SpaceWidget from "../../widgets/layout/SpaceWidget.tsx";
-import { ScriptureAfterCard, ScriptureBeforeCard } from "./ScriptureCard.tsx";
 import LeftRightWidget from "../../widgets/containers/LeftRightWidget.tsx";
 import {
     type LivingWord,
@@ -20,21 +19,30 @@ import {
 import { type Book } from "../../plugins/api/books.tsx";
 import { useListModifiers } from "../../plugins/ListModifiers.tsx";
 import { BookNavigation } from "../Book/BookNavigation.tsx";
+import {ScriptureCardMulti} from "./ScriptureCard.tsx";
+import {useNavigate} from "react-router-dom";
 
 interface ContentEditorViewProps {
     word: LivingWord;
     book: Book;
     chapter: number;
     verse: number;
+    versesBefore?: LivingWord[];
+    versesAfter?: LivingWord[];
 }
 
 function ContentEditor(props: ContentEditorViewProps) {
+    const navigate = useNavigate()
     const { word, book, chapter, verse } = props;
+    const { versesBefore, versesAfter } = props;
+    const navigateToNext = () => {
+        navigate(`/book/${book.id}/edit/${chapter}/${verse+1}`)
+    }
     const {
         mutate: storeLivingWord,
         isPending,
         isError,
-    } = useUpdateLivingWord();
+    } = useUpdateLivingWord({successCallback: navigateToNext});
     const [formValues, setFormValues] = useState<LivingWord>(word);
     const setContent = (content: string) =>
         setFormValues({ ...formValues, content });
@@ -80,26 +88,25 @@ function ContentEditor(props: ContentEditorViewProps) {
         <LeftRightWidget>
             <SpaceWidget>
                 <BookNavigation book={book} chapter={chapter} verse={verse} />
-                <ScriptureBeforeCard
-                    bookId={book.id}
-                    chapter={chapter}
-                    verse={verse}
+                <ScriptureCardMulti
+                    verses={versesBefore}
                 />
-                <EditContent
-                    title={"Content"}
-                    content={formValues.content}
-                    onChange={setContent}
-                />
-                <ScriptureAfterCard
-                    bookId={book.id}
-                    chapter={chapter}
-                    verse={verse}
+                <FlexWidget>
+                    <FlexChapterVerseWidget chapter={chapter} verse={verse}/>
+                    <EditContent
+                        title={"Content"}
+                        content={formValues.content || ""}
+                        onChange={setContent}
+                    />
+                </FlexWidget>
+                <ScriptureCardMulti
+                    verses={versesAfter}
                 />
                 {isPending && <p>Is storing...</p>}
                 {isError && <p>An error occured! Try again later.</p>}
                 <EditContent
                     title={"Write your notes here"}
-                    content={formValues.notes}
+                    content={formValues.notes || ""}
                     onChange={setNotes}
                 />
                 <FlexWidget>

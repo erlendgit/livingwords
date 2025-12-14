@@ -3,10 +3,11 @@ export function useListModifiers<T>(
     setItems: (items: T[]) => void,
 ): [(item: T) => void, (item: T) => void, () => void] {
     const addItem = (item: T) => {
-        if (items.includes(item)) {
+        const currentItems = items || [];
+        if (currentItems.includes(item)) {
             return;
         }
-        setItems([...items, item]);
+        setItems([...currentItems, item]);
     };
     const removeItem = (item: T) => {
         setItems(items.filter((i) => i !== item));

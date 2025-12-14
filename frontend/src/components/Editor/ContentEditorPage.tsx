@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { type Book, useBook } from "../../plugins/api/books.tsx";
-import { type LivingWord, useLivingWord } from "../../plugins/api/words.tsx";
+import {type LivingWord, type LivingWordListResponse, useLivingWord} from "../../plugins/api/words.tsx";
 import ContentEditor from "./ContentEditor.tsx";
 
 function ContentEditorPage() {
@@ -35,6 +35,8 @@ export function ContentEditorLoader({
 }: ContentEditorLoaderProps) {
     const { data, isLoading } = useLivingWord(book.id, chapter, verse);
     const livingWord: LivingWord | undefined = data?.node;
+    const versesBefore: LivingWordListResponse | undefined = data?.before;
+    const versesAfter: LivingWordListResponse | undefined = data?.after;
 
     if (isLoading) {
         return <p>Loading...</p>;
@@ -51,6 +53,8 @@ export function ContentEditorLoader({
             book={book}
             chapter={chapter}
             verse={verse}
+            versesBefore={versesBefore?.nodes}
+            versesAfter={versesAfter?.nodes}
         />
     );
 }

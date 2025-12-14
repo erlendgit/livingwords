@@ -3,7 +3,25 @@ from django.db import models
 from shared.models import SharedBaseModel
 
 
+class WordQuerySet(models.QuerySet):
+    def select_before(self, book_id, chapter, verse):
+        return self.filter(
+            models.Q(book_id=book_id) &
+            (models.Q(chapter=chapter, verse__lt=verse) |
+             models.Q(chapter__lt=chapter))
+        ).order_by('-chapter', '-verse')
+
+    def select_after(self, book_id, chapter, verse):
+        return self.filter(
+            models.Q(book_id=book_id) &
+            (models.Q(chapter=chapter, verse__gt=verse) |
+             models.Q(chapter__gt=chapter))
+        ).order_by('chapter', 'verse')
+
+
 class Word(SharedBaseModel):
+    objects = WordQuerySet.as_manager()
+
     content = models.TextField()
     notes = models.TextField(blank=True, null=True)
 
