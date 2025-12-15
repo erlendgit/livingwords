@@ -1,12 +1,12 @@
-from ninja import NinjaAPI
-
-from book.routers.books import router as book_router
-from story.routers.stories import router as story_router
-from core.routers.contexts import router as context_router
-from question.routers.questions import router as question_router
-from truth.routers.truths import router as truth_router
 from agency.routers.agencies import router as agency_router
 from agency.routers.persons import router as person_router
+from book.routers.books import router as book_router
+from ninja import NinjaAPI
+from question.routers.questions import router as question_router
+from story.routers.stories import router as story_router
+from truth.routers.truths import router as truth_router
+
+from core.routers.contexts import router as context_router
 from core.routers.words import router as word_router
 
 api = NinjaAPI()

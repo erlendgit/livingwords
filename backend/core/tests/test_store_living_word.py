@@ -1,12 +1,18 @@
-from django.test import TestCase
-
 from agency.agency_factory import agency_factory
 from agency.models import RoleChoices
-from core.factories import word_factory, context_factory
-from core.utils.store import _update_stories, _update_contexts, _update_questions, _update_truths, _update_agency
+from django.test import TestCase
 from question.factories import question_factory
 from story.factories import story_factory
 from truth.factories import truth_factory
+
+from core.factories import context_factory, word_factory
+from core.utils.store import (
+    _update_agency,
+    _update_contexts,
+    _update_questions,
+    _update_stories,
+    _update_truths,
+)
 
 
 class TestUpdateStoriesTestCase(TestCase):
@@ -136,7 +142,7 @@ class TestUpdateAgencyTestCase(TestCase):
         self.assertEqual(1, self.word.agency_refs.count())
         ref = self.word.agency_refs.first()
         self.assertEqual(self.agency1.id, ref.agency_id)
-        self.assertEqual('narrator', ref.role)
+        self.assertEqual("narrator", ref.role)
 
     def test_replace_agency(self):
         _update_agency(self.word, self.agency1.id, RoleChoices.narrator.value)
@@ -145,7 +151,7 @@ class TestUpdateAgencyTestCase(TestCase):
         self.assertEqual(1, self.word.agency_refs.count())
         ref = self.word.agency_refs.first()
         self.assertEqual(self.agency2.id, ref.agency_id)
-        self.assertEqual('narrator', ref.role)
+        self.assertEqual("narrator", ref.role)
 
     def test_keep_different_agencies(self):
         _update_agency(self.word, self.agency1.id, RoleChoices.narrator.value)
@@ -155,9 +161,9 @@ class TestUpdateAgencyTestCase(TestCase):
         self.assertEqual(2, self.word.agency_refs.count())
         ref = self.word.agency_refs.filter(role=RoleChoices.narrator.value).first()
         self.assertEqual(self.agency2.id, ref.agency_id)
-        self.assertEqual('narrator', ref.role)
+        self.assertEqual("narrator", ref.role)
         ref = self.word.agency_refs.filter(role=RoleChoices.speaker.value).first()
         self.assertEqual(self.agency3.id, ref.agency_id)
-        self.assertEqual('speaker', ref.role)
+        self.assertEqual("speaker", ref.role)
         ref = self.word.agency_refs.filter(role=RoleChoices.listener.value).first()
         self.assertIsNone(ref)

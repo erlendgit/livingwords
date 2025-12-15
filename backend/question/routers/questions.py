@@ -1,7 +1,8 @@
 import uuid
-from typing import Union, List
+from typing import List, Union
 
 from ninja import Router, Schema
+
 from question.models import Question
 
 router = Router()
@@ -32,17 +33,13 @@ class QuestionListResponse(Schema):
 
 @router.get("/", response=QuestionListResponse)
 def list_questions(request):
-    return QuestionListResponse(
-        nodes=Question.objects.all()
-    )
+    return QuestionListResponse(nodes=Question.objects.all())
 
 
 @router.get("/{id}/", response={200: QuestionResponse, 404: QuestionErrorResponse})
 def get_question(request, id: str):
     try:
-        return 200, QuestionResponse(
-            node=Question.objects.get(id=id)
-        )
+        return 200, QuestionResponse(node=Question.objects.get(id=id))
     except Question.DoesNotExist:
         return 404, QuestionErrorResponse(details="Not found")
 
@@ -60,7 +57,14 @@ def add_question(request, payload: QuestionIn):
     return 201, QuestionResponse(node=question)
 
 
-@router.post("/{id}/", response={200: QuestionResponse, 400: QuestionErrorResponse, 404: QuestionErrorResponse})
+@router.post(
+    "/{id}/",
+    response={
+        200: QuestionResponse,
+        400: QuestionErrorResponse,
+        404: QuestionErrorResponse,
+    },
+)
 def update_question(request, id: str, payload: QuestionIn):
     if not payload.question or payload.question.strip() == "":
         return 400, QuestionErrorResponse(details="Question cannot be empty")

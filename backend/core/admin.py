@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Word, StoryContext
+from .models import StoryContext, Word
 
 
 @admin.register(Word)

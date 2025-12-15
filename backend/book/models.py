@@ -1,11 +1,11 @@
-from shared.models import SharedBaseModel
 from django.db import models
+from shared.models import SharedBaseModel
 
 
 class Book(SharedBaseModel):
     title = models.CharField(max_length=255)
     summary = models.TextField(null=True, blank=True)
-    authors = models.ManyToManyField("agency.Agency", related_name='books')
+    authors = models.ManyToManyField("agency.Agency", related_name="books")
     category = models.CharField(max_length=255, null=True, blank=True)
     sort_order = models.IntegerField()
 

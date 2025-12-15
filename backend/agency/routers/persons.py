@@ -1,7 +1,8 @@
 import uuid
-from typing import Union, List
+from typing import List, Union
 
 from ninja import Router, Schema
+
 from agency.models import Person
 
 router = Router()
@@ -37,10 +38,7 @@ def list_people(request, query: Union[str, None] = None):
     if query:
         qs = qs.filter(name__icontains=query)
 
-    return PersonListResponse(
-        total=qs.count(),
-        nodes=qs.all()
-    )
+    return PersonListResponse(total=qs.count(), nodes=qs.all())
 
 
 @router.get("/{id}/", response={200: PersonResponse, 404: PersonErrorResponse})
@@ -53,14 +51,23 @@ def get_person(request, id: str):
 
 @router.post("/", response={201: PersonResponse, 400: PersonErrorResponse})
 def add_person(request, payload: PersonIn):
-    if not payload.name or payload.name.strip() == "": return 400, PersonErrorResponse(details="Name cannot be empty")
+    if not payload.name or payload.name.strip() == "":
+        return 400, PersonErrorResponse(details="Name cannot be empty")
     person = Person.objects.create(name=payload.name, biography=payload.biography)
     return 201, PersonResponse(node=person)
 
 
-@router.post("/{id}/", response={200: PersonResponse, 400: PersonErrorResponse, 404: PersonErrorResponse})
+@router.post(
+    "/{id}/",
+    response={
+        200: PersonResponse,
+        400: PersonErrorResponse,
+        404: PersonErrorResponse,
+    },
+)
 def update_person(request, id: str, payload: PersonIn):
-    if not payload.name or payload.name.strip() == "": return 400, PersonErrorResponse(details="Name cannot be empty")
+    if not payload.name or payload.name.strip() == "":
+        return 400, PersonErrorResponse(details="Name cannot be empty")
     try:
         person = Person.objects.get(id=id)
     except Person.DoesNotExist:

@@ -1,14 +1,12 @@
 import logging
-from traceback import format_exc
-from typing import Union, List
+from typing import List, Union
 from uuid import UUID
 
-from ninja import Router, Schema
-
 from django.core.exceptions import ValidationError
+from ninja import Router, Schema
+from shared.schemas import ErrorResponse
 
 from core.models import StoryContext
-from shared.schemas import ErrorResponse
 
 router = Router()
 logger = logging.getLogger(__name__)
@@ -34,7 +32,7 @@ def add_context(request, payload: ContextIn):
             node=StoryContext.objects.create(
                 description=payload.description,
             ),
-            details=None
+            details=None,
         )
     except Exception:
         msg = "Error on add context"
@@ -48,9 +46,7 @@ class ContextListResponse(Schema):
 
 @router.get("/")
 def list_context(request):
-    return ContextListResponse(
-        nodes=StoryContext.objects.all()
-    )
+    return ContextListResponse(nodes=StoryContext.objects.all())
 
 
 @router.get("/{id}/", response={200: ContextResponse, 404: ErrorResponse})
@@ -61,12 +57,17 @@ def get_context(request, id):
             details=None,
         )
     except (StoryContext.DoesNotExist, ValueError, ValidationError):
-        return 404, ErrorResponse(
-            error="Not found"
-        )
+        return 404, ErrorResponse(error="Not found")
 
 
-@router.post("/{id}/", response={200: ContextResponse, 404: ErrorResponse, 400: ErrorResponse})
+@router.post(
+    "/{id}/",
+    response={
+        200: ContextResponse,
+        404: ErrorResponse,
+        400: ErrorResponse,
+    },
+)
 def update_context(request, id, payload: ContextIn):
     try:
         context = StoryContext.objects.get(id=id)

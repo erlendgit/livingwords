@@ -1,9 +1,9 @@
 import uuid
-from typing import Union, List, Optional
+from typing import List, Optional, Union
 
 from ninja import Router, Schema
-from agency.models import Agency
-from agency.models import Person
+
+from agency.models import Agency, Person
 from agency.routers.persons import PersonOut
 
 router = Router()
@@ -61,7 +61,14 @@ def add_agency(request, payload: AgencyIn):
     return 201, AgencyResponse(node=agency)
 
 
-@router.post("/{id}/", response={200: AgencyResponse, 400: AgencyErrorResponse, 404: AgencyErrorResponse})
+@router.post(
+    "/{id}/",
+    response={
+        200: AgencyResponse,
+        400: AgencyErrorResponse,
+        404: AgencyErrorResponse,
+    },
+)
 def update_agency(request, id: str, payload: AgencyIn):
     if not payload.description or payload.description.strip() == "":
         return 400, AgencyErrorResponse(details="Description cannot be empty")

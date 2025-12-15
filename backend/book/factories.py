@@ -61,9 +61,9 @@ def book_factory(**kwargs):
     from book.models import Book
 
     if "title" not in kwargs:
-        kwargs['title'] = _next_book()
+        kwargs["title"] = _next_book()
 
     if "sort_order" not in kwargs:
-        kwargs['sort_order'] = Book.objects.count() + 1
+        kwargs["sort_order"] = Book.objects.count() + 1
 
     return Book.objects.create(**kwargs)

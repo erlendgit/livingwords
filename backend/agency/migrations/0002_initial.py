@@ -8,31 +8,37 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('agency', '0001_initial'),
-        ('core', '0001_initial'),
+        ("agency", "0001_initial"),
+        ("core", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='agency',
-            name='words',
-            field=models.ManyToManyField(related_name='actors', to='core.word'),
+            model_name="agency",
+            name="words",
+            field=models.ManyToManyField(related_name="actors", to="core.word"),
         ),
         migrations.AddField(
-            model_name='agencyword',
-            name='agency',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='word_refs',
-                                    to='agency.agency'),
+            model_name="agencyword",
+            name="agency",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="word_refs",
+                to="agency.agency",
+            ),
         ),
         migrations.AddField(
-            model_name='agencyword',
-            name='word',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='agency_refs',
-                                    to='core.word'),
+            model_name="agencyword",
+            name="word",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="agency_refs",
+                to="core.word",
+            ),
         ),
         migrations.AddField(
-            model_name='agency',
-            name='persons',
-            field=models.ManyToManyField(related_name='acting_as', to='agency.person'),
+            model_name="agency",
+            name="persons",
+            field=models.ManyToManyField(related_name="acting_as", to="agency.person"),
         ),
     ]

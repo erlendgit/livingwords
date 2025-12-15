@@ -1,46 +1,30 @@
 import logging
-from typing import Union, List
 from uuid import UUID
 
-from ninja import Router, Schema
-
 from django.core.exceptions import ValidationError
-
+from ninja import Router
 from shared.schemas import ErrorResponse
+
 from story.models import Story
+from story.schemas import StoryIn, StoryListResponse, StoryResponse
 
 router = Router()
 logger = logging.getLogger(__name__)
-
-
-class StoryIn(Schema):
-    title: str
-    summary: str
-
-
-class StoryOut(Schema):
-    id: UUID
-    title: str
-    summary: str
-
-
-class StoryResponse(Schema):
-    node: Union[StoryOut, None]
-    details: Union[str, None]
 
 
 @router.post("/", response={200: StoryResponse, 400: ErrorResponse})
 def add_story(request, payload: StoryIn):
     try:
         if not payload.title:
-            raise ValidationError("Title is required.")
+            msg = "Title is required."
+            raise ValidationError(msg)
 
         return StoryResponse(
             node=Story.objects.create(
                 title=payload.title,
                 summary=payload.summary,
             ),
-            details=None
+            details=None,
         )
     except Exception:
         msg = "Error when storing new story reference"
@@ -48,15 +32,9 @@ def add_story(request, payload: StoryIn):
         return 400, ErrorResponse(error=msg)
 
 
-class StoryListResponse(Schema):
-    nodes: List[StoryOut]
-
-
 @router.get("/")
 def list_stories(request):
-    return StoryListResponse(
-        nodes=Story.objects.all()
-    )
+    return StoryListResponse(nodes=Story.objects.all())
 
 
 @router.get("/{id}/")
@@ -67,10 +45,7 @@ def get_story(request, id):
             details=None,
         )
     except (Story.DoesNotExist, ValueError, ValidationError):
-        return 404, StoryResponse(
-            node=None,
-            details="Not found"
-        )
+        return 404, StoryResponse(node=None, details="Not found")
 
 
 @router.post("/{id}/", response={200: StoryResponse, 400: ErrorResponse})
@@ -79,21 +54,16 @@ def update_story(request, id: UUID, payload: StoryIn):
         story = Story.objects.get(id=id)
 
         if not payload.title:
-            raise ValidationError("Title is required.")
+            msg = "Title is required."
+            raise ValidationError(msg)
 
         story.title = payload.title
         story.summary = payload.summary
         story.save()
 
-        return StoryResponse(
-            node=story,
-            details=None
-        )
+        return StoryResponse(node=story, details=None)
     except Story.DoesNotExist:
-        return 404, StoryResponse(
-            node=None,
-            details="Not found"
-        )
+        return 404, StoryResponse(node=None, details="Not found")
     except Exception:
         msg = "Error when updating story reference"
         logger.exception(msg)
