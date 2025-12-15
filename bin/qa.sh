@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
 
-ruff check backend --select I --fix
+ruff check backend --fix
 ruff format backend
+
+cd frontend
+npm run format
