@@ -27,3 +27,11 @@ export async function apiPost<TBody, TResponse>(
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json() as Promise<TResponse>;
 }
+
+export async function apiDelete<TResponse>(path: string): Promise<TResponse> {
+    const res = await fetch(`${BASE_URL}${path}`, {
+        method: "DELETE",
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.json() as Promise<TResponse>;
+}

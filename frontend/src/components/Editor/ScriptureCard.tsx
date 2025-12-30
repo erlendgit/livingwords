@@ -1,13 +1,16 @@
 import SpaceWidget from "../../widgets/layout/SpaceWidget.tsx";
-import {type LivingWord, useLivingWord} from "../../plugins/api/words.tsx";
-import {FlexChapterVerseWidget, FlexWidget} from "../../widgets/layout/FlexWidget.tsx";
-import {Box} from "@mui/material";
+import { type LivingWord, useLivingWord } from "../../plugins/api/words.tsx";
+import {
+    FlexChapterVerseWidget,
+    FlexWidget,
+} from "../../widgets/layout/FlexWidget.tsx";
+import { Box } from "@mui/material";
 
 interface ScriptureCardMultiProps {
     verses?: LivingWord[];
 }
 
-export function ScriptureCardMulti(props: ScriptureCardMultiProps){
+export function ScriptureCardMulti(props: ScriptureCardMultiProps) {
     const { verses } = props;
     const hasVerses = verses && verses.length > 0;
 
@@ -17,7 +20,9 @@ export function ScriptureCardMulti(props: ScriptureCardMultiProps){
 
     return (
         <SpaceWidget>
-            {verses.map((verse, index)=><ScriptureCard key={index} verse={verse}/>)}
+            {verses.map((verse, index) => (
+                <ScriptureCard key={index} verse={verse} />
+            ))}
         </SpaceWidget>
     );
 }
@@ -28,8 +33,12 @@ interface ScriptureCardProps {
 
 export function ScriptureCard(props: ScriptureCardProps) {
     const { verse: _verse } = props;
-    const {data, isLoading, error} = useLivingWord(_verse.book_id, _verse.chapter, _verse.verse);
-    const verse = data?.node
+    const { data, isLoading, error } = useLivingWord(
+        _verse.book_id,
+        _verse.chapter,
+        _verse.verse,
+    );
+    const verse = data?.node;
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -43,7 +52,10 @@ export function ScriptureCard(props: ScriptureCardProps) {
 
     return (
         <FlexWidget>
-            <FlexChapterVerseWidget chapter={verse.chapter} verse={verse.verse}/>
+            <FlexChapterVerseWidget
+                chapter={verse.chapter}
+                verse={verse.verse}
+            />
             <Box>{verse.content}</Box>
         </FlexWidget>
     );

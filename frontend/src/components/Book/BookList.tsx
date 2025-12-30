@@ -1,28 +1,39 @@
-import { useBookList } from "../../plugins/api/books.tsx";
+import {
+    type Book,
+    type BookCategory,
+    useBooksByCategory,
+} from "../../plugins/api/books.tsx";
 import { BookCardView } from "./BookCard.tsx";
 import { useState } from "react";
 import ModalDialogWidget from "../../widgets/containers/ModalDialogWidget.tsx";
 import { BookAddForm } from "./BookForm.tsx";
 import { SmallButtonWidget } from "../../widgets/forms/ButtonWidget.tsx";
+import { ItemTableWidget } from "../../widgets/containers/TableWidget.tsx";
 
 export function BookList() {
-    const { data, isLoading, isError, error } = useBookList();
+    const { data, isLoading, isError, error } = useBooksByCategory();
     const [showAddForm, setShowAddForm] = useState<boolean>(false);
     const startShowAddBookForm = () => setShowAddForm(true);
     const stopShowAddBookForm = () => setShowAddForm(false);
+    const nodes = data?.nodes || [];
 
     if (isLoading) return <p>Loading…</p>;
     if (isError) return <p>Error: {(error as Error).message}</p>;
 
     return (
         <>
-            <ul className={"list-page"}>
-                {data!.nodes!.map((b) => (
-                    <li key={b.id} className={"list-item"}>
-                        <BookCardView book={b} />
-                    </li>
+            {!showAddForm && (
+                <SmallButtonWidget onClick={startShowAddBookForm}>
+                    Add book
+                </SmallButtonWidget>
+            )}
+            {nodes &&
+                nodes.map((bookCategory) => (
+                    <BookCategoryView
+                        bookCategory={bookCategory}
+                        key={bookCategory.category}
+                    />
                 ))}
-            </ul>
             {showAddForm && (
                 <ModalDialogWidget
                     title={"Add a new book"}
@@ -31,11 +42,24 @@ export function BookList() {
                     <BookAddForm onClose={stopShowAddBookForm} />
                 </ModalDialogWidget>
             )}
-            {!showAddForm && (
-                <SmallButtonWidget onClick={startShowAddBookForm}>
-                    Add book
-                </SmallButtonWidget>
-            )}
+        </>
+    );
+}
+
+const BookTableWidget = ItemTableWidget<Book>;
+
+export function BookCategoryView({
+    bookCategory,
+}: {
+    bookCategory: BookCategory;
+}) {
+    return (
+        <>
+            {bookCategory.category && <h3>{bookCategory.category}</h3>}
+            <BookTableWidget
+                items={bookCategory.books}
+                columnCallbacks={[(book) => <BookCardView book={book} />]}
+            />
         </>
     );
 }

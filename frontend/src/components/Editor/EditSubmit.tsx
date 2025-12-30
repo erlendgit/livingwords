@@ -1,5 +1,4 @@
 import { ButtonWidget } from "../../widgets/forms/ButtonWidget.tsx";
-import FieldsetWidget from "../../widgets/forms/FieldsetWidget.tsx";
 
 interface SubmitProps {
     onSubmit: () => void;
@@ -7,13 +6,8 @@ interface SubmitProps {
 
 export function EditSubmit({ onSubmit }: SubmitProps) {
     return (
-        <FieldsetWidget>
-            <ButtonWidget
-                onClick={onSubmit}
-                sx={{ height: "100%", width: "100%" }}
-            >
-                Submit
-            </ButtonWidget>
-        </FieldsetWidget>
+        <ButtonWidget style={{ flexGrow: 2 }} onClick={onSubmit}>
+            Submit
+        </ButtonWidget>
     );
 }

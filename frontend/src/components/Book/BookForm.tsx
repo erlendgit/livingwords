@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import {
-    type AddBookPayload,
+    type BookPayload,
     type Book,
     useAddBook,
+    useBookStats,
     useEditBook,
 } from "../../plugins/api/books.tsx";
 import { SmallButtonWidget } from "../../widgets/forms/ButtonWidget.tsx";
@@ -14,10 +15,12 @@ import {
     TextInputWidget,
 } from "../../widgets/forms/TextInputWidget.tsx";
 import { BooleanInputWidget } from "../../widgets/forms/BooleanInputWidget.tsx";
+import { SelectWithFallbackWidget } from "../../widgets/forms/SelectWidget.tsx";
+import { MenuItem } from "@mui/material";
 
 interface BookFormProps {
     book?: Book;
-    onSave: ({ title, summary }: AddBookPayload) => void;
+    onSave: (data: BookPayload) => void;
     onCancel: () => void;
     children: React.ReactNode;
 }
@@ -25,9 +28,11 @@ interface BookFormProps {
 function BookForm({ book, onSave, onCancel, children }: BookFormProps) {
     const [title, setTitle] = useState<string>(book?.title || "");
     const [summary, setSummary] = useState<string>(book?.summary || "");
+    const [category, setCategory] = useState<string>("");
+    const [manualCategory, setManualCategory] = useState<string>("");
 
     function handleSave() {
-        onSave({ title, summary });
+        onSave({ title, summary, category: manualCategory || category });
     }
 
     return (
@@ -43,6 +48,13 @@ function BookForm({ book, onSave, onCancel, children }: BookFormProps) {
                     value={summary}
                     onChange={(e) => setSummary(e.target.value)}
                     rows={4}
+                />
+                <CategoryInputWidget
+                    labelId={"book-category-select"}
+                    value={category}
+                    onChange={setCategory}
+                    fallbackValue={manualCategory}
+                    onChangeFallback={setManualCategory}
                 />
             </FieldsetWidget>
             {children}
@@ -99,5 +111,39 @@ export function BookEditForm({
             {isPending && <p>Is updating book info...</p>}
             {isError && <p>An error occured! Try again later.</p>}
         </BookForm>
+    );
+}
+
+type CategoryInputWidgetProps = {
+    labelId: string;
+    value: string;
+    onChange: (newValue: string) => void;
+    fallbackValue: string;
+    onChangeFallback: (newValue: string) => void;
+};
+
+export function CategoryInputWidget(props: CategoryInputWidgetProps) {
+    const { labelId, value, onChange, fallbackValue, onChangeFallback } = props;
+    const { data, isPending, isError } = useBookStats();
+    const categories = data?.categories || [];
+
+    return (
+        <SelectWithFallbackWidget
+            labelId={labelId}
+            label={"Category"}
+            value={value}
+            onChange={(e) => onChange(e.target.value as string)}
+            fallbackValue={fallbackValue}
+            onChangeFallback={(e) => onChangeFallback(e.target.value as string)}
+        >
+            <MenuItem value="">None</MenuItem>
+            {isPending && <option>Loading...</option>}
+            {isError && <option>Error loading categories</option>}
+            {!isPending &&
+                !isError &&
+                categories.map((category) => (
+                    <MenuItem value={category}>{category}</MenuItem>
+                ))}
+        </SelectWithFallbackWidget>
     );
 }

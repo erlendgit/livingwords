@@ -1,6 +1,10 @@
 import { useParams } from "react-router-dom";
 import { type Book, useBook } from "../../plugins/api/books.tsx";
-import {type LivingWord, type LivingWordListResponse, useLivingWord} from "../../plugins/api/words.tsx";
+import {
+    type LivingWord,
+    type LivingWordListResponse,
+    useLivingWord,
+} from "../../plugins/api/words.tsx";
 import ContentEditor from "./ContentEditor.tsx";
 
 function ContentEditorPage() {

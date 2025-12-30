@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiGet, apiPost } from "./api.tsx";
+import { apiDelete, apiGet, apiPost } from "./api.tsx";
 
 export type LivingWordListResponse = {
     nodes?: LivingWord[];
@@ -42,7 +42,7 @@ interface UseUpdateLivingWordProps {
     successCallback?: () => void;
 }
 
-export function useUpdateLivingWord(props? : UseUpdateLivingWordProps) {
+export function useUpdateLivingWord(props?: UseUpdateLivingWordProps) {
     const queryClient = useQueryClient();
     const { successCallback } = props || {};
 
@@ -61,6 +61,28 @@ export function useUpdateLivingWord(props? : UseUpdateLivingWordProps) {
             if (successCallback) {
                 successCallback();
             }
+        },
+    });
+}
+
+interface BookChapterVerse {
+    bookId: string;
+    chapter: number;
+    verse: number;
+}
+
+export function useResetLivingWord() {
+    const queryClient = useQueryClient();
+
+    return useMutation<LivingWordResponse, Error, BookChapterVerse>({
+        mutationFn: (props) =>
+            apiDelete<LivingWordResponse>(
+                `word/${props.bookId}/${props.chapter}/${props.verse}/`,
+            ),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["words"],
+            });
         },
     });
 }

@@ -3,6 +3,7 @@ import logging
 from ninja import Router
 from shared.schemas import ErrorResponse
 
+from core.models import Word
 from core.schemas import LivingWord, LivingWordResponse
 from core.utils.collect import (
     get_living_word_data,
@@ -37,6 +38,23 @@ def store_living_word(request, payload: LivingWord):
         )
     except Exception:
         msg = "Error saving living word"
+        logger.exception(msg)
+        return 400, ErrorResponse(error=msg)
+
+
+@router.delete(
+    "/{book_id}/{chapter}/{verse}/",
+    response={200: LivingWordResponse, 400: ErrorResponse},
+)
+def reset_living_word(request, book_id: str, chapter: int, verse: int):
+    try:
+        word = Word.objects.get(book_id=book_id, chapter=chapter, verse=verse)
+        word.delete()
+        return 200, _generic_living_word_response(book_id, chapter, verse)
+    except Word.DoesNotExist:
+        return 200, _generic_living_word_response(book_id, chapter, verse)
+    except Exception:
+        msg = "Error resetting living word"
         logger.exception(msg)
         return 400, ErrorResponse(error=msg)
 
