@@ -25,6 +25,7 @@ import { BookNavigation } from "../Book/BookNavigation.tsx";
 import { ScriptureCardMulti } from "./ScriptureCard.tsx";
 import { useNavigate } from "react-router-dom";
 import { EditReset } from "./EditReset.tsx";
+import { useLastKnownNavigation } from "../../plugins/NavigationHelper.tsx";
 
 interface ContentEditorViewProps {
     word: LivingWord;
@@ -39,6 +40,9 @@ function ContentEditor(props: ContentEditorViewProps) {
     const navigate = useNavigate();
     const { word, book, chapter, verse } = props;
     const { versesBefore, versesAfter } = props;
+    const { lastKnownChapter, lastKnownVerse } = useLastKnownNavigation({
+        versesBefore,
+    });
     const navigateToNext = () => {
         navigate(`/book/${book.id}/edit/${chapter}/${verse + 1}`);
     };
@@ -91,7 +95,13 @@ function ContentEditor(props: ContentEditorViewProps) {
     return (
         <LeftRightWidget>
             <SpaceWidget>
-                <BookNavigation book={book} chapter={chapter} verse={verse} />
+                <BookNavigation
+                    book={book}
+                    chapter={chapter}
+                    verse={verse}
+                    lastKnownChapter={lastKnownChapter}
+                    lastKnownVerse={lastKnownVerse}
+                />
                 <ScriptureCardMulti verses={versesBefore} />
                 <FlexWidget>
                     <FlexChapterVerseWidget chapter={chapter} verse={verse} />
