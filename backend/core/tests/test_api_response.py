@@ -42,5 +42,3 @@ class TestApiResponseTestCase(TestCase):
         self.assertIsNotNone(response)
         self.assertIsInstance(response, LivingWord)
         self.assertEqual(1, len(response.references))
-
-        print(response.json())

@@ -4,12 +4,8 @@ from ninja import Router
 from shared.schemas import ErrorResponse
 
 from core.models import Word
-from core.schemas import LivingWord, LivingWordResponse
-from core.utils.collect import (
-    get_living_word_data,
-    get_surrounding_words_after,
-    get_surrounding_words_before,
-)
+from core.schemas import LivingWord, LivingWordCollection, LivingWordResponse
+from core.utils.collect import get_living_word_data
 from core.utils.store import store_living_word_data
 
 router = Router()
@@ -64,4 +60,19 @@ def _generic_living_word_response(book_id, chapter, verse):
         node=get_living_word_data(book_id, chapter, verse),
         before=get_surrounding_words_before(book_id, chapter, verse),
         after=get_surrounding_words_after(book_id, chapter, verse),
+    )
+
+
+def get_surrounding_words_before(book_id, chapter, verse):
+    qs = Word.objects.select_before(book_id, chapter, verse)
+    return LivingWordCollection(
+        nodes=[LivingWord.from_orm(obj) for obj in reversed(qs[:5])]
+    )
+
+
+def get_surrounding_words_after(book_id, chapter, verse):
+    qs = Word.objects.select_after(book_id, chapter, verse)
+
+    return LivingWordCollection(
+        nodes=[LivingWord.from_orm(obj) for obj in list(qs[:5])]
     )

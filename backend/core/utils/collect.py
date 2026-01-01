@@ -3,7 +3,7 @@ import logging
 from book.models import Book
 
 from core.models import Word
-from core.schemas import LivingWord, LivingWordCollection
+from core.schemas import LivingWord
 
 logger = logging.getLogger(__name__)
 
@@ -43,18 +43,3 @@ def get_living_word_data(book_id, chapter, verse) -> LivingWord:
                 }
             ),
         )
-
-
-def get_surrounding_words_before(book_id, chapter, verse):
-    qs = Word.objects.select_before(book_id, chapter, verse)
-    return LivingWordCollection(
-        nodes=[LivingWord.from_orm(obj) for obj in reversed(qs[:5])]
-    )
-
-
-def get_surrounding_words_after(book_id, chapter, verse):
-    qs = Word.objects.select_after(book_id, chapter, verse)
-
-    return LivingWordCollection(
-        nodes=[LivingWord.from_orm(obj) for obj in list(qs[:5])]
-    )
