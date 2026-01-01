@@ -36,7 +36,7 @@ export function CrossReferenceForm(props: CrossReferenceFormProps) {
     );
     const [verse, setVerse] = useState<number>(props.reference?.verse || 1);
     const [quotedAs, setQuotedAs] = useState<string>(
-        props.reference?.quoted_as || "",
+        props.reference?.content || "",
     );
 
     function handleSave() {
@@ -44,7 +44,7 @@ export function CrossReferenceForm(props: CrossReferenceFormProps) {
             book_id: bookId,
             chapter: chapter,
             verse: verse,
-            quoted_as: quotedAs || undefined,
+            content: quotedAs || undefined,
         });
         onCancel();
     }

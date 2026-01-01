@@ -29,9 +29,9 @@ export function CrossReferenceCardView(props: CrossReferenceCardViewProps) {
             <strong>
                 {book.title} {reference.chapter}:{reference.verse}
             </strong>
-            {reference.quoted_as && (
+            {reference.content && (
                 <p>
-                    <i>{reference.quoted_as}</i>
+                    <i>{reference.content}</i>
                 </p>
             )}
         </div>

@@ -17,7 +17,7 @@ export type CrossReference = {
     book_id: string;
     chapter: number;
     verse: number;
-    quoted_as?: string;
+    content?: string;
 };
 
 export type LivingWord = {
