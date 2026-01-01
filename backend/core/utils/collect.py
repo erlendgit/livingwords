@@ -13,21 +13,7 @@ def get_living_word_data(book_id, chapter, verse) -> LivingWord:
         Book.objects.get(id=book_id)
         word = Word.objects.get(book_id=book_id, chapter=chapter, verse=verse)
 
-        return LivingWord(
-            content=word.content,
-            book_id=word.book_id,
-            chapter=word.chapter,
-            verse=word.verse,
-            notes=word.notes,
-            narrator_id=word.get_agency_id_by_role("narrator"),
-            speaker_id=word.get_agency_id_by_role("speaker"),
-            listener_id=word.get_agency_id_by_role("listener"),
-            bystander_id=word.get_agency_id_by_role("bystander"),
-            story_ids=list(word.stories.values_list("id", flat=True)),
-            context_ids=list(word.story_contexts.values_list("id", flat=True)),
-            question_ids=list(word.advices.values_list("id", flat=True)),
-            truth_ids=list(word.truths.values_list("id", flat=True)),
-        )
+        return LivingWord.from_orm(word)
     except Book.DoesNotExist:
         msg = "Book does not exist"
         raise ValueError(msg)
@@ -61,10 +47,14 @@ def get_living_word_data(book_id, chapter, verse) -> LivingWord:
 
 def get_surrounding_words_before(book_id, chapter, verse):
     qs = Word.objects.select_before(book_id, chapter, verse)
-    return LivingWordCollection(nodes=list(reversed(qs[:5])))
+    return LivingWordCollection(
+        nodes=[LivingWord.from_orm(obj) for obj in reversed(qs[:5])]
+    )
 
 
 def get_surrounding_words_after(book_id, chapter, verse):
     qs = Word.objects.select_after(book_id, chapter, verse)
 
-    return LivingWordCollection(nodes=list(qs[:5]))
+    return LivingWordCollection(
+        nodes=[LivingWord.from_orm(obj) for obj in list(qs[:5])]
+    )

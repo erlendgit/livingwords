@@ -22,7 +22,7 @@ class WordQuerySet(models.QuerySet):
         ).order_by("chapter", "verse")
 
 
-class Word(SharedBaseModel):
+class Word(SharedBaseModel, models.Model):
     objects = WordQuerySet.as_manager()
 
     content = models.TextField()
@@ -43,6 +43,20 @@ class Word(SharedBaseModel):
         return f"{self.book} {self.chapter}:{self.verse}; {self.content}"
 
 
-class StoryContext(SharedBaseModel):
+class StoryContext(SharedBaseModel, models.Model):
     description = models.TextField()
     words = models.ManyToManyField("core.Word", related_name="story_contexts")
+
+
+class CrossReference(SharedBaseModel, models.Model):
+    word = models.ForeignKey(
+        "core.Word", on_delete=models.CASCADE, related_name="references"
+    )
+    reference = models.ForeignKey(
+        "core.Word", on_delete=models.CASCADE, related_name="referenced_by"
+    )
+
+    def __str__(self):
+        if self.reference.content:
+            return f"{self.word} -> {self.reference} as '{self.reference.content}'"
+        return f"{self.word} -> {self.reference}"

@@ -1,5 +1,5 @@
 BOOKS = (
-    "Genisis",
+    "Genesis",
     "Exodus",
     "Leviticus",
     "Numbers",

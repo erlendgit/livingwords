@@ -1,7 +1,7 @@
 from agency.models import AgencyWord, RoleChoices
 from django.db import transaction
 
-from core.models import Word
+from core.models import CrossReference, Word
 from core.schemas import LivingWord
 
 
@@ -23,6 +23,7 @@ def store_living_word_data(payload: LivingWord):
     _update_contexts(word, payload.context_ids or [])
     _update_questions(word, payload.question_ids or [])
     _update_truths(word, payload.truth_ids or [])
+    _update_references(word, payload.references or [])
     _update_agency(word, payload.narrator_id, RoleChoices.narrator.value)
     _update_agency(word, payload.speaker_id, RoleChoices.speaker.value)
     _update_agency(word, payload.listener_id, RoleChoices.listener.value)
@@ -65,3 +66,20 @@ def _update_agency(word, agent_id, role):
     for ref in word.agency_refs.filter(role=role).all():
         if ref.agency_id != agent_id:
             ref.delete()
+
+
+def _update_references(word, references):
+    selected_refs = set()
+    for reference in references:
+        ref_word, _ = Word.objects.get_or_create(
+            book_id=reference.book_id,
+            chapter=reference.chapter,
+            verse=reference.verse,
+            defaults={"content": reference.content or ""},
+        )
+        ref, _ = word.references.get_or_create(reference=ref_word)
+        selected_refs.add(ref.id)
+
+    current_refs = set(word.references.values_list("id", flat=True))
+    if remove := (current_refs - selected_refs):
+        CrossReference.objects.filter(id__in=remove).delete()

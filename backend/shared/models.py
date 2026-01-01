@@ -11,4 +11,4 @@ class SharedBaseModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        raise NotImplementedError()
+        raise NotImplementedError("Implement __str__ for %s" % self.__class__.__name__)

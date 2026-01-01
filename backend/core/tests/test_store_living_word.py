@@ -1,15 +1,19 @@
 from agency.agency_factory import agency_factory
 from agency.models import RoleChoices
+from book.factories import book_factory
 from django.test import TestCase
 from question.factories import question_factory
 from story.factories import story_factory
 from truth.factories import truth_factory
 
 from core.factories import context_factory, word_factory
+from core.models import Word
+from core.schemas import CrossReference
 from core.utils.store import (
     _update_agency,
     _update_contexts,
     _update_questions,
+    _update_references,
     _update_stories,
     _update_truths,
 )
@@ -167,3 +171,29 @@ class TestUpdateAgencyTestCase(TestCase):
         self.assertEqual("speaker", ref.role)
         ref = self.word.agency_refs.filter(role=RoleChoices.listener.value).first()
         self.assertIsNone(ref)
+
+
+class TestAddCrossLinksTestCase(TestCase):
+    def setUp(self):
+        super().setUp()
+
+        self.word = word_factory()
+
+    def test_add_cross_link(self):
+        book = book_factory()
+
+        _update_references(
+            self.word,
+            [
+                CrossReference(book_id=book.id, chapter=1, verse=1),
+                CrossReference(book_id=book.id, chapter=2, verse=2),
+            ],
+        )
+
+        self.assertEqual(self.word.references.count(), 2)
+        self.assertTrue(
+            Word.objects.filter(book_id=book.id, chapter=1, verse=1).exists()
+        )
+        self.assertTrue(
+            Word.objects.filter(book_id=book.id, chapter=2, verse=2).exists()
+        )
