@@ -10,7 +10,7 @@ import { useState } from "react";
 import { ContextUpdateForm } from "./ContextSelectForm.tsx";
 import { FlexWidget } from "../../widgets/layout/FlexWidget.tsx";
 
-const ContextList = ItemTableWidget<Context>;
+const ContextTable = ItemTableWidget<Context>;
 
 interface ContextSelectListProps {
     ids: string[];
@@ -82,7 +82,7 @@ function ContextListSelectTab({
     return (
         <>
             {hasContext && (
-                <ContextList
+                <ContextTable
                     items={contexts}
                     columnCallbacks={[
                         (context: Context) => (

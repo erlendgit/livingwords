@@ -16,6 +16,7 @@ import {
 import SpaceWidget from "../../widgets/layout/SpaceWidget.tsx";
 import LeftRightWidget from "../../widgets/containers/LeftRightWidget.tsx";
 import {
+    type CrossReference,
     type LivingWord,
     useUpdateLivingWord,
 } from "../../plugins/api/words.tsx";
@@ -26,6 +27,7 @@ import { ScriptureCardMulti } from "./ScriptureCard.tsx";
 import { useNavigate } from "react-router-dom";
 import { EditReset } from "./EditReset.tsx";
 import { useLastKnownNavigation } from "../../plugins/NavigationHelper.tsx";
+import { CrossReferenceSelector } from "../CrossReference/CrossReferenceSelector.tsx";
 
 interface ContentEditorViewProps {
     word: LivingWord;
@@ -75,6 +77,10 @@ function ContentEditor(props: ContentEditorViewProps) {
         formValues.truth_ids,
         setTruthIds,
     );
+    const setReferences = (references: CrossReference[]) =>
+        setFormValues({ ...formValues, references });
+    const [addCrossReference, removeCrossReference] =
+        useListModifiers<CrossReference>(formValues.references, setReferences);
     const setNarratorId = (narrator_id: string | null) =>
         setFormValues({ ...formValues, narrator_id });
     const setSpeakerId = (speaker_id: string | null) =>
@@ -172,6 +178,11 @@ function ContentEditor(props: ContentEditorViewProps) {
                 <AddBystander
                     bystanderId={formValues.bystander_id}
                     onChange={setBystanderId}
+                />
+                <CrossReferenceSelector
+                    references={formValues.references}
+                    onAdd={addCrossReference}
+                    onRemove={removeCrossReference}
                 />
             </SpaceWidget>
         </LeftRightWidget>

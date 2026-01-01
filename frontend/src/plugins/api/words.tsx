@@ -13,6 +13,13 @@ export type LivingWordResponse = {
     detail?: string;
 };
 
+export type CrossReference = {
+    book_id: string;
+    chapter: number;
+    verse: number;
+    quoted_as?: string;
+};
+
 export type LivingWord = {
     content: string;
     book_id: string;
@@ -27,6 +34,7 @@ export type LivingWord = {
     context_ids: string[];
     question_ids: string[];
     truth_ids: string[];
+    references: CrossReference[];
 };
 
 export function useLivingWord(bookId: string, chapter: number, verse: number) {

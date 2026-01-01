@@ -12,19 +12,17 @@ interface BookNavigationProps {
 
 export function BookNavigation(props: BookNavigationProps) {
     const { book, chapter, verse } = props;
-    const previousChapterLink = CreatePreviousChapterLink(props)
-    const nextChapterLink = CreateNextChapterLink(props)
-    const previousVerseLink = CreatePreviousVerseLink(props)
-    const nextVerseLink = CreateNextVerseLink(props)
+    const previousChapterLink = CreatePreviousChapterLink(props);
+    const nextChapterLink = CreateNextChapterLink(props);
+    const previousVerseLink = CreatePreviousVerseLink(props);
+    const nextVerseLink = CreateNextVerseLink(props);
 
     return (
         <FlexWidget>
             <h4>{book.title}</h4>
             <p>
                 {previousChapterLink ? (
-                    <Link to={previousChapterLink}>
-                        &lt;
-                    </Link>
+                    <Link to={previousChapterLink}>&lt;</Link>
                 ) : (
                     "<"
                 )}
@@ -32,18 +30,12 @@ export function BookNavigation(props: BookNavigationProps) {
                 <Link to={nextChapterLink}>&gt;</Link>
                 &nbsp;:&nbsp;
                 {previousVerseLink ? (
-                    <Link
-                        to={previousVerseLink}
-                    >
-                        &lt;
-                    </Link>
+                    <Link to={previousVerseLink}>&lt;</Link>
                 ) : (
                     "<"
                 )}
                 &nbsp;{verse}&nbsp;
-                <Link to={nextVerseLink}>
-                    &gt;
-                </Link>
+                <Link to={nextVerseLink}>&gt;</Link>
             </p>
         </FlexWidget>
     );
@@ -72,8 +64,7 @@ function CreatePreviousVerseLink(props: BookNavigationProps) {
     const { book, chapter, verse } = props;
     const { lastKnownChapter, lastKnownVerse } = props;
     let previousChapter: number = chapter;
-    let previousVerse: number | undefined =
-        verse > 1 ? verse - 1 : undefined;
+    let previousVerse: number | undefined = verse > 1 ? verse - 1 : undefined;
 
     if (lastKnownChapter && lastKnownVerse) {
         previousChapter = lastKnownChapter;

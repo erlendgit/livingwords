@@ -9,7 +9,16 @@ import { TextInputWidget } from "./TextInputWidget.tsx";
 import { type ChangeEventHandler, useEffect } from "react";
 
 export function SelectWidget(props: SelectProps) {
-    return <Select {...props} />;
+    const { labelId, ...rest } = props;
+    if (labelId) {
+        return (
+            <FormControl fullWidth>
+                <InputLabel id={labelId}>{rest.label}</InputLabel>
+                <Select labelId={labelId} {...rest} />
+            </FormControl>
+        );
+    }
+    return <Select {...rest} />;
 }
 
 interface SelectWithFallbackWidgetProps {
@@ -34,10 +43,6 @@ export function SelectWithFallbackWidget(
     } = props;
 
     useEffect(() => {
-        console.log("at SelectWithFallbackWidget useEffect", {
-            value,
-            fallbackValue,
-        });
         if (value !== "*" && fallbackValue !== "") {
             onChangeFallback({
                 target: {
